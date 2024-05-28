@@ -1,8 +1,6 @@
 package pokemon_kanto_adventure;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,18 +48,24 @@ public class library {
 
     public static void readpokemonhp() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemonhp.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                HashMap<Integer, Integer> pokehp = new HashMap<>();
-                for (int i = 1; i <= 100; i++) {
-                    int hp = Integer.parseInt(values[i]);
-                    pokehp.put(i, hp);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemonhp.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    HashMap<Integer, Integer> pokehp = new HashMap<>();
+                    for (int i = 1; i <= 100; i++) {
+                        int hp = Integer.parseInt(values[i]);
+                        pokehp.put(i, hp);
+                    }
+                    pokemonhp.put(pokemon_name, pokehp);
                 }
-                pokemonhp.put(pokemon_name, pokehp);
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,14 +74,20 @@ public class library {
 
     public static void readpokemonevo() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_evo.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                String pokemon_evo = values[1];
-                evolution.put(pokemon_name, pokemon_evo);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_evo.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    String pokemon_evo = values[1];
+                    evolution.put(pokemon_name, pokemon_evo);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,14 +96,20 @@ public class library {
 
     public static void readevolvelevel() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_evo_level.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                int evolve_lvl = Integer.parseInt(values[1]);
-                evo_lvl.put(pokemon_name, evolve_lvl);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_evo_level.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    int evolve_lvl = Integer.parseInt(values[1]);
+                    evo_lvl.put(pokemon_name, evolve_lvl);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,18 +118,24 @@ public class library {
 
     public static void readpokemonspeed() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_speed.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                HashMap<Integer, Integer> pokespeed = new HashMap<>();
-                for (int i = 1; i <= 100; i++) {
-                    int speed = Integer.parseInt(values[i]);
-                    pokespeed.put(i, speed);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_speed.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    HashMap<Integer, Integer> pokespeed = new HashMap<>();
+                    for (int i = 1; i <= 100; i++) {
+                        int speed = Integer.parseInt(values[i]);
+                        pokespeed.put(i, speed);
+                    }
+                    pokemon_speed.put(pokemon_name, pokespeed);
                 }
-                pokemon_speed.put(pokemon_name, pokespeed);
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,31 +144,36 @@ public class library {
 
     public static void readpokemoneffectiveness() {
         try {
-            BufferedReader br = new BufferedReader(
-                    new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_effectiveness.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                HashMap<String, Double> pokeeff = new HashMap<>();
-                pokeeff.put("normal", Double.valueOf(values[1]));
-                pokeeff.put("fire", Double.valueOf(values[2]));
-                pokeeff.put("water", Double.valueOf(values[3]));
-                pokeeff.put("electric", Double.valueOf(values[4]));
-                pokeeff.put("grass", Double.valueOf(values[5]));
-                pokeeff.put("fighting", Double.valueOf(values[6]));
-                pokeeff.put("poison", Double.valueOf(values[7]));
-                pokeeff.put("ground", Double.valueOf(values[8]));
-                pokeeff.put("flying", Double.valueOf(values[9]));
-                pokeeff.put("psychic", Double.valueOf(values[10]));
-                pokeeff.put("bug", Double.valueOf(values[11]));
-                pokeeff.put("rock", Double.valueOf(values[12]));
-                pokeeff.put("ghost", Double.valueOf(values[13]));
-                pokeeff.put("dark", Double.valueOf(values[14]));
-                pokeeff.put("steel", Double.valueOf(values[15]));
-                pokeeff.put("sound", Double.valueOf(values[16]));
-                pokemon_effectiveness.put(pokemon_name, pokeeff);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_effectiveness.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    HashMap<String, Double> pokeeff = new HashMap<>();
+                    pokeeff.put("normal", Double.valueOf(values[1]));
+                    pokeeff.put("fire", Double.valueOf(values[2]));
+                    pokeeff.put("water", Double.valueOf(values[3]));
+                    pokeeff.put("electric", Double.valueOf(values[4]));
+                    pokeeff.put("grass", Double.valueOf(values[5]));
+                    pokeeff.put("fighting", Double.valueOf(values[6]));
+                    pokeeff.put("poison", Double.valueOf(values[7]));
+                    pokeeff.put("ground", Double.valueOf(values[8]));
+                    pokeeff.put("flying", Double.valueOf(values[9]));
+                    pokeeff.put("psychic", Double.valueOf(values[10]));
+                    pokeeff.put("bug", Double.valueOf(values[11]));
+                    pokeeff.put("rock", Double.valueOf(values[12]));
+                    pokeeff.put("ghost", Double.valueOf(values[13]));
+                    pokeeff.put("dark", Double.valueOf(values[14]));
+                    pokeeff.put("steel", Double.valueOf(values[15]));
+                    pokeeff.put("sound", Double.valueOf(values[16]));
+                    pokemon_effectiveness.put(pokemon_name, pokeeff);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,19 +182,20 @@ public class library {
 
     public static void readpokemoncute() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_cute.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                boolean cute = false;
-                if (values[1].equals("T")) {
-                    cute = true;
-                } else {
-                    cute = false;
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_cute.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    boolean cute = "T".equals(values[1]);
+                    pokemon_cute.put(pokemon_name, cute);
                 }
-                pokemon_cute.put(pokemon_name, cute);
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,25 +204,31 @@ public class library {
 
     public static void readpokemonitems() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_items.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String item_name = values[0];
-                HashMap<String, Integer> itemeff = new HashMap<>();
-                itemeff.put("heal", Integer.valueOf(values[1]));
-                itemeff.put("atk", Integer.valueOf(values[2]));
-                itemeff.put("def", Integer.valueOf(values[3]));
-                itemeff.put("sp", Integer.valueOf(values[4]));
-                itemeff.put("catch", Integer.valueOf(values[5]));
-                itemeff.put("base_catch_rate", Integer.valueOf(values[6]));
-                itemeff.put("pokemon_75%", Integer.valueOf(values[7]));
-                itemeff.put("pokemon_50&", Integer.valueOf(values[8]));
-                itemeff.put("pokemon_25%", Integer.valueOf(values[9]));
-                itemeff.put("revive%", Integer.valueOf(values[10]));
-                itemeff.put("price", Integer.valueOf(values[11]));
-                pokemon_items.put(item_name, itemeff);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_items.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String item_name = values[0];
+                    HashMap<String, Integer> itemeff = new HashMap<>();
+                    itemeff.put("heal", Integer.valueOf(values[1]));
+                    itemeff.put("atk", Integer.valueOf(values[2]));
+                    itemeff.put("def", Integer.valueOf(values[3]));
+                    itemeff.put("sp", Integer.valueOf(values[4]));
+                    itemeff.put("catch", Integer.valueOf(values[5]));
+                    itemeff.put("base_catch_rate", Integer.valueOf(values[6]));
+                    itemeff.put("pokemon_75%", Integer.valueOf(values[7]));
+                    itemeff.put("pokemon_50%", Integer.valueOf(values[8]));
+                    itemeff.put("pokemon_25%", Integer.valueOf(values[9]));
+                    itemeff.put("revive%", Integer.valueOf(values[10]));
+                    itemeff.put("price", Integer.valueOf(values[11]));
+                    pokemon_items.put(item_name, itemeff);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -203,18 +237,24 @@ public class library {
 
     public static void readmovedmg() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_move_dmg.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                HashMap<Integer, Integer> movedmg = new HashMap<>();
-                for (int i = 1; i <= 100; i++) {
-                    int dmg = Integer.parseInt(values[i]);
-                    movedmg.put(i, dmg);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_dmg.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    HashMap<Integer, Integer> movedmg = new HashMap<>();
+                    for (int i = 1; i < values.length; i++) {
+                        int dmg = Integer.parseInt(values[i]);
+                        movedmg.put(i, dmg);
+                    }
+                    move_dmg.put(move_name, movedmg);
                 }
-                move_dmg.put(move_name, movedmg);
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -223,14 +263,20 @@ public class library {
 
     public static void readmoveorder() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_move_order.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                int moveorder = Integer.parseInt(values[1]);
-                move_order.put(move_name, moveorder);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_order.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    int moveorder = Integer.parseInt(values[1]);
+                    move_order.put(move_name, moveorder);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -239,37 +285,50 @@ public class library {
 
     public static void readmovestat() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_move_stat.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                HashMap<String, Double> movstat = new HashMap<>();
-                movstat.put("atk", Double.valueOf(values[1]));
-                movstat.put("def", Double.valueOf(values[2]));
-                movstat.put("sp", Double.valueOf(values[3]));
-                movstat.put("healratio", Double.valueOf(values[4]));
-                movstat.put("foe_atk", Double.valueOf(values[5]));
-                movstat.put("foe_def", Double.valueOf(values[6]));
-                movstat.put("foe_sp", Double.valueOf(values[7]));
-                move_stat.put(move_name, movstat);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_stat.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    HashMap<String, Double> movstat = new HashMap<>();
+                    movstat.put("atk", Double.valueOf(values[1]));
+                    movstat.put("def", Double.valueOf(values[2]));
+                    movstat.put("sp", Double.valueOf(values[3]));
+                    movstat.put("healratio", Double.valueOf(values[4]));
+                    movstat.put("foe_atk", Double.valueOf(values[5]));
+                    movstat.put("foe_def", Double.valueOf(values[6]));
+                    movstat.put("foe_sp", Double.valueOf(values[7]));
+                    move_stat.put(move_name, movstat);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
     public static void readmovecat() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_movelist.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                String category = values[1];
-                move_cat.put(move_name, category);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_movelist.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    String category = values[1];
+                    move_cat.put(move_name, category);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -278,18 +337,24 @@ public class library {
 
     public static void readpokemonmoveset() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_moveset.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                HashMap<String, String> movset = new HashMap<>();
-                movset.put("move1", values[1]);
-                movset.put("move2", values[2]);
-                movset.put("move3", values[3]);
-                movset.put("move4", values[4]);
-                pokemon_moveset.put(move_name, movset);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_moveset.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    HashMap<String, String> movset = new HashMap<>();
+                    movset.put("move1", values[1]);
+                    movset.put("move2", values[2]);
+                    movset.put("move3", values[3]);
+                    movset.put("move4", values[4]);
+                    pokemon_moveset.put(move_name, movset);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -298,14 +363,20 @@ public class library {
 
     public static void readmovetype() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_move_type.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                String type = values[1];
-                move_type.put(move_name, type);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_type.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    String type = values[1];
+                    move_type.put(move_name, type);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -314,16 +385,22 @@ public class library {
 
     public static void readpokemontype() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_type.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                HashMap<String, String> type = new HashMap<>();
-                type.put("type1", values[1]);
-                type.put("type2", values[2]);
-                pokemon_type.put(pokemon_name, type);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_type.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    HashMap<String, String> type = new HashMap<>();
+                    type.put("type1", values[1]);
+                    type.put("type2", values[2]);
+                    pokemon_type.put(pokemon_name, type);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -332,14 +409,20 @@ public class library {
 
     public static void readpokemonweight() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/pokemon_weight.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String pokemon_name = values[0];
-                double weight = Double.valueOf(values[1]);
-                pokemon_weight.put(pokemon_name, weight);
+            InputStream inputStream = library.class.getResourceAsStream("/pokemon_weight.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String pokemon_name = values[0];
+                    double weight = Double.parseDouble(values[1]);
+                    pokemon_weight.put(pokemon_name, weight);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -348,14 +431,54 @@ public class library {
 
     public static void readmovedescription() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/move_description.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String move_name = values[0];
-                String desc = values[1];
-                move_description.put(move_name, desc);
+            InputStream inputStream = library.class.getResourceAsStream("/move_description.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String move_name = values[0];
+                    String description = values[1];
+                    move_description.put(move_name, description);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readAllTrainers() {
+        try {
+            InputStream inputStream = library.class.getResourceAsStream("/trainers.csv");
+            if (inputStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                br.readLine();  // Assuming this reads the header line
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String trainer_name = values[0];
+                    ArrayList<Pokemon> pokemons = new ArrayList<>();
+                    for (int i = 1; i < values.length - 1; i++) {
+                        if (!values[i].equals("null")) {
+                            String[] poke_desc = values[i].split("\\|");
+                            String pokemon_Name = poke_desc[0];
+                            int pokemon_Level = Integer.parseInt(poke_desc[1]);
+                            boolean wild = false;
+                            Pokemon pokepoke = new Pokemon(pokemon_Name, pokemon_Level, wild);
+                            pokemons.add(pokepoke);
+                        }
+                    }
+                    int money = Integer.parseInt(values[values.length - 1]);
+                    Trainers.put(trainer_name, pokemons);
+                    TrainerReward.put(trainer_name, money);
+                }
+                br.close();
+            } else {
+                System.out.println("File not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -387,33 +510,5 @@ public class library {
         kantoMap.addPath("Vermillion City", "Fuschia City", 7);
         kantoMap.addPath("Celadon City", "Fuschia City", 10);
         kantoMap.addPath("Fuschia City", "Cinnabar Island", 5);
-    }
-
-    public static void readAllTrainers() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("Pokemon_Kanto_Adventure/Files/trainers.csv"));
-            br.readLine();
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String trainer_name = values[0];
-                ArrayList<Pokemon> pokemons = new ArrayList<>();
-                for (int i = 1; i < values.length - 1; i++) {
-                    if (!values[i].equals("null")) {
-                        String[] poke_desc = values[i].split("\\|");
-                        String pokemon_Name = poke_desc[0];
-                        int pokemon_Level = Integer.parseInt(poke_desc[1]);
-                        boolean wild = false;
-                        Pokemon pokepoke = new Pokemon(pokemon_Name, pokemon_Level, wild);
-                        pokemons.add(pokepoke);
-                    }
-                }
-                int money = Integer.parseInt(values[values.length - 1]);
-                Trainers.put(trainer_name, pokemons);
-                TrainerReward.put(trainer_name, money);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

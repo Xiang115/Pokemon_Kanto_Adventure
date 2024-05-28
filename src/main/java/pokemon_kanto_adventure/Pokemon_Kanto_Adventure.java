@@ -2,16 +2,15 @@ package pokemon_kanto_adventure;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -37,13 +36,18 @@ public class Pokemon_Kanto_Adventure {
     // print pokemon title when boot game
     public static void title() {
         try {
-            Scanner sc = new Scanner(new FileInputStream("Pokemon_Kanto_Adventure/Files/PokemonLogo.txt"));
-            while (sc.hasNextLine()) {
-                System.out.println(sc.nextLine());
+            InputStream inputStream = Pokemon_Kanto_Adventure.class.getResourceAsStream("/PokemonLogo.txt");
+            if (inputStream != null) {
+                Scanner sc = new Scanner(inputStream);
+                while (sc.hasNextLine()) {
+                    System.out.println(sc.nextLine());
+                }
+                sc.close();
+            } else {
+                System.out.println("File not found");
             }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

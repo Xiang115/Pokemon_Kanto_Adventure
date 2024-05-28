@@ -1,0 +1,78 @@
+﻿dmg move,type
+bug buzz,bug
+silver wind,bug
+bite,dark
+crunch,dark
+lick,dark
+shock wave,electric
+spark,electric
+thunder,electric
+thunder shock,electric
+thunderbolt,electric
+zap cannon,electric
+brick break,fighting
+cross chop,fighting
+double kick,fighting
+karate chop,fighting
+low sweep,fighting
+rock smash,fighting
+ember,fire
+fire blast,fire
+flamethrower,fire
+overheat,fire
+bounce,flying
+gust,flying
+wing attack,flying
+shadow ball,ghost
+shadow punch,ghost
+razor leaf,grass
+solar beam,grass
+vine whip,grass
+absorb,grass
+giga drain,grass
+leech life,grass
+mega drain,grass
+dig,ground
+earthquake,ground
+sand tomb,ground
+body slam,normal
+constrict,normal
+cut,normal
+double slap,normal
+fury swipes,normal
+horn attack,normal
+hyper fang,normal
+pound,normal
+quick attack,normal
+rapid spin,normal
+scratch,normal
+skull bash,normal
+slash,normal
+stomp,normal
+strength,normal
+swift,normal
+tackle,normal
+take down,normal
+thrash,normal
+tri attack,normal
+acid,poison
+poison jab,poison
+poison sting,poison
+sludge,poison
+sludge bomb,poison
+confusion,psychic
+psybeam,psychic
+psychic,psychic
+rock blast,rock
+rock slide,rock
+rock throw,rock
+rock tomb,rock
+rollout,rock
+sonicboom,sound
+iron tail,steel
+metal claw,steel
+bubble,water
+hydro pump,water
+hyper beam,normal
+water gun,water
+water pulse,water

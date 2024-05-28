@@ -1,0 +1,33 @@
+﻿Trainer,pokemon1,pokemon2,pokemon3,pokemon4,pokemon5,Reward
+Brock,Geodude|12,Onix|14,null,null,null,1400
+Rick,Caterpie|6,Caterpie|6,null,null,null,300
+Anthony,Caterpie|9,null,null,null,null,450
+Charlie,Pikachu|9,null,null,null,null,450
+Misty,Staryu|18,Starmie|21,null,null,null,2100
+Rocket Grunt,Machop|17,Sandshrew|17,null,null,null,850
+Marcos,Geodude|11,Geodude|11,Onix|11,null,null,550
+Jovan,Magnemite|14,Voltorb|14,null,null,null,700
+Sabrina,Kadabra|38,Mr. Mime|37,Venomoth|38,Alakazam|43,null,4300
+Ricky,Wartortle|30,null,null,null,null,1500
+Jeff,Raticate|29,Raticate|29,null,null,null,1400
+Elijah,Butterfree|30,null,null,null,null,1500
+Erika,Victreebel|29,Tangela|24,Vileplume|29,null,null,2900
+Lao,Grimer|27,Koffing|27,null,null,null,1350
+Koji,Machop|27,Mankey|27,null,null,null,1350
+Lea,Rapidash|27,null,null,null,null,1350
+Luca,Voltorb|29,Electrode|29,null,null,null,1450
+Justin,Nidoran-M|29,Nidoran-F|29,null,null,null,1450
+Tower Grunt,Rattata|27,Raticate|27,null,null,null,1350
+Lt. Surge,Voltorb|21,Pikachu|18,Raichu|24,null,null,2400
+Yasu,Rattata|17,Rattata|17,Raticate|17,null,null,850
+Dave,Nidoran-M|18,Nidorino|18,null,null,null,900
+Bernie,Magnemite|18,Magnemite|18,Magneton|18,null,null,900
+Koga,Koffing|37,Muk|39,Koffing|37,Weezing|43,null,4300
+Charles,Koffing|39,Weezing|39,null,null,null,1950
+Jacob,Charmeleon|39,null,null,null,null,1950
+Connie,Staryu|33,Staryu|33,Staryu|33,null,null,1650
+Blaine,Growlithe|42,Ponyta|40,Rapidash|42,Arcanine|47,null,4700
+Lil,Starmie|33,null,null,null,null,1650
+Jack,Starmie|37,null,null,null,null,1850
+Jerome,Staryu|33,Wartortle|33,null,null,null,1650
+Giovanni,Rhyhorn|45,Dugtrio|42,Nidoqueen|44,Nidoking|45,Rhyhorn|50,5000
