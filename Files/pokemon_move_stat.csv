@@ -1,0 +1,28 @@
+﻿move,atk,def,sp,healratio,foe_atk,foe_def,foe_sp
+absorb,0,0,0,0.3,0,0,0
+giga drain,0,0,0,0.5,0,0,0
+leech life,0,0,0,0.3,0,0,0
+mega drain,0,0,0,0.4,0,0,0
+acid armor,0,2,0,0,0,0,0
+agility,0,0,2,0,0,0,0
+barrier,0,2,0,0,0,0,0
+defense curl,0,1,0,0,0,0,0
+growl,0,0,0,0,-1,0,0
+harden,0,1,0,0,0,0,0
+leer,0,0,0,0,0,-1,0
+metal sound,0,0,0,0,0,-2,0
+scary face,0,0,0,0,0,0,-2
+screech,0,0,0,0,0,-2,0
+string shot,0,0,0,0,0,0,-1
+stun spore,0,0,0,0,0,0,-3
+tail whip,0,0,0,0,0,-1,0
+withdraw,0,1,0,0,0,0,0
+bulk up,1,1,0,0,0,0,0
+calm mind,1,1,0,0,0,0,0
+curse,1,1,-1,0,0,0,0
+growth,2,0,0,0,0,0,0
+swords dance,2,0,0,0,0,0,0
+hyper beam,-1,0,0,0,0,0,0
+overheat,-2,0,0,0,0,0,0
+rock tomb,0,0,0,0,0,0,-1
+low sweep,0,0,0,0,0,0,-1

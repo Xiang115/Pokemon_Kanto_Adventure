@@ -1,0 +1,12 @@
+﻿item,heal,atk,def,sp,catch,base_catch_rate,pokemon_75%,pokemon_50%,pokemon_25%,revive%,price
+Poke Ball,0,0,0,0,1,20,30,40,50,0,200
+Great Ball,0,0,0,0,1,40,50,60,70,0,600
+Ultra Ball,0,0,0,0,1,60,70,80,90,0,1200
+Potion,100,0,0,0,0,0,0,0,0,0,300
+Super Potion,250,0,0,0,0,0,0,0,0,0,700
+Hyper Potion,1000,0,0,0,0,0,0,0,0,0,1200
+Max Potion,9999,0,0,0,0,0,0,0,0,0,2500
+X Attack,0,1,0,0,0,0,0,0,0,0,500
+X Defend,0,0,1,0,0,0,0,0,0,0,550
+X Speed,0,0,0,1,0,0,0,0,0,0,350
+Revive,0,0,0,0,0,0,0,0,0,50,1500

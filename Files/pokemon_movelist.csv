@@ -1,0 +1,100 @@
+move,category
+acid,dmg
+bite,dmg
+body slam,dmg
+bounce,dmg
+brick break,dmg
+bubble,dmg
+bug buzz,dmg
+confusion,dmg
+constrict,dmg
+cross chop,dmg
+crunch,dmg
+cut,dmg
+dig,dmg
+double kick,dmg
+double slap,dmg
+earthquake,dmg
+ember,dmg
+fire blast,dmg
+flamethrower,dmg
+fury swipes,dmg
+gust,dmg
+horn attack,dmg
+hydro pump,dmg
+hyper beam,sp
+hyper fang,dmg
+iron tail,dmg
+karate chop,dmg
+lick,dmg
+low sweep,sp
+metal claw,dmg
+overheat,sp
+poison jab,dmg
+poison sting,dmg
+pound,dmg
+psybeam,dmg
+psychic,dmg
+quick attack,dmg
+rapid spin,dmg
+razor leaf,dmg
+rock blast,dmg
+rock slide,dmg
+rock smash,dmg
+rock throw,dmg
+rock tomb,sp
+rollout,dmg
+sand tomb,dmg
+scratch,dmg
+shadow ball,dmg
+shadow punch,dmg
+shock wave,dmg
+silver wind,dmg
+skull bash,dmg
+slash,dmg
+sludge,dmg
+sludge bomb,dmg
+solar beam,dmg
+sonicboom,dmg
+spark,dmg
+stomp,dmg
+strength,dmg
+swift,dmg
+tackle,dmg
+take down,dmg
+thrash,dmg
+thunder,dmg
+thunder shock,dmg
+thunderbolt,dmg
+tri attack,dmg
+vine whip,dmg
+water gun,dmg
+water pulse,dmg
+wing attack,dmg
+zap cannon,dmg
+recover,heal
+rest,heal
+synthesis,heal
+absorb,sp
+giga drain,sp
+leech life,sp
+mega drain,sp
+acid armor,stat
+agility,stat
+barrier,stat
+bulk up,stat
+calm mind,stat
+curse,stat
+defense curl,stat
+growl,stat
+growth,stat
+harden,stat
+leer,stat
+metal sound,stat
+scary face,stat
+screech,stat
+string shot,stat
+stun spore,stat
+swords dance,stat
+tail whip,stat
+withdraw,stat

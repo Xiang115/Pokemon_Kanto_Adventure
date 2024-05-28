@@ -1,0 +1,69 @@
+﻿Pokemon,move1,move2,move3,move4
+Bulbasaur,tackle,growl,vine whip,absorb
+Ivysaur,strength,growl,razor leaf,mega drain
+Venusaur,strength,growth,solar beam,giga drain
+Charmander,scratch,ember,metal claw,growl
+Charmeleon,cut,ember,flamethrower,scary face
+Charizard,slash,overheat,flamethrower,wing attack
+Squirtle,tackle,tail whip,bubble,bite
+Wartortle,strength,withdraw,water gun,bite
+Blastoise,skull bash,withdraw,hydro pump,crunch
+Caterpie,string shot,tackle,tackle,tackle
+Metapod,string shot,harden,tackle,tackle
+Butterfree,confusion,gust,silver wind,shadow ball
+Rattata,tackle,tail whip,quick attack,bite
+Raticate,hyper fang,iron tail,quick attack,crunch
+Pikachu,growl,thunder shock,quick attack,agility
+Raichu,strength,thunder,quick attack,agility
+Sandshrew,scratch,defense curl,poison sting,sand tomb
+Sandslash,slash,swords dance,poison jab,earthquake
+Nidoran-F,scratch,poison sting,double kick,bite
+Nidorina,fury swipes,poison sting,double kick,bite
+Nidoqueen,earthquake,poison sting,double kick,body slam
+Nidoran-M,leer,poison sting,double kick,tackle
+Nidorino,leer,poison sting,double kick,horn attack
+Nidoking,earthquake,poison sting,double kick,thrash
+Oddish,tackle,acid,stun spore,absorb
+Gloom,tackle,acid,stun spore,mega drain
+Vileplume,cut,acid,stun spore,giga drain
+Venonat,confusion,tackle,leech life,poison sting
+Venomoth,psybeam,gust,leech life,bug buzz
+Diglett,scratch,growl,dig,earthquake
+Dugtrio,slash,rock slide,dig,earthquake
+Mankey,leer,scratch,karate chop,bulk up
+Primeape,screech,thrash,cross chop,bulk up
+Growlithe,bite,growl,take down,flamethrower
+Arcanine,crunch,growl,take down,fire blast
+Abra,tackle,recover,confusion,calm mind
+Kadabra,psybeam,recover,confusion,calm mind
+Alakazam,psychic,recover,shadow ball,calm mind
+Machop,low sweep,tackle,karate chop,bulk up
+Machoke,low sweep,strength,cross chop,bulk up
+Machamp,low sweep,body slam,cross chop,bulk up
+Bellsprout,poison sting,absorb,growth,synthesis
+Weepinbell,poison sting,mega drain,growth,synthesis
+Victreebel,acid,giga drain,growth,synthesis
+Geodude,tackle,defense curl,rock throw,rock smash
+Graveler,strength,defense curl,rock tomb,brick break
+Golem,earthquake,defense curl,rock blast,brick break
+Ponyta,stomp,bounce,agility,flamethrower
+Rapidash,stomp,bounce,agility,fire blast
+Magnemite,metal sound,spark,tackle,sonicboom
+Magneton,metal sound,zap cannon,tri attack,sonicboom
+Grimer,acid,acid armor,pound,lick
+Muk,sludge,acid armor,pound,shadow punch
+Onix,tackle,harden,rock tomb,earthquake
+Voltorb,tackle,sonicboom,shock wave,rollout
+Electrode,tackle,sonicboom,thunderbolt,rollout
+Koffing,tackle,sludge,acid,screech
+Weezing,tackle,sludge,sludge bomb,screech
+Rhyhorn,take down,rock blast,scary face,earthquake
+Rhydon,take down,rock blast,scary face,earthquake
+Tangela,constrict,giga drain,growth,sludge
+Staryu,tackle,harden,recover,water pulse
+Starmie,rapid spin,swift,recover,water pulse
+Mr. Mime,barrier,psybeam,calm mind,double slap
+Eevee,tackle,tail whip,quick attack,bite
+Jigglypuff,pound,defense curl,rollout,double slap
+Wigglytuff,pound,defense curl,rollout,double slap
+Snorlax,hyper beam,rest,earthquake,curse
