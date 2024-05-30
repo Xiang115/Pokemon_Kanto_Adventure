@@ -121,7 +121,7 @@ public class Pokemon_Kanto_Adventure {
                 System.out.println("Invalid choice");
             }
         } else if ("3".equals(choice)) {
-            return null;
+            System.exit(0);
         } else {
             System.out.println("Invalid choice! Please choose again.");
         }
