@@ -207,17 +207,17 @@ public class Pokemon_Kanto_Adventure {
             int num = Integer.parseInt(choice);
             switch (num) {
                 case 1:
-                    Pokemon Bulbasaur = new Pokemon("Bulbasaur", 5);
+                    Pokemon Bulbasaur = new Pokemon("Bulbasaur", 5, false, false);
                     System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Bulbasaur.findname());
                     player.addPokemon(Bulbasaur);
                     break;
                 case 2:
-                    Pokemon Squirtle = new Pokemon("Squirtle", 5);
+                    Pokemon Squirtle = new Pokemon("Squirtle", 5, false, false);
                     System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Squirtle.findname());
                     player.addPokemon(Squirtle);
                     break;
                 case 3:
-                    Pokemon Charmander = new Pokemon("Charmander", 5);
+                    Pokemon Charmander = new Pokemon("Charmander", 5, false, false);
                     System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Charmander.findname());
                     player.addPokemon(Charmander);
                     break;
@@ -225,6 +225,10 @@ public class Pokemon_Kanto_Adventure {
                     isValid = false;
                     System.out.println("Invalid choice");
             }
+            System.out.println("OAK: Oh, and also take these 10 Poke Balls and $1000, Poke Balls can be used to catch wild pokemons and strengthen your team, and you can use money to buy items in Poke Marts!");
+            player.obtainitems("Poke Ball", 10);
+            player.addMoney(1000);
+            save(player);
         } else {
             System.out.println("Invalid choice.");
         }
@@ -625,7 +629,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(2, 6);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared! [ " + wild_lvl + " ] ");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl,true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '4' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -834,7 +838,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(3, 7);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -956,7 +960,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(8, 13);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl,true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1079,7 +1083,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(11, 17);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1204,11 +1208,11 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(20, 24);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.equals("6")) {
                 System.out.println("A wild Snorlax is blocking the road!");
-                Pokemon wild = new Pokemon("Snorlax", 30);
+                Pokemon wild = new Pokemon("Snorlax", 30, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '7' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1322,11 +1326,11 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(14, 21);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.equals("6")) {
                 System.out.println("A wild Snorlax is blocking the road!");
-                Pokemon wild = new Pokemon("Snorlax", 30);
+                Pokemon wild = new Pokemon("Snorlax", 30, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '7' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1449,7 +1453,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(15, 23);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1571,7 +1575,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(22, 30);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -1696,7 +1700,7 @@ public class Pokemon_Kanto_Adventure {
                 int wild_lvl = r.nextInt(17, 29);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);

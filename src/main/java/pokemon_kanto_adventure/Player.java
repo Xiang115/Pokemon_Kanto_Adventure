@@ -21,7 +21,6 @@ public class Player {
     private int battlewon; //number of battle won
     private ArrayList<Pokemon> PC; //pokemons in PC
     private String currentCity;//currentCity of player
-    private String savelocation;//savefile of player
 
     public Player(String n) { //create a new player with name
         name = n; //set name to n
@@ -118,14 +117,6 @@ public class Player {
         System.out.printf("+%s+\n", "-".repeat(90)); //display moving to the city message
         System.out.println("Moving to " + city + "......");
         currentCity = city;//set currentCity to new city
-    }
-
-    public void setSaveLocation(String file) {//set savelocation
-        savelocation = file;
-    }
-
-    public String getSaveLocation() {//return savelocation
-        return savelocation;
     }
 
     public void obtainbadge(String badge) {//obtain a new badge
@@ -316,31 +307,6 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {//set name
-        this.name = name;
-    }
-
-    public void setNumOfBadge(int numofbadge) {//set number of badge
-        this.numofbadge = numofbadge;
-    }
-
-    public void setbadges(String[] badges) {//set badges
-        this.badges = badges;
-        for (String badge : badges) {
-            if (!badge.equals("---")) {
-                numofbadge++;
-            }
-        }
-    }
-
-    public void setRivalRaceWins(int rivalracewins) {//set rivalracewins
-        this.rivalracewins = rivalracewins;
-    }
-
-    public void setBattleWon(int battlewon) {//set battlewon
-        this.battlewon = battlewon;
-    }
-
     public void setMoney(int money) { //set money
         this.money = money;
     }
@@ -500,24 +466,24 @@ public class Player {
 
     public void alterteam() { //player choose to alter team
         Scanner input = new Scanner(System.in);
-        all:
+        all: //all loop will not end until player choose to go back to last selection page
         while (true) {
-            showteam();
-            System.out.println("Choose a pokemon(1-6)/7 to exit: ");
-            String choice_st = input.nextLine();
-            if (isNum(choice_st)) {
-                int choice = Integer.parseInt(choice_st);
+            showteam(); //display all the pokemons in the team
+            System.out.println("Choose a pokemon(1-6)/7 to exit: "); //prompt user to eenter choice
+            String choice_st = input.nextLine();//receive choice
+            if (isNum(choice_st)) {//check choice format
+                int choice = Integer.parseInt(choice_st); //turn choice into integer
                 switch (choice) {
                     case 1:
-                        if (pokemon1 == null) {
-                            System.out.printf("+%s+\n", "-".repeat(90));
+                        if (pokemon1 == null) { //check if pokemon1 exists
+                            System.out.printf("+%s+\n", "-".repeat(90)); //if not then tell player this is a empty slot
                             System.out.println("There is no pokemon in this slot");
                         } else {
-                            pokechoice(pokemon1, 1);
+                            pokechoice(pokemon1, 1);//if pokemon1 exists call the pokechoice() method, which is a method that allows the player to make actions on a pokemon
                         }
                         break;
                     case 2:
-                        if (pokemon2 == null) {
+                        if (pokemon2 == null) { //things happened in case 1 will happen in case2-6,only changing pokemon1 to pokemon2-6
                             System.out.printf("+%s+\n", "-".repeat(90));
                             System.out.println("There is no pokemon in this slot");
                         } else {
@@ -556,9 +522,9 @@ public class Player {
                             pokechoice(pokemon6, 6);
                         }
                         break;
-                    case 7:
-                        break all;
-                    default:
+                    case 7://if player choose 7 to go back to last selection page
+                        break all; //end the all loop
+                    default://if invalid choice is entered, display the message below
                         System.out.println("Invalid choice! Please choose again.");
                 }
             } else {
@@ -567,58 +533,58 @@ public class Player {
         }
     }
 
-    public void pokechoice(Pokemon poke, int pos) {
-        all:
+    public void pokechoice(Pokemon poke, int pos) { //a method that allows user to make actions on a pokemon, either check, heal or swap slots
+        all://the all loop will not end unless player make a swap or choose to go back to last selection page
         while (true) {
             System.out.printf("+%s+\n", "-".repeat(90));
-            System.out.println(poke.findname());
-            System.out.println("1. Show details");
+            System.out.println(poke.findname()); //display the pokemon's name
+            System.out.println("1. Show details"); //choices the player can choose
             System.out.println("2. Use items");
             System.out.println("3. Swap slots");
             System.out.println("4. Back");
-            System.out.println("Select one from 1-4: ");
+            System.out.println("Select one from 1-4: "); //prompt user to enter choice
             Scanner input = new Scanner(System.in);
-            String choice_st = input.nextLine();
-            if (isNum(choice_st)) {
-                int choice = Integer.parseInt(choice_st);
+            String choice_st = input.nextLine();//receive choice
+            if (isNum(choice_st)) { //check choice format
+                int choice = Integer.parseInt(choice_st); //turn choice into integer
                 switch (choice) {
-                    case 1:
-                        poke.showPokemonInfo();
-                        moves:
+                    case 1: //if player choose to view pokemon's details
+                        poke.showPokemonInfo(); //show the pokemon's info
+                        moves: //the moves loop will not end unless the player choose to not check the details of the move and go back to last selection page
                         while (true) {
-                            System.out.printf("+%s+\n", "-".repeat(90));
+                            System.out.printf("+%s+\n", "-".repeat(90)); //print all the moves of the pokemon
                             System.out.println("1. " + poke.findmov1());
                             System.out.println("2. " + poke.findmov2());
                             System.out.println("3. " + poke.findmov3());
                             System.out.println("4. " + poke.findmov4());
-                            System.out.println("Check moves(1-4)?5 to exit: ");
-                            String choicemove_st = input.nextLine();
-                            if (isNum(choicemove_st)) {
-                                int choicemove = Integer.parseInt(choicemove_st);
+                            System.out.println("Check moves(1-4)?5 to exit: ");//prompt user to enter choice
+                            String choicemove_st = input.nextLine(); //receive choice
+                            if (isNum(choicemove_st)) { //check choice format
+                                int choicemove = Integer.parseInt(choicemove_st);//turn choice into integer
                                 switch (choicemove) {
-                                    case 1:
-                                        System.out.printf("+%s+\n", "-".repeat(90));
+                                    case 1://if player choose to check move 1
+                                        System.out.printf("+%s+\n", "-".repeat(90));//display move1 details
                                         Move x1 = new Move(poke.findmov1(), poke.findlvl());
                                         x1.showmovdetail();
                                         break;
-                                    case 2:
-                                        System.out.printf("+%s+\n", "-".repeat(90));
+                                    case 2://if player choose to check move2
+                                        System.out.printf("+%s+\n", "-".repeat(90));//display move2 details
                                         Move x2 = new Move(poke.findmov2(), poke.findlvl());
                                         x2.showmovdetail();
                                         break;
-                                    case 3:
-                                        System.out.printf("+%s+\n", "-".repeat(90));
+                                    case 3://if player choose to check move3
+                                        System.out.printf("+%s+\n", "-".repeat(90));//display move3 details
                                         Move x3 = new Move(poke.findmov3(), poke.findlvl());
                                         x3.showmovdetail();
                                         break;
-                                    case 4:
-                                        System.out.printf("+%s+\n", "-".repeat(90));
+                                    case 4://if player choose to check move4
+                                        System.out.printf("+%s+\n", "-".repeat(90)); //display move4 details
                                         Move x4 = new Move(poke.findmov4(), poke.findlvl());
                                         x4.showmovdetail();
                                         break;
-                                    case 5:
-                                        break moves;
-                                    default:
+                                    case 5://if user choose to go back to last selection page by entering 5
+                                        break moves;//end the moves loop
+                                    default://if choice is invalid, display message below
                                         System.out.println("Invalid choice! Please choose again.");
                                 }
                             } else {
@@ -626,18 +592,18 @@ public class Player {
                             }
                         }
                         break;
-                    case 2:
-                        itemmm:
+                    case 2://if player choose to use item on pokemon
+                        itemmm://itemmm loop will not end if user choose to go back to last selection page
                         while (true) {
                             System.out.printf("+%s+\n", "-".repeat(90));
-                            showitems();
-                            System.out.println("12. Exit");
-                            System.out.println("Select items(1-11)/12 to exit: ");
-                            String choiceitem_st = input.nextLine();
-                            if (isNum(choiceitem_st)) {
-                                int choiceitem = Integer.parseInt(choiceitem_st);
+                            showitems(); //display all the items and their numbers in the player's bag
+                            System.out.println("12. Exit");//choice to go back to last selection page
+                            System.out.println("Select items(1-11)/12 to exit: ");//prompt user to enter choice
+                            String choiceitem_st = input.nextLine();//receive choice
+                            if (isNum(choiceitem_st)) { //check choice format
+                                int choiceitem = Integer.parseInt(choiceitem_st);//turn choice into integer
                                 switch (choiceitem) {
-                                    case 1: //this is supposed to be checking team while not in battle, hence all pokeballs used will output "No effect"
+                                    case 1: //this is supposed to be checking team while not in battle, hence all balls(Poke Ball, Great Ball, Ultra Ball) used will output "No effect"
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         System.out.println("This item has no effect on this pokemon");
                                         break;
@@ -649,23 +615,23 @@ public class Player {
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         System.out.println("This item has no effect on this pokemon");
                                         break;
-                                    case 4:
+                                    case 4://if Potion is selected
                                         System.out.printf("+%s+\n", "-".repeat(90));
-                                        if (items.get("Potion") != 0) {
-                                            if (poke.findcurrenthp() == poke.findmaxhp() || poke.isFaint()) {
-                                                System.out.println("This item has no effect on this pokemon");
-                                            } else {
-                                                System.out.println("You used a Potion on " + poke.findname());
-                                                poke.heal(library.pokemon_items.get("Potion").get("heal"));
-                                                int old = items.get("Potion");
+                                        if (items.get("Potion") != 0) {//if there is at least one potion in the player's bag
+                                            if (poke.findcurrenthp() == poke.findmaxhp() || poke.isFaint()) { //if the pokemon is either at full hp or fainted
+                                                System.out.println("This item has no effect on this pokemon"); //then potion will not have any effect on the pokemon
+                                            } else {//if the pokemon is not fainted and not at full hp
+                                                System.out.println("You used a Potion on " + poke.findname()); //display potion is used message
+                                                poke.heal(library.pokemon_items.get("Potion").get("heal")); //heal the pokemon according to the Potion's healing amount
+                                                int old = items.get("Potion"); //deduct the number of Potions by 1
                                                 items.replace("Potion", old, old - 1);
                                             }
 
-                                        } else {
+                                        } else { //if there are no more Potions in the player's bag, then display the message below
                                             System.out.println("You do not have any Potions left");
                                         }
                                         break;
-                                    case 5:
+                                    case 5://same thing in case 4 will happen at case5 and 6,replacing Potion with Super Potion and Hyper Potion
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         if (items.get("Super Potion") != 0) {
                                             if (poke.findcurrenthp() == poke.findmaxhp() || poke.isFaint()) {
@@ -698,7 +664,7 @@ public class Player {
                                             System.out.println("You do not have any Hyper Potions left");
                                         }
                                         break;
-                                    case 7:
+                                    case 7: //same thing in case 4 happens, replacing Potion to Max Potion, and heal() method to fullheal() method as full heal method heals pokemon to full health, rather than a fixed amount in heal()
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         if (items.get("Max Potion") != 0) {
                                             if (poke.findcurrenthp() == poke.findmaxhp() || poke.isFaint()) {
@@ -714,7 +680,7 @@ public class Player {
                                             System.out.println("You do not have any Max Potions left");
                                         }
                                         break;
-                                    case 8:
+                                    case 8: //X Attack,X Defend and X Speed have no effect outside of battle
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         System.out.println("This item has no effect on this pokemon");
                                         break;
@@ -726,24 +692,24 @@ public class Player {
                                         System.out.printf("+%s+\n", "-".repeat(90));
                                         System.out.println("This item has no effect on this pokemon");
                                         break;
-                                    case 11:
+                                    case 11://if Revive is chosen
                                         System.out.printf("+%s+\n", "-".repeat(90));
-                                        if (items.get("Revive") != 0) {
-                                            if (poke.isFaint()) {
-                                                System.out.println("You used a Revive on " + poke.findname());
-                                                poke.revive();
-                                                int old = items.get("Revive");
+                                        if (items.get("Revive") != 0) {//if there is at least one revive in the player's bag
+                                            if (poke.isFaint()) { //if the pokemon is fainted
+                                                System.out.println("You used a Revive on " + poke.findname());//print revive message
+                                                poke.revive();//the pokemon is revived with half hp
+                                                int old = items.get("Revive");//reduce the number of Revive in the player's bag by 1
                                                 items.replace("Revive", old, old - 1);
-                                            } else {
+                                            } else { //if pokemon is not fainted, then Revive will have no effect
                                                 System.out.println("This item has no effect on this pokemon");
                                             }
-                                        } else {
+                                        } else {//if there are no more Revives, print the message below
                                             System.out.println("You do not have any Revive left");
                                         }
                                         break;
-                                    case 12:
-                                        break itemmm;
-                                    default:
+                                    case 12://if player chooses 12 to go back to the last selection page
+                                        break itemmm;//end the itemmm loop
+                                    default://if choice entered is invalid, display the message below
                                         System.out.println("Invalid choice! Please choose again.");
                                 }
                             } else {
@@ -751,187 +717,190 @@ public class Player {
                             }
                         }
                         break;
-                    case 3:
-                        System.out.printf("+%s+\n", "-".repeat(90));
-                        System.out.println("Choose a slot to swap with(1-6)/7 to cancel: ");
-                        String choiceswap_st = input.nextLine();
-                        if (isNum(choiceswap_st)) {
-                            int choiceswap = Integer.parseInt(choiceswap_st);
-                            switch (choiceswap) {
-                                case 1:
-                                    if (pokemon1 != null && pos != 1) {
-                                        Pokemon temp = pokemon1;
-                                        pokemon1 = poke;
-                                        if (pos == 2) {
-                                            pokemon2 = temp;
-                                        } else if (pos == 3) {
-                                            pokemon3 = temp;
-                                        } else if (pos == 4) {
-                                            pokemon4 = temp;
-                                        } else if (pos == 5) {
-                                            pokemon5 = temp;
-                                        } else if (pos == 6) {
-                                            pokemon6 = temp;
+                    case 3://if player choose to swap pokemon slots
+                        swap://the swap loop will not end unless a swap is made or player chooses to cancel the swap
+                        while(true) {
+                            System.out.printf("+%s+\n", "-".repeat(90));
+                            System.out.println("Choose a slot to swap with(1-6)/7 to cancel: "); //prompt player to enter choice
+                            String choiceswap_st = input.nextLine(); //receive choice
+                            if (isNum(choiceswap_st)) {//check choice format
+                                int choiceswap = Integer.parseInt(choiceswap_st);//turn choice into integer
+                                switch (choiceswap) {
+                                    case 1: //if player choose to swap chosen pokemon slot with pokemon1
+                                        if (pokemon1 != null && pos != 1) {//if pokemon1 exists and chosen pokemon is not pokemon1
+                                            Pokemon temp = pokemon1; //hold original pokemon1 at temp
+                                            pokemon1 = poke;//set pokemon1 to chosen pokemon
+                                            if (pos == 2) {//if chosen pokemon's original slot is pokemon2, then set pokemon2 to temp
+                                                pokemon2 = temp;
+                                            } else if (pos == 3) {//if chosen pokemon's original slot is pokemon3, then set pokemon3 to temp
+                                                pokemon3 = temp;
+                                            } else if (pos == 4) {//if chosen pokemon's original slot is pokemon4, then set pokemon4 to temp
+                                                pokemon4 = temp;
+                                            } else if (pos == 5) {//if chosen pokemon's original slot is pokemon5, then set pokemon5 to temp
+                                                pokemon5 = temp;
+                                            } else if (pos == 6) {//if chosen pokemon's original slot is pokemon6, then set pokemon6 to temp
+                                                pokemon6 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));//print position swapped message
+                                            System.out.println("Position swapped");
+                                            break all;//end the all loop
+                                        } else if (pokemon1 != null && pos == 1) {//pokemon1 exists but the pokemon chosen is pokemon1
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon1 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//print invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon1 != null && pos == 1) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 2:
-                                    if (pokemon2 != null && pos != 2) {
-                                        Pokemon temp = pokemon2;
-                                        pokemon2 = poke;
-                                        if (pos == 1) {
-                                            pokemon1 = temp;
-                                        } else if (pos == 3) {
-                                            pokemon3 = temp;
-                                        } else if (pos == 4) {
-                                            pokemon4 = temp;
-                                        } else if (pos == 5) {
-                                            pokemon5 = temp;
-                                        } else if (pos == 6) {
-                                            pokemon6 = temp;
+                                    case 2://if player choose to swap chosen pokemon slot with pokemon2
+                                        if (pokemon2 != null && pos != 2) {//if pokemon2 exists and chosen pokemon is not pokemon2
+                                            Pokemon temp = pokemon2;//hold original pokemon2 at temp
+                                            pokemon2 = poke;//set pokemon2 to chosen pokemon
+                                            if (pos == 1) {//if chosen pokemon's original slot is pokemon1, then set pokemon1 to temp
+                                                pokemon1 = temp;
+                                            } else if (pos == 3) {//if chosen pokemon's original slot is pokemon3, then set pokemon3 to temp
+                                                pokemon3 = temp;
+                                            } else if (pos == 4) {//if chosen pokemon's original slot is pokemon4, then set pokemon4 to temp
+                                                pokemon4 = temp;
+                                            } else if (pos == 5) {//if chosen pokemon's original slot is pokemon5, then set pokemon5 to temp
+                                                pokemon5 = temp;
+                                            } else if (pos == 6) {//if chosen pokemon's original slot is pokemon6, then set pokemon6 to temp
+                                                pokemon6 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));
+                                            System.out.println("Position swapped");//print position swapped message
+                                            break all;//edn the all loop
+                                        } else if (pokemon2 != null && pos == 2) {//pokemon2 exists but the pokemon chosen is pokemon2
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon2 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon2 != null && pos == 2) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 3:
-                                    if (pokemon3 != null && pos != 3) {
-                                        Pokemon temp = pokemon3;
-                                        pokemon3 = poke;
-                                        if (pos == 1) {
-                                            pokemon1 = temp;
-                                        } else if (pos == 2) {
-                                            pokemon2 = temp;
-                                        } else if (pos == 4) {
-                                            pokemon4 = temp;
-                                        } else if (pos == 5) {
-                                            pokemon5 = temp;
-                                        } else if (pos == 6) {
-                                            pokemon6 = temp;
+                                    case 3://if player choose to swap chosen pokemon slot with pokemon3
+                                        if (pokemon3 != null && pos != 3) {//if pokemon3 exists and chosen pokemon is not pokemon3
+                                            Pokemon temp = pokemon3; //hold original pokemon3 at temp
+                                            pokemon3 = poke;//set pokemon3 to chosen pokemon
+                                            if (pos == 1) {//if chosen pokemon's original slot is pokemon1, then set pokemon1 to temp
+                                                pokemon1 = temp;
+                                            } else if (pos == 2) {//if chosen pokemon's original slot is pokemon2, then set pokemon2 to temp
+                                                pokemon2 = temp;
+                                            } else if (pos == 4) {//if chosen pokemon's original slot is pokemon4, then set pokemon4 to temp
+                                                pokemon4 = temp;
+                                            } else if (pos == 5) {//if chosen pokemon's original slot is pokemon5, then set pokemon5 to temp
+                                                pokemon5 = temp;
+                                            } else if (pos == 6) {//if chosen pokemon's original slot is pokemon6, then set pokemon6 to temp
+                                                pokemon6 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));
+                                            System.out.println("Position swapped");//print position swapped message
+                                            break all;//end the all loop
+                                        } else if (pokemon3 != null && pos == 3) {//pokemon3 exists but the pokemon chosen is pokemon3
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon3 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon3 != null && pos == 3) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 4:
-                                    if (pokemon4 != null && pos != 4) {
-                                        Pokemon temp = pokemon4;
-                                        pokemon4 = poke;
-                                        if (pos == 1) {
-                                            pokemon1 = temp;
-                                        } else if (pos == 2) {
-                                            pokemon2 = temp;
-                                        } else if (pos == 3) {
-                                            pokemon3 = temp;
-                                        } else if (pos == 5) {
-                                            pokemon5 = temp;
-                                        } else if (pos == 6) {
-                                            pokemon6 = temp;
+                                    case 4://if player choose to swap chosen pokemon slot with pokemon4
+                                        if (pokemon4 != null && pos != 4) {//if pokemon4 exists and chosen pokemon is not pokemon4
+                                            Pokemon temp = pokemon4;//hold original pokemon4 at temp
+                                            pokemon4 = poke;//set pokemon4 to chosen pokemon
+                                            if (pos == 1) {//if chosen pokemon's original slot is pokemon1, then set pokemon1 to temp
+                                                pokemon1 = temp;
+                                            } else if (pos == 2) {//if chosen pokemon's original slot is pokemon2, then set pokemon2 to temp
+                                                pokemon2 = temp;
+                                            } else if (pos == 3) {//if chosen pokemon's original slot is pokemon3, then set pokemon3 to temp
+                                                pokemon3 = temp;
+                                            } else if (pos == 5) {//if chosen pokemon's original slot is pokemon5, then set pokemon5 to temp
+                                                pokemon5 = temp;
+                                            } else if (pos == 6) {//if chosen pokemon's original slot is pokemon6, then set pokemon6 to temp
+                                                pokemon6 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));
+                                            System.out.println("Position swapped");//print position swapped message
+                                            break all;//end the all loop
+                                        } else if (pokemon4 != null && pos == 4) {//pokemon4 exists but the pokemon chosen is pokemon4
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon4 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon4 != null && pos == 4) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 5:
-                                    if (pokemon5 != null && pos != 5) {
-                                        Pokemon temp = pokemon5;
-                                        pokemon5 = poke;
-                                        if (pos == 1) {
-                                            pokemon1 = temp;
-                                        } else if (pos == 2) {
-                                            pokemon2 = temp;
-                                        } else if (pos == 3) {
-                                            pokemon3 = temp;
-                                        } else if (pos == 4) {
-                                            pokemon4 = temp;
-                                        } else if (pos == 6) {
-                                            pokemon6 = temp;
+                                    case 5://if player choose to swap chosen pokemon slot with pokemon5
+                                        if (pokemon5 != null && pos != 5) {//if pokemon5 exists and chosen pokemon is not pokemon5
+                                            Pokemon temp = pokemon5;//hold original pokemon5 at temp
+                                            pokemon5 = poke;//set pokemon5 to chosen pokemon
+                                            if (pos == 1) {//if chosen pokemon's original slot is pokemon1, then set pokemon1 to temp
+                                                pokemon1 = temp;
+                                            } else if (pos == 2) {//if chosen pokemon's original slot is pokemon2, then set pokemon2 to temp
+                                                pokemon2 = temp;
+                                            } else if (pos == 3) {//if chosen pokemon's original slot is pokemon3, then set pokemon3 to temp
+                                                pokemon3 = temp;
+                                            } else if (pos == 4) {//if chosen pokemon's original slot is pokemon4, then set pokemon4 to temp
+                                                pokemon4 = temp;
+                                            } else if (pos == 6) {//if chosen pokemon's original slot is pokemon6, then set pokemon6 to temp
+                                                pokemon6 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));
+                                            System.out.println("Position swapped");//print position swapped message
+                                            break all;//end the all loop
+                                        } else if (pokemon5 != null && pos == 5) {//pokemon5 exists but the pokemon chosen is pokemon5
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon5 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon5 != null && pos == 5) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 6:
-                                    if (pokemon6 != null && pos != 6) {
-                                        Pokemon temp = pokemon6;
-                                        pokemon6 = poke;
-                                        if (pos == 1) {
-                                            pokemon1 = temp;
-                                        } else if (pos == 2) {
-                                            pokemon2 = temp;
-                                        } else if (pos == 3) {
-                                            pokemon3 = temp;
-                                        } else if (pos == 4) {
-                                            pokemon4 = temp;
-                                        } else if (pos == 5) {
-                                            pokemon5 = temp;
+                                    case 6://if player choose to swap chosen pokemon slot with pokemon6
+                                        if (pokemon6 != null && pos != 6) {//if pokemon6 exists and chosen pokemon is not pokemon6
+                                            Pokemon temp = pokemon6;//hold original pokemon6 at temp
+                                            pokemon6 = poke;//set pokemon6 to chosen pokemon
+                                            if (pos == 1) {//if chosen pokemon's original slot is pokemon1, then set pokemon1 to temp
+                                                pokemon1 = temp;
+                                            } else if (pos == 2) {//if chosen pokemon's original slot is pokemon2, then set pokemon2 to temp
+                                                pokemon2 = temp;
+                                            } else if (pos == 3) {//if chosen pokemon's original slot is pokemon3, then set pokemon3 to temp
+                                                pokemon3 = temp;
+                                            } else if (pos == 4) {//if chosen pokemon's original slot is pokemon4, then set pokemon4 to temp
+                                                pokemon4 = temp;
+                                            } else if (pos == 5) {//if chosen pokemon's original slot is pokemon5, then set pokemon5 to temp
+                                                pokemon5 = temp;
+                                            }
+                                            System.out.printf("+%s+\n", "-".repeat(90));
+                                            System.out.println("Position swapped");//print position swapped message
+                                            break all;//end the all loop
+                                        } else if (pokemon6 != null && pos == 6) {//pokemon6 exists but the pokemon chosen is pokemon6
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid beacuse this slot is its original slot");
+                                            break;
+                                        } else {//if pokemon6 slot is empty
+                                            System.out.printf("+%s+\n", "-".repeat(90));//display invalid swap message and reason
+                                            System.out.println("This swap is invalid because this slot does not have a pokemon");
+                                            break;
                                         }
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("Position swapped");
-                                        break all;
-                                    } else if (pokemon6 != null && pos == 6) {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid beacuse this slot is its original slot");
-                                        break;
-                                    } else {
-                                        System.out.printf("+%s+\n", "-".repeat(90));
-                                        System.out.println("This swap is invalid because this slot does not have a pokemon");
-                                        break;
-                                    }
-                                case 7:
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice! Please choose again.");
+                                    case 7://cancel swap
+                                        break swap;//end the swap loop
+                                    default://if invalid choice is entered, display the message below
+                                        System.out.println("Invalid choice! Please choose again.");
+                                }
+                            } else {
+                                System.out.println("Invalid choice! Please choose again.");
                             }
-                        } else {
-                            System.out.println("Invalid choice! Please choose again.");
                         }
                         break;
-                    case 4:
-                        break all;
-                    default:
+                    case 4://if player choose to go back to last selection page
+                        break all;//end the all loop
+                    default://if invalid choice is entered, display the message below
                         System.out.println("Invalid choice! Please choose again.");
                 }
             } else {
@@ -940,20 +909,20 @@ public class Player {
         }
     }
 
-    public void bag() {
+    public void bag() { //a method to enable player check and use items in bag
         Scanner input = new Scanner(System.in);
-        all:
+        all://the all loop will not end unless player choose to stop checking and using items
         while (true) {
-            System.out.printf("+%s+\n", "-".repeat(90));
+            System.out.printf("+%s+\n", "-".repeat(90)); //display all items and their numbers in the player's bag
             System.out.println("+--------------------Bag--------------------+");
             showitems();
             System.out.println("+--------------------End of Bag--------------------+");
-            System.out.println("Choose an item(1-11)/12 to exit");
-            String choice_st = input.nextLine();
-            if (isNum(choice_st)) {
-                int choice = Integer.parseInt(choice_st);
+            System.out.println("Choose an item(1-11)/12 to exit");//prompt user to enter choice
+            String choice_st = input.nextLine();//receive choice
+            if (isNum(choice_st)) {//check choice format
+                int choice = Integer.parseInt(choice_st);//turn choice into integer
                 switch (choice) {
-                    case 1:
+                    case 1: //call choiceitem(String s) method and put the names of each choice's corresponding items as parameter, the method is to check and use a specific item
                         choiceitem("Poke Ball");
                         break;
                     case 2:
@@ -986,8 +955,8 @@ public class Player {
                     case 11:
                         choiceitem("Revive");
                         break;
-                    case 12:
-                        break all;
+                    case 12://if user chooses 12 to go back to last selection page
+                        break all;//end the all loop
                     default:
                         System.out.println("Invalid choice! Please choose again.");
                 }
@@ -997,11 +966,11 @@ public class Player {
         }
     }
 
-    public void choiceitem(String it) {
+    public void choiceitem(String it) { //a method to let player check and use a specific item
         System.out.printf("+%s+\n", "-".repeat(90));
         Scanner input = new Scanner(System.in);
         switch (it) {
-            case "Poke Ball":
+            case "Poke Ball": //this is supposed to be checking team while not in battle, hence all balls(Poke Ball, Great Ball, Ultra Ball) used will output "No effect"
                 System.out.println("An item that can catch a wild pokemon, can be only used in battle, against wild pokemons");
                 System.out.println("You have: " + items.get("Poke Ball"));
                 break;
@@ -1013,17 +982,17 @@ public class Player {
                 System.out.println("An item that can catch a wild pokemon at a very high rate, can be only used in battle, against wild pokemons");
                 System.out.println("You have: " + items.get("Ultra Ball"));
                 break;
-            case "Potion":
-                System.out.println("An item that can heal a pokemon for " + library.pokemon_items.get(it).get("heal") + " hp");
-                System.out.println("You have: " + items.get("Potion"));
-                if (items.get("Potion") != 0) {
-                    while (true && items.get("Potion") != 0) {
+            case "Potion"://if Potion is the chosen item
+                System.out.println("An item that can heal a pokemon for " + library.pokemon_items.get(it).get("heal") + " hp");//show the item detail
+                System.out.println("You have: " + items.get("Potion"));//show number of Potion left
+                if (items.get("Potion") != 0) { //if the number of Potion is not 0
+                    while (true && items.get("Potion") != 0) { //while there are still Potions left, this loop enables player to use multiple Potions until Potions is 0
                         System.out.printf("+%s+\n", "-".repeat(90));
-                        System.out.println("You have: " + items.get("Potion") + " Potions");
-                        System.out.println("Do you want to use it(y/n)? On which pokemon(1-6)? e.g: y1 to use at pokemon 1,n to not use and exit");
-                        showteam();
-                        String line = input.nextLine();
-                        if (line.length() != 0) {
+                        System.out.println("You have: " + items.get("Potion") + " Potions"); //show number of Potions left
+                        System.out.println("Do you want to use it(y/n)? On which pokemon(1-6)? e.g: y1 to use at pokemon 1,n to not use and exit"); //prompt user to enter choice
+                        showteam();//show all pokemons in team
+                        String line = input.nextLine();//receive all choice
+                        if (line.length() != 0) { //
                             if (line.charAt(0) == 'y' && line.length() == 2) {
                                 int poke = line.charAt(1) - '0';
                                 System.out.println("Selected pokemon on slot: " + poke);
