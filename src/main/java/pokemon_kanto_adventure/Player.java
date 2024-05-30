@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player {
-
+    //System.out.printf("+%s+\n", "-".repeat(90)); is the code for displaying a separating line
     private String name; //name of the player
     private String[] badges = new String[8]; //badges of the player
     private int numofbadge; //numberofbadge of the player
@@ -20,7 +20,7 @@ public class Player {
     private int rivalracewins; //number of rivalrace won
     private int battlewon; //number of battle won
     private ArrayList<Pokemon> PC; //pokemons in PC
-    private String currentCity;//currentCity of player
+    private String currentCity;//current location of player
 
     public Player(String n) { //create a new player with name
         name = n; //set name to n
@@ -986,38 +986,38 @@ public class Player {
                 System.out.println("An item that can heal a pokemon for " + library.pokemon_items.get(it).get("heal") + " hp");//show the item detail
                 System.out.println("You have: " + items.get("Potion"));//show number of Potion left
                 if (items.get("Potion") != 0) { //if the number of Potion is not 0
-                    while (true && items.get("Potion") != 0) { //while there are still Potions left, this loop enables player to use multiple Potions until Potions is 0
+                    while (true && items.get("Potion") != 0) { //while there are still Potions left, this loop enables player to use multiple Potions until Potions is 0 or cancel the use
                         System.out.printf("+%s+\n", "-".repeat(90));
                         System.out.println("You have: " + items.get("Potion") + " Potions"); //show number of Potions left
                         System.out.println("Do you want to use it(y/n)? On which pokemon(1-6)? e.g: y1 to use at pokemon 1,n to not use and exit"); //prompt user to enter choice
                         showteam();//show all pokemons in team
-                        String line = input.nextLine();//receive all choice
-                        if (line.length() != 0) { //
-                            if (line.charAt(0) == 'y' && line.length() == 2) {
-                                int poke = line.charAt(1) - '0';
-                                System.out.println("Selected pokemon on slot: " + poke);
+                        String line = input.nextLine();//receive choice
+                        if (line.length() != 0) { //check line format
+                            if (line.charAt(0) == 'y' && line.length() == 2) { //if line starts with y and have a length of 2, that means it is an acceptable format
+                                int poke = line.charAt(1) - '0'; //determine the slot of the chosen pokemon
+                                System.out.println("Selected pokemon on slot: " + poke); //display message of which pokemon is selected
                                 switch (poke) {
-                                    case 1:
-                                        if (pokemon1 != null) {
-                                            if (pokemon1.findcurrenthp() == pokemon1.findmaxhp()) {
-                                                System.out.printf("+%s+\n", "-".repeat(90));
+                                    case 1://pokemon1 is selected
+                                        if (pokemon1 != null) {//if pokemon1 exist
+                                            if (pokemon1.findcurrenthp() == pokemon1.findmaxhp()) {//if pokemon1 is at full hp, Potion, Super Potion, Hyper Potion and Max Potion will not have any effect on the pokemon
+                                                System.out.printf("+%s+\n", "-".repeat(90));//display the message below
                                                 System.out.println("This item has no effect on a pokemon with full hp");
                                             } else {
-                                                if (pokemon1.isFaint()) {
+                                                if (pokemon1.isFaint()) {//if pokemon1 is fainted, Potion, Super Potion, Hyper Potion and Max Potion will not have any effect on the pokemon
                                                     System.out.println("This item has no effect on a fainted pokemon, please revive it first");
-                                                } else {
-                                                    System.out.println("You used a Potion on " + pokemon1.findname());
-                                                    pokemon1.heal(library.pokemon_items.get(it).get("heal"));
-                                                    int old = items.get("Potion");
+                                                } else { //if pokemon1 is not fainted and not at fullhp
+                                                    System.out.println("You used a Potion on " + pokemon1.findname());//display item used message
+                                                    pokemon1.heal(library.pokemon_items.get(it).get("heal"));//heal the pokemon with the fixed amount of healing Potion provides
+                                                    int old = items.get("Potion");//reduce the number of potion in the player's bag
                                                     items.replace("Potion", old, old - 1);
                                                 }
                                             }
-                                        } else {
+                                        } else { //if pokemon1 slot is empty
                                             System.out.printf("+%s+\n", "-".repeat(90));
                                             System.out.println("This pokemon slot is empty");
                                         }
                                         break;
-                                    case 2:
+                                    case 2://same thing happens in case 1 happens in case2-6, changing pokemon1 to pokemon2-6 respectively
                                         if (pokemon2 != null) {
                                             if (pokemon2.findcurrenthp() == pokemon2.findmaxhp()) {
                                                 System.out.printf("+%s+\n", "-".repeat(90));
@@ -1121,22 +1121,22 @@ public class Player {
                                         System.out.println("Invalid choice! Please choose again.");
                                         break;
                                 }
-                            } else if (line.charAt(0) == 'n') {
-                                break;
-                            } else {
+                            } else if (line.charAt(0) == 'n') { //if player enters n to cancel the use
+                                break;//end the loop
+                            } else { //if choice is invalid, display message below
                                 System.out.println("Invalid choice! Please choose again.");
                             }
                         } else {
                             System.out.println("Invalid choice! Please choose again.");
                         }
                     }
-                    if (items.get("Potion") == 0) {
+                    if (items.get("Potion") == 0) { //if there are no more Potion in the player's bag, display the message below
                         System.out.printf("+%s+\n", "-".repeat(90));
                         System.out.println("You don't have any Potions left");
                     }
                 }
                 break;
-            case "Super Potion":
+            case "Super Potion": //same thing happened in case "Potion" will happen in case "Super Potion" and "Hyper Potion", only changing Potion to Super Potion and Hyper Potion respectively
                 System.out.println("An item that can heal a pokemon for " + library.pokemon_items.get(it).get("heal") + " hp");
                 System.out.println("You have: " + items.get("Super Potion"));
                 if (items.get("Super Potion") != 0) {
@@ -1444,7 +1444,7 @@ public class Player {
                     }
                 }
                 break;
-            case "Max Potion":
+            case "Max Potion"://same thing happened in case "Potion" also happens in this case, changing Potion to Max Potion and heal() method to fullheal() method for reasons's explained in pokechoice() method
                 System.out.println("An item that can heal a pokemon until its full hp");
                 System.out.println("You have: " + items.get("Max Potion"));
                 if (items.get("Max Potion") != 0) {
@@ -1598,7 +1598,7 @@ public class Player {
                     }
                 }
                 break;
-            case "X Attack":
+            case "X Attack": //X Attack, X Defend, X Speed will not have any effect outside of battle
                 System.out.println("An item that can increase a pokemon's attack by 1 stage in battle, can be only used in battle");
                 System.out.println("You have: " + items.get("X Attack"));
                 break;
@@ -1610,38 +1610,38 @@ public class Player {
                 System.out.println("An item that can increase a pokemon's speed by 1 stage in battle, can be only used in battle");
                 System.out.println("You have: " + items.get("X Speed"));
                 break;
-            case "Revive":
-                System.out.println("An item that can revive a fainted pokemon with half of its hp");
-                System.out.println("You have: " + items.get("Revive"));
-                if (items.get("Revive") != 0) {
-                    while (true && items.get("Revive") != 0) {
-                        System.out.printf("+%s+\n", "-".repeat(90));
-                        System.out.println("You have: " + items.get("Revive") + " Revives");
-                        System.out.println("Do you want to use it(y/n)? On which pokemon(1-6)? e.g: y1 to use at pokemon 1,n to not use and exit");
-                        showteam();
-                        String line = input.nextLine();
-                        if (line.length() != 0) {
-                            if (line.charAt(0) == 'y' && line.length() == 2) {
-                                int poke = line.charAt(1) - '0';
-                                System.out.println("Selected pokemon on slot: " + poke);
+            case "Revive": //if Revive is chosen
+                System.out.println("An item that can revive a fainted pokemon with half of its hp"); //display description of Revive
+                System.out.println("You have: " + items.get("Revive"));//show the number of Revive in player's bag
+                if (items.get("Revive") != 0) { //if the number of Revive is not 0
+                    while (true && items.get("Revive") != 0) {//while Revive is not 0, same purpose as while(items.get("Potion")!=0)
+                        System.out.printf("+%s+\n", "-".repeat(90)); 
+                        System.out.println("You have: " + items.get("Revive") + " Revives");//display the number of Revive
+                        System.out.println("Do you want to use it(y/n)? On which pokemon(1-6)? e.g: y1 to use at pokemon 1,n to not use and exit");//prompt user to enter choice
+                        showteam();//dislay all the pokemon's in the team
+                        String line = input.nextLine();//receive choice
+                        if (line.length() != 0) { //check choice format
+                            if (line.charAt(0) == 'y' && line.length() == 2) { //if choice starts with y and length is 2
+                                int poke = line.charAt(1) - '0'; //determine the slot of the pokemon chosen using second character of choice
+                                System.out.println("Selected pokemon on slot: " + poke);//display the selected pokemon
                                 switch (poke) {
                                     case 1:
-                                        if (pokemon1 != null) {
-                                            if (!pokemon1.isFaint()) {
+                                        if (pokemon1 != null) {//if pokemon1 exists
+                                            if (!pokemon1.isFaint()) {//if pokemon1 is not fainted, Revive will not have any effect on it
                                                 System.out.printf("+%s+\n", "-".repeat(90));
                                                 System.out.println("This item has no effect on a pokemon that is not fainted");
-                                            } else {
-                                                System.out.println("You used a Revive on " + pokemon1.findname());
-                                                pokemon1.revive();
-                                                int old = items.get("Revive");
+                                            } else {//if pokemon1 is fainted
+                                                System.out.println("You used a Revive on " + pokemon1.findname());//display Revive is used message
+                                                pokemon1.revive(); //pokemon1 is revived
+                                                int old = items.get("Revive");//reduce the number of Revive by 1
                                                 items.replace("Revive", old, old - 1);
                                             }
-                                        } else {
+                                        } else {//if pokemon1 does not exist
                                             System.out.printf("+%s+\n", "-".repeat(90));
                                             System.out.println("This pokemon slot is empty");
                                         }
                                         break;
-                                    case 2:
+                                    case 2://same thing happened in case1 will happen in case2-6, changing pokemon1 to pokemon2-6 respectively
                                         if (pokemon2 != null) {
                                             if (!pokemon2.isFaint()) {
                                                 System.out.printf("+%s+\n", "-".repeat(90));
@@ -1721,12 +1721,12 @@ public class Player {
                                             System.out.println("This pokemon slot is empty");
                                         }
                                         break;
-                                    default:
+                                    default://if choice is invalid, display message below
                                         System.out.println("Invalid choice! Please choose again.");
                                         break;
                                 }
-                            } else if (line.charAt(0) == 'n') {
-                                break;
+                            } else if (line.charAt(0) == 'n') {//if player chooses n to cancel the use of item
+                                break;//end the loop
                             } else {
                                 System.out.println("Invalid choice! Please choose again.");
                             }
@@ -1734,7 +1734,7 @@ public class Player {
                             System.out.println("Invalid choice! Please choose again.");
                         }
                     }
-                    if (items.get("Revive") == 0) {
+                    if (items.get("Revive") == 0) {//if there are no more Revives left
                         System.out.printf("+%s+\n", "-".repeat(90));
                         System.out.println("You don't have any Revives left");
                     }
@@ -1743,19 +1743,19 @@ public class Player {
         }
     }
 
-    public boolean isNum(String s) {
-        try {
+    public boolean isNum(String s) { //a method to check whether a String object can be turned into integer
+        try { //try turning
             int ss = Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
+            return true; //if could return true
+        } catch (NumberFormatException nfe) {//if could not and error is caught
+            return false;//return false
         }
     }
 
-    public void allhealup() {
-        System.out.println("All your pokemons have been healed to their best status");
-        if (pokemon1 != null) {
-            pokemon1.fullres();
+    public void allhealup() { //heal all pokemons in the team to full hp and recover from fainted to not fainted
+        System.out.println("All your pokemons have been healed to their best status"); //display all heal message
+        if (pokemon1 != null) {//full restore all existing pokemons in the team
+            pokemon1.fullres(); 
         }
         if (pokemon2 != null) {
             pokemon2.fullres();
@@ -1774,30 +1774,30 @@ public class Player {
         }
     }
 
-    public void alterPC(Player player) {
+    public void alterPC(Player player) { //method that allows player to check pokemons in PC
         Scanner input = new Scanner(System.in);
-        if (PC.isEmpty()) {
+        if (PC.isEmpty()) { //if there is nothing in the PC
             System.out.println("Your PC is empty.");
-        } else {
-            all:
+        } else {//if there is Pokemons in the PC
+            all://all loop will not end unless player cancel the use of PC and go back to last selection page
             while (true) {
                 System.out.println("+--------------------PC--------------------+");
                 for (int i = 0; i < PC.size(); i++) {
-                    Pokemon poke = PC.get(i);
+                    Pokemon poke = PC.get(i);//display all pokemons in the PC and their levels
                     System.out.println((i + 1) + ". " + poke.findname() + " [ level " + poke.findlvl() + " ] ");
                 }
-                System.out.println((PC.size() + 1) + ". Back");
-                System.out.print("Enter your choice: ");
-                String choice_st = input.nextLine();
-                if (isNum(choice_st)) {
-                    int choice = Integer.parseInt(choice_st);
-                    if (choice <= PC.size() && choice > 0) {
-                        Pokemon poke = PC.get(choice - 1);
-                        System.out.println("You chose: " + poke.findname() + " [ level " + poke.findlvl() + " ] ");
-                        PCpokeChoice(poke);
-                    } else if (choice == PC.size() + 1) {
-                        break all;
-                    } else {
+                System.out.println((PC.size() + 1) + ". Back");//display a Back choice
+                System.out.print("Enter your choice: ");//prompt user to enter choice
+                String choice_st = input.nextLine();//receive choice
+                if (isNum(choice_st)) {//check choice format
+                    int choice = Integer.parseInt(choice_st); //turn choice into integer
+                    if (choice <= PC.size() && choice > 0) { //if choice range is within PC's size, which is the number of Pokemon in PC
+                        Pokemon poke = PC.get(choice - 1);//set poke to the pokemon chosen
+                        System.out.println("You chose: " + poke.findname() + " [ level " + poke.findlvl() + " ] ");//print out the chosen pokemon
+                        PCpokeChoice(poke);//call PCpokeChoice method that allows player to make actions on the selected Pokemon
+                    } else if (choice == PC.size() + 1) {//if user choose to go back to last selection page
+                        break all; //end the all loop
+                    } else { //if choice is invalid, display the message below
                         System.out.println("Invalid choice, please choose again");
                     }
                 } else {
@@ -1807,52 +1807,53 @@ public class Player {
         }
     }
 
-    public void PCpokeChoice(Pokemon poke) {
+    public void PCpokeChoice(Pokemon poke) { //a method that allows player to make actions on chosen pokemon in PC
         Scanner input = new Scanner(System.in);
-        System.out.println("+--------------------Pokemon info--------------------+");
+        System.out.println("+--------------------Pokemon info--------------------+");//display the info of the Pokemon
         poke.showPokemonInfo();
-        System.out.println("Do you want to withdraw this pokemon(y-yes/other input-no and go back)?");
-        String choice = input.nextLine();
-        if (choice.equals("y")) {
-            if (pokemon1 == null) {
+        System.out.println("Do you want to withdraw this pokemon(y-yes/other input-no and go back)?");//ask if player wants to withdraw the pokemon
+        String choice = input.nextLine();//receive choice
+        if (choice.equals("y")) { //if choice is y
+            if (pokemon1 == null) { //if pokemon1 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 1.");
-                pokemon1 = poke;
+                pokemon1 = poke;//withdrew to pokemon to pokemon1
                 PC.remove(poke);
-            } else if (pokemon2 == null) {
+            } else if (pokemon2 == null) {//if pokemon2 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 2.");
-                pokemon2 = poke;
+                pokemon2 = poke;//withdrew the pokemon to pokemon2
                 PC.remove(poke);
-            } else if (pokemon3 == null) {
+            } else if (pokemon3 == null) {//if pokemon3 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 3.");
-                pokemon3 = poke;
+                pokemon3 = poke;//withdrew the pokemon to pokemon3
                 PC.remove(poke);
-            } else if (pokemon4 == null) {
+            } else if (pokemon4 == null) {//if pokemon4 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 4.");
-                pokemon4 = poke;
+                pokemon4 = poke;//withdrew the pokemon to pokemon4
                 PC.remove(poke);
-            } else if (pokemon5 == null) {
+            } else if (pokemon5 == null) {//if pokemon5 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 5.");
-                pokemon5 = poke;
+                pokemon5 = poke;//withdrew the pokemon to pokemon5
                 PC.remove(poke);
-            } else if (pokemon6 == null) {
+            } else if (pokemon6 == null) {//if pokemon6 is empty
                 System.out.println("You successfully withdrew this pokemon to pokemon slot 6.");
-                pokemon6 = poke;
+                pokemon6 = poke;//withdrew the pokemon to pokemon6
                 PC.remove(poke);
-            } else {
-                swapp:
+            } else {//if team is true
+                swapp://the swapp loop will not end unless player make a swap between the pokemon in PC and a pokemon in the team, or cancel the swap
                 while (true) {
-                    System.out.println("Your team is full. Which pokemon do you want to swap with?(1-6 to swap)/(7 to cancel)");
-                    String swap_st = input.nextLine();
-                    if (isNum(swap_st)) {
-                        int swap = Integer.parseInt(swap_st);
-                        switch (swap) {
-                            case 1:
+                    System.out.println("Your team is full. Which pokemon do you want to swap with?(1-6 to swap)/(7 to cancel)"); //prompt user to enter a choice
+                    String swap_st = input.nextLine();//receive choice
+                    if (isNum(swap_st)) {//check choice format
+                        int swap = Integer.parseInt(swap_st);//turn choice into integer
+                        switch (swap) { 
+                            case 1://if player choose to swap with pokemon1
+                                //display the swap information
                                 System.out.println("You swapped " + poke.findname() + " [ level " + poke.findlvl() + " ] with " + pokemon1.findname() + " [ level " + pokemon1.findlvl() + " ] ");
-                                Pokemon temp = pokemon1;
-                                pokemon1 = poke;
-                                PC.set(PC.indexOf(poke), temp);
-                                break swapp;
-                            case 2:
+                                Pokemon temp = pokemon1;//set temp to hold pokemon1
+                                pokemon1 = poke;//set pokemon1 to the chosen PC pokemon
+                                PC.set(PC.indexOf(poke), temp);//put the original pokemon1 into the original position of the PC pokemon
+                                break swapp;//end the swapp loop
+                            case 2://case2-6 is same as case1 only changing pokemon 1 to pokemon2-6 respectively
                                 System.out.println("You swapped " + poke.findname() + " [ level " + poke.findlvl() + " ] with " + pokemon2.findname() + " [ level " + pokemon2.findlvl() + " ] ");
                                 temp = pokemon2;
                                 pokemon2 = poke;
@@ -1882,8 +1883,8 @@ public class Player {
                                 pokemon6 = poke;
                                 PC.set(PC.indexOf(poke), temp);
                                 break swapp;
-                            case 7:
-                                break swapp;
+                            case 7://if player enters 7 to cancel the swap
+                                break swapp;//end the swapp loop
                             default:
                                 System.out.println("Invalid choice! Please choose again.");
                         }
@@ -1895,37 +1896,37 @@ public class Player {
         }
     }
 
-    public int getNumberofBadges() {
+    public int getNumberofBadges() { //return numofbadge
         return numofbadge;
     }
 
-    public void setBadges(String[] badges) {
+    public void setBadges(String[] badges) { //set badges[]
         this.badges = badges;
     }
 
-    public void setNumberofBadges(int numofbadge) {
+    public void setNumberofBadges(int numofbadge) {//set numofbadge
         this.numofbadge = numofbadge;
     }
 
 
-    public void setItems(HashMap<String, Integer> items) {
+    public void setItems(HashMap<String, Integer> items) { //set HashMap of items
         this.items = items;
     }
 
-    public void setRivalwins(int rivalracewins) {
+    public void setRivalwins(int rivalracewins) {//set rivalracewins
         this.rivalracewins = rivalracewins;
     }
 
-    public void setVictories(int battlewon) {
+    public void setVictories(int battlewon) {//set battlewon
         this.battlewon = battlewon;
     }
 
-    public void setPC(ArrayList<Pokemon> pc) {
+    public void setPC(ArrayList<Pokemon> pc) { //set PC
         this.PC = pc;
     }
 
 
-    public void setCurrentCity(String currentCity) {
+    public void setCurrentCity(String currentCity) {//set currentCity
         this.currentCity = currentCity;
     }
 }
