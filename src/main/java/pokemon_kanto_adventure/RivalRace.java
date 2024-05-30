@@ -12,39 +12,42 @@ public class RivalRace {
     };
     private static final String source = "Saffron City";
     private String Destination;
-    private static Stack<String>locationStack; 
+    private static Stack<String> locationStack;
 
     public RivalRace() {
         Random r = new Random();
         Destination = raceDestinations[r.nextInt(raceDestinations.length)];
-        System.out.printf("+%s+\n","-".repeat(90));
+        System.out.printf("+%s+\n", "-".repeat(90));
         System.out.printf("The battle has begun! Your ricval Gary has challenged you to a race to %s.\n", Destination);
         locationStack = new Stack<>();
     }
-    public String getDestination(){
+
+    public String getDestination() {
         return Destination;
     }
-    public Stack<String> getStack(){
+
+    public Stack<String> getStack() {
         return locationStack;
     }
+
     public void simulation() {
         System.out.println("Shortest Path:");
         ArrayList<String> shortestPath = dijkstra(source, Destination);
         PrintPath(shortestPath);
-        for(int i = shortestPath.size()-1;i>0;i--){
+        for (int i = shortestPath.size() - 1; i > 0; i--) {
             locationStack.push(shortestPath.get(i));
         }
         System.out.println();
         System.out.println("Goodluck on your race!");
-        
+
     }
 
-    private void PrintPath(ArrayList<String> path){
+    private void PrintPath(ArrayList<String> path) {
         StringBuilder sb = new StringBuilder();
-        for(String location : path){
+        for (String location : path) {
             sb.append(location).append(" -> ");
         }
-        sb.setLength(sb.length()-3);
+        sb.setLength(sb.length() - 3);
         System.out.println(sb.toString());
     }
 

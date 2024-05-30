@@ -327,25 +327,126 @@ public class Pokemon_Kanto_Adventure {
         return null;
     }
 
-    public static void guides() {
-        Scanner sc = new Scanner(System.in);
-        String choice;
-        System.out.printf("+%s+\n","-".repeat(90));
-        System.out.printf("|%s%s%s|\n"," ".repeat(39),"Game Guides:"," ".repeat(39));
-        System.out.printf("+%s+\n","-".repeat(90));
-        System.out.printf("|%-90s|\n"," 1. How to move to different cities");
-        System.out.printf("|%-90s|\n"," 2. How to use the Pokémon Center");
-        System.out.printf("|%-90s|\n"," 3. How to shop at the Poké Mart ");
-        System.out.printf("|%-90s|\n"," 4. How to battle wild Pokémon");
-        System.out.printf("|%-90s|\n"," 5. How to manage your Pokémon team");
-        System.out.printf("|%-90s|\n"," 6. How to access your bag ");
-        System.out.printf("|%-90s|\n"," 7. How to view your badges ");
-        System.out.printf("|%-90s|\n"," 8. How to view your profile");
-        System.out.printf("|%-90s|\n"," 9. How to save and exit the game");
-        System.out.printf("+%s+\n","-".repeat(90));
-        System.out.print("Your choice (Enter 0 to exit): ");
-        choice = sc.nextLine();
-        System.out.printf("+%s+\n","-".repeat(90));
+    public static void guides(){
+        Scanner input = new Scanner(System.in);
+        loop:
+        while(true){
+            System.out.println("+--------------------Guides--------------------+");
+            System.out.println("1. List of all pokemons");
+            System.out.println("2. Typings and their weaknessess and resistance");
+            System.out.println("3. Stats, move order and battle selections");
+            System.out.println("4. Catching pokemons");
+            System.out.println("5. Gym battles, trainer battles and wild pokemon battles");
+            System.out.println("6. Back");
+            String choice = input.nextLine();
+            switch(choice){
+                case "1":
+                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.println(library.pokemonhp.keySet());
+                    break;
+                case "2":
+                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.println("1.normal:");
+                    System.out.println("  resistance - ghost(0x damage)");
+                    System.out.println("  weakness   - fighting(2x damage)");
+                    System.out.println("2.fire:");
+                    System.out.println("  resistance - fire,bug,grass,steel(0.5x damage)");
+                    System.out.println("  weakness   - water,ground,rock(2x damage)");
+                    System.out.println("3.water:");
+                    System.out.println("  resistance - fire,water,steel(0.5x damage)");
+                    System.out.println("  weakness   - electric,grass(2x damage)");
+                    System.out.println("4.electric:");
+                    System.out.println("  resistance - electric,flying,steel(0.5x damage)");
+                    System.out.println("  weakness   - ground(2x damage)");
+                    System.out.println("5.grass:");
+                    System.out.println("  resistance - water,electric,grass,ground(0.5x damage)");
+                    System.out.println("  weakness   - fire,poison,flying(2x damage)");
+                    System.out.println("6.fighting:");
+                    System.out.println("  resistance - bug,rock,dark(0.5x damage)");
+                    System.out.println("  weakness   - flying,psychic(2x damage)");
+                    System.out.println("7.poison:");
+                    System.out.println("  resistance - grass,fighting,poison,bug(0.5x damage)");
+                    System.out.println("  weakness   - ground,psychic(2x damage)");
+                    System.out.println("8.ground:");
+                    System.out.println("  resistance - poison,rock(0.5x damage); electric(0x damage)");
+                    System.out.println("  weakness   - water,grass(2x damage)");
+                    System.out.println("9.flying:");
+                    System.out.println("  resistance - grass,fighting,bug(0.5x damage); ground(0x damage)");
+                    System.out.println("  weakness   - electric,rock(2x damage)");
+                    System.out.println("10.psychic:");
+                    System.out.println("  resistance - fighting,psychic(0.5x damage)");
+                    System.out.println("  weakness   - bug,ghost,dark(2x damage)");
+                    System.out.println("11.bug:");
+                    System.out.println("  resistance - grass,fighting,ground(0.5x damage)");
+                    System.out.println("  weakness   - fire,flying,rock(2x damage)");
+                    System.out.println("12.rock:");
+                    System.out.println("  resistance - normal,fire,poison,flying(0.5x damage)");
+                    System.out.println("  weakness   - water,grass,fighting,ground,steel(2x damage)");
+                    System.out.println("13.steel:");
+                    System.out.println("  resistance - normal,grass,flying,psychic,bug,rock,ghost,dark,steel(0.5x damage); poison(0x damage)");
+                    System.out.println("  weakness   - fire,fighting,ground(2x damage)");
+                    System.out.println("Tips, when a pokemon uses a move that damages its opponent that have the same move type as either one of its type, the damage will increase by 50%");
+                    break;
+                case "3":
+                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.println("Stats:");
+                    System.out.println("You and your opponents' pokemons will have attack, defense, and speed stats during battles");
+                    System.out.println("The higher the attack stat, the higher the damage output of the pokemon and vice versa");
+                    System.out.println("The higher the defense stat, the lower the damage received from attacks and vice versa");
+                    System.out.println("Speed stats determines who moves first, if the move order of both pokemons are the same");
+                    System.out.println("Each pokemon have their own speed values, and this value could be altered during battles through the speed stat");
+                    System.out.println("After the speed is altered, if both pokemons have the same speed, a dice roll of 50/50 will happen, which means each pokemon have a 50% chance to move first");
+                    System.out.println("If a pokemon faints before its move, it will not use that move");
+                    System.out.println("Whenever you or your opponent switches pokemon, all these stats will reset, so when your stats is lowered to much, try switching pokemons to clear that debuff");
+                    System.out.println("");
+                    System.out.println("Move Order:");
+                    System.out.println("As mentioned in the 'Stats' part, there is a move order for all the moves, some moves have higher move order, which means the pokemon will use that move first");
+                    System.out.println("While some move have lower move order, which mostly powerful moves.");
+                    System.out.println("If a pokemon uses a move with a higher move order, the pokemon will move first regardless of both pokemons' speed stat and vice versa");
+                    System.out.println("");
+                    System.out.println("Battle selections:");
+                    System.out.println("You could choose to use items or swap pokemons during battles");
+                    System.out.println("Both actions will be executed first before your opponent uses a move, and your pokemon will not be able to move if you do any of those actions");
+                    System.out.println("To be specific, if you use an item on your pokemon, your pokemon is not able to make a move while your opponent is able to do so");
+                    System.out.println("If you attempt to catch a wild pokemon but it snapped out of the Poke Ball, the wild pokemon will still make a move, while your pokemon stays still");
+                    System.out.println("If you switched a pokemon, your pokemon that is just switched up will be the one who takes effect of the opponents' move");
+                    System.out.println("However, if you switched because of your battling pokemon is fainted, it is after the round, so this switching is safe and your opponent pokemon will not make a move");
+                    break;
+                case "4":
+                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.println("You can use Poke Balls, Great Balls and Ultra Balls in your bag to catch wild pokemons during battles with them");
+                    System.out.println("The lower the wild pokemons' hp the higher the chance of catching it.");
+                    System.out.println("However, you cannot catch another trainer's pokemon, please keep that in mind");
+                    System.out.println("You can buy these balls in the Poke Mart");
+                    System.out.println("Good Luck!");
+                    break;
+                case "5":
+                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.println("Gym battles:");
+                    System.out.println("There are 8 gyms in this game, with the difficulty of the gyms from low to high as below");
+                    System.out.println("Pewter City Gym < Cerulean Gym < Vermilion Gym < Celadon Gym < Fuchsia City Gym = Saffron City Gym < Cinnabar Island Gym < Viridian City Gym");
+                    System.out.println("To complete your journey, you have to defeat all 8 gym leaders and obtain all 8 gym badges from them");
+                    System.out.println("With Giovanni in Viridian City Gym as the strongest gym leader, you have to obtain all 7 other gym badges to prove that you are a worthy opponent for the final boss");
+                    System.out.println("All gyms can only be challenged once");
+                    System.out.println("");
+                    System.out.println("Trainer battles:");
+                    System.out.println("Aside from gym battles, there are trainers that would like to battle you, you can defeat their pokemons to earn xp and money");
+                    System.out.println("These trainers can be challenged more than one time");
+                    System.out.println("");
+                    System.out.println("Wild pokemon battles:");
+                    System.out.println("You can choose to fight different wild pokemons in different areas");
+                    System.out.println("The wild pokemon you encounter and their levels will be random based on the areas");
+                    System.out.println("You can use pokeballs to catch them or defeat them to gain xp for your pokemons");
+                    System.out.println("There is a special encounter, which is Snorlax, which you can choose in some areas");
+                    System.out.println("Snorlax is a super powerful pokemon, with high hp, strong moves but super slow speed");
+                    System.out.println("So prepare well before you attempt to catch it as it might wipe out your whole team if not careful");
+                    break;
+                case "6":
+                    break loop;
+                default:
+                    System.out.println("Invalid choice, please choose again.");
+            }
+        }
     }
 
     public static void save(Player player) {
