@@ -4,27 +4,48 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//library class to store all the data required from the csv
 public class library {
+    //used to store the map information
     protected static Map<String, Integer> kantoMap = new Map<>();
+    //used to store the pokemon hp
     protected static HashMap<String, HashMap<Integer, Integer>> pokemonhp = new HashMap<>();
+    //used to store the evolution information of pokemon
     protected static HashMap<String, String> evolution = new HashMap<>();
+    //used to store the level of evolved pokemon
     protected static HashMap<String, Integer> evo_lvl = new HashMap<>();
+    //used to store the speed of pokemon
     protected static HashMap<String, HashMap<Integer, Integer>> pokemon_speed = new HashMap<>();
+    //used to store the effectiveness of pokemon
     protected static HashMap<String, HashMap<String, Double>> pokemon_effectiveness = new HashMap<>();
+    //used to store the gender of pokemon
     protected static HashMap<String, Boolean> pokemon_cute = new HashMap<>();
+    //used to store the items of player
     protected static HashMap<String, HashMap<String, Integer>> pokemon_items = new HashMap<>();
+    //used to store the move damage of pokemon
     protected static HashMap<String, HashMap<Integer, Integer>> move_dmg = new HashMap<>();
+    //used to store the move order of pokemon
     protected static HashMap<String, Integer> move_order = new HashMap<>();
+    //used to store the move state of pokemon
     protected static HashMap<String, HashMap<String, Double>> move_stat = new HashMap<>();
+    //used to store the move category of pokemon
     protected static HashMap<String, String> move_cat = new HashMap<>();
+    //used to store the move set of pokemon
     protected static HashMap<String, HashMap<String, String>> pokemon_moveset = new HashMap<>();
+    //used to store the move type of pokemon
     protected static HashMap<String, String> move_type = new HashMap<>();
+    //used to store the pokemon type
     protected static HashMap<String, HashMap<String, String>> pokemon_type = new HashMap<>();
+    //used to store the pokemon weight
     protected static HashMap<String, Double> pokemon_weight = new HashMap<>();
+    //used to store the move description of pokemon
     protected static HashMap<String, String> move_description = new HashMap<>();
+    //used to store the trainer name and their pokemon information
     protected static HashMap<String, ArrayList<Pokemon>> Trainers = new HashMap<>();
+    //used to store the trainer reward
     protected static HashMap<String, Integer> TrainerReward = new HashMap<>();
 
+    //method to call ALL the read method
     public static void readallfiles() {
         readpokemonhp();
         readpokemonevo();
@@ -46,6 +67,7 @@ public class library {
         readAllTrainers();
     }
 
+    //used to read the pokemon hp from respectively csv file
     public static void readpokemonhp() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemonhp.csv");
@@ -72,6 +94,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon evolution from respectively csv file
     public static void readpokemonevo() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_evo.csv");
@@ -94,6 +117,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon evolution level from respectively csv file
     public static void readevolvelevel() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_evo_level.csv");
@@ -116,6 +140,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon speed from respectively csv file
     public static void readpokemonspeed() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_speed.csv");
@@ -142,6 +167,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon effectiveness from respectively csv file
     public static void readpokemoneffectiveness() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_effectiveness.csv");
@@ -180,6 +206,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon gender from respectively csv file
     public static void readpokemoncute() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_cute.csv");
@@ -202,6 +229,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon items from respectively csv file
     public static void readpokemonitems() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_items.csv");
@@ -235,6 +263,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon damage from respectively csv file
     public static void readmovedmg() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_dmg.csv");
@@ -261,6 +290,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon move order from respectively csv file
     public static void readmoveorder() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_order.csv");
@@ -283,6 +313,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon move state from respectively csv file
     public static void readmovestat() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_stat.csv");
@@ -312,7 +343,7 @@ public class library {
         }
     }
 
-
+    //used to read the pokemon category from respectively csv file
     public static void readmovecat() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_movelist.csv");
@@ -335,6 +366,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon move set from respectively csv file
     public static void readpokemonmoveset() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_moveset.csv");
@@ -361,6 +393,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon move type from respectively csv file
     public static void readmovetype() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_move_type.csv");
@@ -383,6 +416,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon type from respectively csv file
     public static void readpokemontype() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_type.csv");
@@ -407,6 +441,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon weight from respectively csv file
     public static void readpokemonweight() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/pokemon_weight.csv");
@@ -429,6 +464,7 @@ public class library {
         }
     }
 
+    //used to read the pokemon move description from respectively csv file
     public static void readmovedescription() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/move_description.csv");
@@ -451,6 +487,7 @@ public class library {
         }
     }
 
+    //used to read the trainer information from respectively csv file
     public static void readAllTrainers() {
         try {
             InputStream inputStream = library.class.getResourceAsStream("/trainers.csv");
@@ -485,6 +522,7 @@ public class library {
         }
     }
 
+    //used to initialize the kanto map
     public static void initializeMap() {
         kantoMap.addCity("Pallet Town");
         kantoMap.addCity("Viridian City");

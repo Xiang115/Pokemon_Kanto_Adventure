@@ -331,10 +331,10 @@ public class Pokemon_Kanto_Adventure {
         return null;
     }
 
-    public static void guides(){
+    public static void guides() {
         Scanner input = new Scanner(System.in);
         loop:
-        while(true){
+        while (true) {
             System.out.println("+--------------------Guides--------------------+");
             System.out.println("1. List of all pokemons");
             System.out.println("2. Typings and their weaknessess and resistance");
@@ -343,13 +343,13 @@ public class Pokemon_Kanto_Adventure {
             System.out.println("5. Gym battles, trainer battles and wild pokemon battles");
             System.out.println("6. Back");
             String choice = input.nextLine();
-            switch(choice){
+            switch (choice) {
                 case "1":
-                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println(library.pokemonhp.keySet());
                     break;
                 case "2":
-                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println("1.normal:");
                     System.out.println("  resistance - ghost(0x damage)");
                     System.out.println("  weakness   - fighting(2x damage)");
@@ -392,7 +392,7 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("Tips, when a pokemon uses a move that damages its opponent that have the same move type as either one of its type, the damage will increase by 50%");
                     break;
                 case "3":
-                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println("Stats:");
                     System.out.println("You and your opponents' pokemons will have attack, defense, and speed stats during battles");
                     System.out.println("The higher the attack stat, the higher the damage output of the pokemon and vice versa");
@@ -417,7 +417,7 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("However, if you switched because of your battling pokemon is fainted, it is after the round, so this switching is safe and your opponent pokemon will not make a move");
                     break;
                 case "4":
-                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println("You can use Poke Balls, Great Balls and Ultra Balls in your bag to catch wild pokemons during battles with them");
                     System.out.println("The lower the wild pokemons' hp the higher the chance of catching it.");
                     System.out.println("However, you cannot catch another trainer's pokemon, please keep that in mind");
@@ -425,7 +425,7 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("Good Luck!");
                     break;
                 case "5":
-                    System.out.printf("+%s+\n","-".repeat(90));
+                    System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println("Gym battles:");
                     System.out.println("There are 8 gyms in this game, with the difficulty of the gyms from low to high as below");
                     System.out.println("Pewter City Gym < Cerulean Gym < Vermilion Gym < Celadon Gym < Fuchsia City Gym = Saffron City Gym < Cinnabar Island Gym < Viridian City Gym");
@@ -583,7 +583,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionPalletTown(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Pallet Town");
@@ -594,8 +593,7 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[3] Fight Wild Pokemon [Caterpie, Rattata, Mankey][max lvl 5]");
         System.out.println("[4] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -610,26 +608,24 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You talked to Mom");
-                System.out.println("Mom: " + player.getName()
-                        + " ! Welcome home. It sounds like you had quite an experience. Maybe you should take a quick rest.");
+                System.out.println("Mom: " + player.getName() + " ! Welcome home. It sounds like you had quite an experience. Maybe you should take a quick rest.");
                 player.allhealup();
-                System.out.println(
-                        "Mom: Oh, good! You and your Pokémon are looking great. I just heard from Prof. Oak. He said that Pokémon's energy is measured in HP. If your Pokémon lose their HP, you can restore them at any Pokémon Center. If you're going to travel far away, the smart Trainer stocks up on Potions at the Pokémon Mart. Make me proud, honey! Take care!");
+                System.out.println("Mom: Oh, good! You and your Pokémon are looking great. I just heard from Prof. Oak. He said that Pokémon's energy is measured in HP. If your Pokémon lose their HP, you can restore them at any Pokémon Center. If you're going to travel far away, the smart Trainer stocks up on Potions at the Pokémon Mart. Make me proud, honey! Take care!");
                 // Talk to Mom
             } else if (choice.equals("3")) {
                 Random r = new Random();
-                String[] wilds = { "Caterpie", "Rattata", "Mankey" };
+                String[] wilds = {"Caterpie", "Rattata", "Mankey"};
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(2, 6);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared! [ " + wild_lvl + " ] ");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl,true);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '4' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
@@ -653,6 +649,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -668,7 +667,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionViridianCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Viridian City");
@@ -680,8 +678,7 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Giovanni - Ground type ] [Recommended Pokemon Level: 50]");
         System.out.println("[5] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -696,42 +693,33 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Talk to Mom
             } else if (choice.equals("3")) {
                 pokeMart(player);
             } else if (choice.equals("4")) {
                 if (!player.getbadges()[7].equals("Earth Badge")) {
-                    if (player.getbadges()[0].equals("Boulder Badge") && player.getbadges()[1].equals("Cascade Badge")
-                            && player.getbadges()[2].equals("Thunder Badge")
-                            && player.getbadges()[3].equals("Rainbow Badge")
-                            && player.getbadges()[4].equals("Soul Badge") && player.getbadges()[5].equals("Marsh Badge")
-                            && player.getbadges()[6].equals("Volcano Badge")) {
+                    if (player.getbadges()[0].equals("Boulder Badge") && player.getbadges()[1].equals("Cascade Badge") && player.getbadges()[2].equals("Thunder Badge") && player.getbadges()[3].equals("Rainbow Badge") && player.getbadges()[4].equals("Soul Badge") && player.getbadges()[5].equals("Marsh Badge") && player.getbadges()[6].equals("Volcano Badge")) {
                         System.out.println("You have all other gym badges! This is your final battle. Good luck!");
                         System.out.println("You are now challenging Gym Leader Giovanni!");
                         Battle gymbattle = new Battle(player, "Giovanni");
 
                         if (gymbattle.getwin()) {
-                            System.out.println(
-                                    "Giovanni: You are sure the strongest trainer in this region, here is the Earth Badge. It is evidence of your mastery as a Pokémon Trainer.");
+                            System.out.println("Giovanni: You are sure the strongest trainer in this region, here is the Earth Badge. It is evidence of your mastery as a Pokémon Trainer.");
                             player.obtainbadge("Earth Badge");
                         }
 
                     } else {
-                        System.out.println(
-                                "You have not obtained all the other badges yet, Giovanni is the strongest leader in the region.");
-                        System.out.println(
-                                "You are not strong enough to face him at this moment, please come back with all other badges to prove that you are a worthy opponent");
+                        System.out.println("You have not obtained all the other badges yet, Giovanni is the strongest leader in the region.");
+                        System.out.println("You are not strong enough to face him at this moment, please come back with all other badges to prove that you are a worthy opponent");
                     }
                 } else {
                     System.out.println("You have already challenged this gym.");
@@ -758,6 +746,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -773,7 +764,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionPewterCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Pewter City");
@@ -785,12 +775,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Brock - Rock type ] [Recommended Pokemon Level: 14]");
         System.out.println("[5] Fight Wild Pokemon [Caterpie, Metapod, Pikachu][max lvl 6]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Rick[Bug type][lvl 6]    b.Anthony[Bug type][lvl 9]     c.Charlie[Electric type][lvl 8]");
+        System.out.println("     a.Rick[Bug type][lvl 6]    b.Anthony[Bug type][lvl 9]     c.Charlie[Electric type][lvl 8]");
         System.out.println("[7] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -805,17 +793,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -825,15 +811,14 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Brock");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Boulder Badge");
-                        System.out.println(
-                                "Brock: I took you for granted, and so I lost. As proof of your victory, I confer on you this...the official Boulder Badge.");
+                        System.out.println("Brock: I took you for granted, and so I lost. As proof of your victory, I confer on you this...the official Boulder Badge.");
                     }
                 } else {
                     System.out.println("You have already challenged this gym.");
                 }
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Caterpie", "Metapod", "Pikachu" };
+                String[] wilds = {"Caterpie", "Metapod", "Pikachu"};
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(3, 7);
                 String wild_pokemon = wilds[wild_choice];
@@ -844,15 +829,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight rick - caterpie lvl 6, caterpie lvl 6
+                        //fight rick - caterpie lvl 6, caterpie lvl 6
                         Battle trainerbattle = new Battle(player, "Rick");
                         break;
                     case 'b':
-                        // fight anthony - caterpie lvl 9
+                        //fight anthony - caterpie lvl 9
                         trainerbattle = new Battle(player, "Anthony");
                         break;
                     case 'c':
-                        // fight Charlie - pikachu lvl 9
+                        //fight Charlie - pikachu lvl 9
                         trainerbattle = new Battle(player, "Charlie");
                         break;
                     default:
@@ -880,6 +865,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -895,7 +883,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionCeruleanCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Cerulean City");
@@ -907,12 +894,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Misty - Water type ] [Recommended Pokemon Level: 21]");
         System.out.println("[5] Fight Wild Pokemon [Sandshrew, Geodude, Onix][max lvl 12]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Rocket Grunt[Ground, Fighting type][lvl 17]    b.Marcos[Rock type][lvl 11]     c.Jovan[Electric type][lvl 14]");
+        System.out.println("     a.Rocket Grunt[Ground, Fighting type][lvl 17]    b.Marcos[Rock type][lvl 11]     c.Jovan[Electric type][lvl 14]");
         System.out.println("[7] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -927,17 +912,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -947,34 +930,33 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Misty");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Cascade Badge");
-                        System.out.println(
-                                "Misty: Wow! You're too much, all right! You can have the Cascade Badge to show that you beat me.");
+                        System.out.println("Misty: Wow! You're too much, all right! You can have the Cascade Badge to show that you beat me.");
                     }
                 } else {
                     System.out.println("You have already challenged this gym");
                 }
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Sandshrew", "Geodude", "Onix" };
+                String[] wilds = {"Sandshrew", "Geodude", "Onix"};
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(8, 13);
                 String wild_pokemon = wilds[wild_choice];
                 System.out.println("A wild " + wild_pokemon + " appeared!");
-                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl,true);
+                Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '6' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight grunt - machop lvl 17, sandshrew lvl 17
+                        //fight grunt - machop lvl 17, sandshrew lvl 17
                         Battle trainerbattle = new Battle(player, "Rocket Grunt");
                         break;
                     case 'b':
-                        // fight marcos - 2x geodude lvl 11, onix lvl 11
+                        //fight marcos - 2x geodude lvl 11, onix lvl 11
                         trainerbattle = new Battle(player, "Marcos");
                         break;
                     case 'c':
-                        // fight Jovan - voltorb lvl 14, magnemite lvl 14
+                        //fight Jovan - voltorb lvl 14, magnemite lvl 14
                         trainerbattle = new Battle(player, "Jovan");
                         break;
                     default:
@@ -1002,6 +984,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1017,7 +1002,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionSaffronCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Saffron City");
@@ -1029,13 +1013,11 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Sabrina - Psychic type ] [Recommended Pokemon Level: 43]");
         System.out.println("[5] Fight Wild Pokemon [Oddish, Bellsprout, Growlithe, Abra][max lvl 16]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Ricky[Water type][lvl 30]    b.Jeff[Normal type][lvl 29]     c.Elijah[Bug type][lvl 30]");
+        System.out.println("     a.Ricky[Water type][lvl 30]    b.Jeff[Normal type][lvl 29]     c.Elijah[Bug type][lvl 30]");
         System.out.println("[7] Rival Race");
         System.out.println("[8] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1050,17 +1032,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1070,15 +1050,14 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Sabrina");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Marsh Badge");
-                        System.out.println(
-                                "Sabrina: This loss shocks me! But a loss is a loss. I admit I didn't work hard enough to win. You earned the Marsh Badge.");
+                        System.out.println("Sabrina: This loss shocks me! But a loss is a loss. I admit I didn't work hard enough to win. You earned the Marsh Badge.");
                     }
                 } else {
                     System.out.println("You have already challenged this gym.");
                 }
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Oddish", "Bellsprout", "Growlithe", "Abra" };
+                String[] wilds = {"Oddish", "Bellsprout", "Growlithe", "Abra"};
                 int wild_choice = r.nextInt(4);
                 int wild_lvl = r.nextInt(11, 17);
                 String wild_pokemon = wilds[wild_choice];
@@ -1089,15 +1068,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight ricky - wartortle lvl 30
+                        //fight ricky - wartortle lvl 30
                         Battle trainerbattle = new Battle(player, "Ricky");
                         break;
                     case 'b':
-                        // fight Jeff - 2x raticate lvl 29
+                        //fight Jeff - 2x raticate lvl 29
                         trainerbattle = new Battle(player, "Jeff");
                         break;
                     case 'c':
-                        // fight Elijah - Butterfree lvl 30
+                        //fight Elijah - Butterfree lvl 30
                         trainerbattle = new Battle(player, "Elijah");
                         break;
                     default:
@@ -1127,6 +1106,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1142,7 +1124,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionCeladonCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Celadon City");
@@ -1155,12 +1136,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[5] Fight Wild Pokemon [Koffing, Grimer, Machop, Ponyta][max lvl 23]");
         System.out.println("[6] Fight Snorlax [lvl 30]");
         System.out.println("[7] Fight other trainers");
-        System.out.println(
-                "     a.Lao[Poison type][lvl 27]    b.Koji[Fighting type][lvl 27]     c.Lea[Fire type][lvl 27]");
+        System.out.println("     a.Lao[Poison type][lvl 27]    b.Koji[Fighting type][lvl 27]     c.Lea[Fire type][lvl 27]");
         System.out.println("[8] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1175,17 +1154,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1195,15 +1172,14 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Erika");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Rainbow Badge");
-                        System.out.println(
-                                "Erika: Oh! I concede defeat. You are remarkably strong. I must confer on you the Rainbow Badge.");
+                        System.out.println("Erika: Oh! I concede defeat. You are remarkably strong. I must confer on you the Rainbow Badge.");
                     }
                 } else {
                     System.out.println("You have already challenged this gym.");
                 }
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Koffing", "Grimer", "Machop", "Ponyta" };
+                String[] wilds = {"Koffing", "Grimer", "Machop", "Ponyta"};
                 int wild_choice = r.nextInt(4);
                 int wild_lvl = r.nextInt(20, 24);
                 String wild_pokemon = wilds[wild_choice];
@@ -1218,15 +1194,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight lao - grimer lvl 27, koffing lvl 27
+                        //fight lao - grimer lvl 27, koffing lvl 27
                         Battle trainerbattle = new Battle(player, "Lao");
                         break;
                     case 'b':
-                        // fight koji - machop lvl 27, mankey lvl 27
+                        //fight koji - machop lvl 27, mankey lvl 27
                         trainerbattle = new Battle(player, "Koji");
                         break;
                     case 'c':
-                        // fight lea - rapidash lvl 27
+                        //fight lea - rapidash lvl 27
                         trainerbattle = new Battle(player, "Lea");
                         break;
                     default:
@@ -1254,6 +1230,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1269,7 +1248,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionLavenderTown(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Lavender Town");
@@ -1282,12 +1260,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[5] Fight Wild Pokemon [Magnemite, Voltorb, Nidoran-M, Nidoran-F, Venonat][max lvl 20]");
         System.out.println("[6] Fight Snorlax [lvl 30]");
         System.out.println("[7] Fight other trainers");
-        System.out.println(
-                "     a.Luca[Electric type][lvl 29]    b.Justin[Poison type][lvl 29]     c.Tower Grunt[Normal type][lvl 27]");
+        System.out.println("     a.Luca[Electric type][lvl 29]    b.Justin[Poison type][lvl 29]     c.Tower Grunt[Normal type][lvl 27]");
         System.out.println("[8] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1302,17 +1278,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1321,7 +1295,7 @@ public class Pokemon_Kanto_Adventure {
                 maze.simulation(player);
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Magnemite", "Voltorb", "Nidoran-M", "Nidoran-F", "Venonat" };
+                String[] wilds = {"Magnemite", "Voltorb", "Nidoran-M", "Nidoran-F", "Venonat"};
                 int wild_choice = r.nextInt(5);
                 int wild_lvl = r.nextInt(14, 21);
                 String wild_pokemon = wilds[wild_choice];
@@ -1330,21 +1304,21 @@ public class Pokemon_Kanto_Adventure {
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.equals("6")) {
                 System.out.println("A wild Snorlax is blocking the road!");
-                Pokemon wild = new Pokemon("Snorlax", 30, true);
+                Pokemon wild = new Pokemon("Snorlax", 30);
                 Battle wildbattle = new Battle(player, wild);
             } else if (choice.charAt(0) == '7' && choice.length() == 2) {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight luca - voltorb, electrode lvl 29
+                        //fight luca - voltorb, electrode lvl 29
                         Battle trainerbattle = new Battle(player, "Luca");
                         break;
                     case 'b':
-                        // fight justin - Nidoran-M,Nidoran-F, lvl 29
+                        //fight justin - Nidoran-M,Nidoran-F, lvl 29
                         trainerbattle = new Battle(player, "Justin");
                         break;
                     case 'c':
-                        // fight tower grunt - rattata, raticate lvl 27
+                        //fight tower grunt - rattata, raticate lvl 27
                         trainerbattle = new Battle(player, "Tower Grunt");
                         break;
                     default:
@@ -1372,6 +1346,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1387,7 +1364,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionVermillionCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Vermillion City");
@@ -1399,12 +1375,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Lt. Surge - Electric type ] [Recommended Pokemon Level: 24]");
         System.out.println("[5] Fight Wild Pokemon [Diglett, Jigglypuff, Eevee][max lvl 22]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Yasu[Normal type][lvl 17]    b.Dave[Poison type][lvl 18]     c.Bernie[Electric type][lvl 18]");
+        System.out.println("     a.Yasu[Normal type][lvl 17]    b.Dave[Poison type][lvl 18]     c.Bernie[Electric type][lvl 18]");
         System.out.println("[7] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1419,17 +1393,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1439,8 +1411,7 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Lt. Surge");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Thunder Badge");
-                        System.out.println(
-                                "Lt. Surge: Now that's a shocker! You're the real deal, kid! Fine, then, take the Thunder Badge!");
+                        System.out.println("Lt. Surge: Now that's a shocker! You're the real deal, kid! Fine, then, take the Thunder Badge!");
                     }
                 } else {
                     System.out.println("You have already challenged this gym");
@@ -1448,7 +1419,7 @@ public class Pokemon_Kanto_Adventure {
 
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Diglett", "Jigglypuff", "Eevee" };
+                String[] wilds = {"Diglett", "Jigglypuff", "Eevee"};
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(15, 23);
                 String wild_pokemon = wilds[wild_choice];
@@ -1459,15 +1430,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight yasu - 2x rattata, raticate lvl 17
+                        //fight yasu - 2x rattata, raticate lvl 17
                         Battle trainerbattle = new Battle(player, "Yasu");
                         break;
                     case 'b':
-                        // fight dave - nidoran-m,nidorino lvl 18
+                        //fight dave - nidoran-m,nidorino lvl 18
                         trainerbattle = new Battle(player, "Dave");
                         break;
                     case 'c':
-                        // fight bernie - 2x magnemite, magneton lvl 18
+                        //fight bernie - 2x magnemite, magneton lvl 18
                         trainerbattle = new Battle(player, "Bernie");
                         break;
                     default:
@@ -1495,6 +1466,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1510,7 +1484,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionFuschiaCity(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Fuschia City");
@@ -1522,13 +1495,11 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Koga - Poison type ] [Recommended Pokemon Level: 43]");
         System.out.println("[5] Fight Wild Pokemon [Grimer, Rattata, Raticate][max lvl 29]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Charles[Poison type][lvl 39]    b.Jacob[Fire type][lvl 39]     c.Connie[Water type][lvl 33]");
+        System.out.println("     a.Charles[Poison type][lvl 39]    b.Jacob[Fire type][lvl 39]     c.Connie[Water type][lvl 33]");
         System.out.println("[7] Safari Zone");
         System.out.println("[8] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1543,17 +1514,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1570,7 +1539,7 @@ public class Pokemon_Kanto_Adventure {
                 }
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Grimer", "Rattata", "Raticate" };
+                String[] wilds = {"Grimer", "Rattata", "Raticate"};
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(22, 30);
                 String wild_pokemon = wilds[wild_choice];
@@ -1581,15 +1550,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight charles - koffing, weezing lvl 39
+                        //fight charles - koffing, weezing lvl 39
                         Battle trainerbattle = new Battle(player, "Charles");
                         break;
                     case 'b':
-                        // fight jacob - charmeleon lvl 39
+                        //fight jacob - charmeleon lvl 39
                         trainerbattle = new Battle(player, "Jacob");
                         break;
                     case 'c':
-                        // fight connie - 3x staryu lvl 33
+                        //fight connie - 3x staryu lvl 33
                         trainerbattle = new Battle(player, "Connie");
                         break;
                     default:
@@ -1619,6 +1588,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1634,7 +1606,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static boolean selectionCinnabarIsland(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("[1] Move to:");
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Cinnabar Island");
@@ -1646,12 +1617,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[4] Fight Gym Leader [ Blaine - Fire type ] [Recommended Pokemon Level: 47]");
         System.out.println("[5] Fight Wild Pokemon [Staryu, Tangela][max lvl 28]");
         System.out.println("[6] Fight other trainers");
-        System.out.println(
-                "     a.Lil[Water type][lvl 33]    b.Jack[Water type][lvl 37]     c.Jerome[Water type][lvl 33]");
+        System.out.println("     a.Lil[Water type][lvl 33]    b.Jack[Water type][lvl 37]     c.Jerome[Water type][lvl 33]");
         System.out.println("[7] Player Options");
 
-        System.out.println(
-                "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.Save and Exit");
+        System.out.println("     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -1666,17 +1635,15 @@ public class Pokemon_Kanto_Adventure {
                     String nextCity = neighboringCities.get(cityIndex);
                     player.movetoCity(nextCity);
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
                 // Move the next city
             } else if (choice.equals("2")) {
                 System.out.printf("+%s+\n", "-".repeat(90));
                 System.out.println("You entered the Pokemon Center");
-                System.out.println("Nurse: " + player.getName()
-                        + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
+                System.out.println("Nurse: " + player.getName() + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
-                System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                System.out.println("Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1686,8 +1653,7 @@ public class Pokemon_Kanto_Adventure {
                     Battle gymbattle = new Battle(player, "Blaine");
                     if (gymbattle.getwin()) {
                         player.obtainbadge("Volcano Badge");
-                        System.out.println(
-                                "Blaine: I have burned down to nothing! Not even ashes remain! You have earned the Volcano Badge.");
+                        System.out.println("Blaine: I have burned down to nothing! Not even ashes remain! You have earned the Volcano Badge.");
                     }
                 } else {
                     System.out.println("You have already challenged this gym.");
@@ -1695,7 +1661,7 @@ public class Pokemon_Kanto_Adventure {
 
             } else if (choice.equals("5")) {
                 Random r = new Random();
-                String[] wilds = { "Staryu", "Tangela" };
+                String[] wilds = {"Staryu", "Tangela"};
                 int wild_choice = r.nextInt(2);
                 int wild_lvl = r.nextInt(17, 29);
                 String wild_pokemon = wilds[wild_choice];
@@ -1706,15 +1672,15 @@ public class Pokemon_Kanto_Adventure {
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a':
-                        // fight lil - starmie lvl 33
+                        //fight lil - starmie lvl 33
                         Battle trainerbattle = new Battle(player, "Lil");
                         break;
                     case 'b':
-                        // fight jack - starmie lvl 37
+                        //fight jack - starmie lvl 37
                         trainerbattle = new Battle(player, "Jack");
                         break;
                     case 'c':
-                        // fight jerome - staryu lvl 33, wartortle lvl 33
+                        //fight jerome - staryu lvl 33, wartortle lvl 33
                         trainerbattle = new Battle(player, "Jerome");
                         break;
                     default:
@@ -1742,6 +1708,9 @@ public class Pokemon_Kanto_Adventure {
                         guides();
                         break;
                     case 'g':
+                        player.alterPC(player);
+                        break;
+                    case 'h':
                         save(player);
                         return false;
                     default:
@@ -1757,7 +1726,6 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static void pokeMart(Player player) {
-        displayMap(player);
         Scanner input = new Scanner(System.in);
         System.out.println("You entered the Poke Mart");
         while (true) {
@@ -1768,7 +1736,7 @@ public class Pokemon_Kanto_Adventure {
             System.out.print("Choose 1 action: ");
             String action = input.nextLine();
             if (action.equals("1")) {
-                System.out.println("+----------------------Buy-----------------------+");
+                System.out.println("+--------------------Buy--------------------+");
                 System.out.println("You have: $" + player.findMoney());
                 System.out.println("1. Poke Ball    - $ " + library.pokemon_items.get("Poke Ball").get("price"));
                 System.out.println("2. Great Ball   - $ " + library.pokemon_items.get("Great Ball").get("price"));
@@ -1787,9 +1755,8 @@ public class Pokemon_Kanto_Adventure {
                 if (player.isNum(choiceitem_st)) {
                     int choiceitem = Integer.parseInt(choiceitem_st);
                     switch (choiceitem) {
-                        case 1: // this is supposed to be checking team while not in battle, hence all pokeballs
-                                // used will output "No effect"
-                            System.out.println("+-----Poke Ball-----+");
+                        case 1: //this is supposed to be checking team while not in battle, hence all pokeballs used will output "No effect"
+                            System.out.println("+--------------------Poke Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Poke Ball"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Poke Ball").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1802,20 +1769,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Poke Ball", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 2:
-                            System.out.println("+-----Great Ball-----+");
+                            System.out.println("+--------------------Great Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Great Ball"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Great Ball").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1828,20 +1796,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Great Ball", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 3:
-                            System.out.println("+-----Ultra Ball-----+");
+                            System.out.println("+--------------------Ultra Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Ultra Ball"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Ultra Ball").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1854,20 +1823,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Ultra Ball", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 4:
-                            System.out.println("+-----Potion-----+");
+                            System.out.println("+--------------------Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Potion"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Potion").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1880,23 +1850,23 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Potion", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 5:
-                            System.out.println("+-----Super Potion-----+");
+                            System.out.println("+--------------------Super Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Super Potion"));
-                            System.out
-                                    .println("Buy Price: $ " + library.pokemon_items.get("Super Potion").get("price"));
+                            System.out.println("Buy Price: $ " + library.pokemon_items.get("Super Potion").get("price"));
                             System.out.println("How many would you like to buy?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -1907,23 +1877,23 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Super Potion", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 6:
-                            System.out.println("+-----Hyper Potion-----+");
+                            System.out.println("+--------------------Hyper Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Hyper Potion"));
-                            System.out
-                                    .println("Buy Price: $ " + library.pokemon_items.get("Hyper Potion").get("price"));
+                            System.out.println("Buy Price: $ " + library.pokemon_items.get("Hyper Potion").get("price"));
                             System.out.println("How many would you like to buy?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -1934,20 +1904,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Hyper Potion", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 7:
-                            System.out.println("+-----Max Potion-----+");
+                            System.out.println("+--------------------Max Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Max Potion"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Max Potion").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1960,20 +1931,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Max Potion", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 8:
-                            System.out.println("+-----X Attack-----+");
+                            System.out.println("+--------------------X Attack--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Attack"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("X Attack").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -1986,20 +1958,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("X Attack", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 9:
-                            System.out.println("+-----X Defend-----+");
+                            System.out.println("+--------------------X Defend--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Defend"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("X Defend").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -2012,20 +1985,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("X Defend", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 10:
-                            System.out.println("+-----X Speed-----+");
+                            System.out.println("+--------------------X Speed--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Speed"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("X Speed").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -2038,20 +2012,21 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("X Speed", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 11:
-                            System.out.println("+-----Revive-----+");
+                            System.out.println("+--------------------Revive--------------------+");
                             System.out.println("You have: " + player.getItems().get("Revive"));
                             System.out.println("Buy Price: $ " + library.pokemon_items.get("Revive").get("price"));
                             System.out.println("How many would you like to buy?");
@@ -2064,28 +2039,29 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough money.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to buy the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.deductMoney(price);
                                         player.obtainitems("Revive", number);
+                                        System.out.println("Here you go, thank you for buying!");
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
+                            System.out.printf("+%s+\n", "-".repeat(90));
                             break;
                         case 12:
                             break;
                         default:
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice! Please choose again.");
                     }
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
             } else if (action.equals("2")) {
-                System.out.println("+-----------------------Sell-----------------------+");
+                System.out.println("+--------------------Sell--------------------+");
                 System.out.println("Your items: ");
                 player.showitems();
                 System.out.println("12. Back");
@@ -2095,12 +2071,10 @@ public class Pokemon_Kanto_Adventure {
                 if (player.isNum(choiceitem_st)) {
                     int choiceitem = Integer.parseInt(choiceitem_st);
                     switch (choiceitem) {
-                        case 1: // this is supposed to be checking team while not in battle, hence all pokeballs
-                                // used will output "No effect"
-                            System.out.println("+-----Poke Ball-----+");
+                        case 1: //this is supposed to be checking team while not in battle, hence all pokeballs used will output "No effect"
+                            System.out.println("+--------------------Poke Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Poke Ball"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Poke Ball").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Poke Ball").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             String number_st = input.nextLine();
@@ -2111,8 +2085,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Poke Balls.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2120,14 +2093,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 2:
-                            System.out.println("+-----Great Ball-----+");
+                            System.out.println("+--------------------Great Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Great Ball"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Great Ball").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Great Ball").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2138,8 +2110,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Great Balls.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2147,14 +2118,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 3:
-                            System.out.println("+-----Ultra Ball-----+");
+                            System.out.println("+--------------------Ultra Ball--------------------+");
                             System.out.println("You have: " + player.getItems().get("Ultra Ball"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Ultra Ball").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Ultra Ball").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2165,8 +2135,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Ultra Balls.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2174,14 +2143,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 4:
-                            System.out.println("+-----Potion-----+");
+                            System.out.println("+--------------------Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Potion"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Potion").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Potion").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2192,8 +2160,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Potions.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2201,14 +2168,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 5:
-                            System.out.println("+-----Super Potion-----+");
+                            System.out.println("+--------------------Super Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Super Potion"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Super Potion").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Super Potion").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2219,8 +2185,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Super Potions.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2228,14 +2193,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 6:
-                            System.out.println("+-----Hyper Potion-----+");
+                            System.out.println("+--------------------Hyper Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Hyper Potion"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Hyper Potion").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Hyper Potion").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2246,8 +2210,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Hyper Potions.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2255,14 +2218,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 7:
-                            System.out.println("+-----Max Potion-----+");
+                            System.out.println("+--------------------Max Potion--------------------+");
                             System.out.println("You have: " + player.getItems().get("Max Potion"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Max Potion").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Max Potion").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2273,8 +2235,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Max Potions.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2282,14 +2243,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 8:
-                            System.out.println("+-----X Attack-----+");
+                            System.out.println("+--------------------X Attack--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Attack"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("X Attack").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("X Attack").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2300,8 +2260,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough X Attacks.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2309,14 +2268,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 9:
-                            System.out.println("+-----X Defend-----+");
+                            System.out.println("+--------------------X Defend--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Defend"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("X Defend").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("X Defend").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2327,8 +2285,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough X Defends.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2336,14 +2293,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 10:
-                            System.out.println("+-----X Speed-----+");
+                            System.out.println("+--------------------X Speed--------------------+");
                             System.out.println("You have: " + player.getItems().get("X Speed"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("X Speed").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("X Speed").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2354,8 +2310,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough X Speeds.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2363,14 +2318,13 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 11:
-                            System.out.println("+-----Revive-----+");
+                            System.out.println("+--------------------Revive--------------------+");
                             System.out.println("You have: " + player.getItems().get("Revive"));
-                            System.out.println(
-                                    "Sell Price: $ " + library.pokemon_items.get("Revive").get("price") * 7 / 10);
+                            System.out.println("Sell Price: $ " + library.pokemon_items.get("Revive").get("price") * 7 / 10);
                             System.out.println("How many would you like to sell?");
                             System.out.print("Enter a number: ");
                             number_st = input.nextLine();
@@ -2381,8 +2335,7 @@ public class Pokemon_Kanto_Adventure {
                                     System.out.println("You don't have enough Revives.");
                                 } else {
                                     System.out.println("That will be $ " + price);
-                                    System.out.println(
-                                            "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
+                                    System.out.println("Would you like to sell the item(s) you selected?(yes-y/no-any other input)");
                                     String ccc = input.nextLine();
                                     if (ccc.equals("y")) {
                                         player.addMoney(price);
@@ -2390,22 +2343,22 @@ public class Pokemon_Kanto_Adventure {
                                     }
                                 }
                             } else {
-                                System.out.println("Invalid input");
+                                System.out.println("Invalid choice! Please choose again.");
                             }
                             break;
                         case 12:
                             break;
                         default:
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice! Please choose again.");
                     }
                 } else {
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice! Please choose again.");
                 }
             } else if (action.endsWith("3")) {
                 System.out.println("Thank you for coming! Hope you have a nice day!");
                 break;
             } else {
-                System.out.println("Invalid choice");
+                System.out.println("Invalid choice! Please choose again.");
             }
         }
     }
@@ -2420,34 +2373,227 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static void displayMap(Player player) {
-        String currentCity = player.findCurrentCity();
-        String map = generateMap(currentCity);
-        System.out.println("Map of Kanto:");
-        System.out.println(map);
-        System.out.printf("+%s+\n", "-".repeat(90));
-    }
-
-    private static String generateMap(String currentCity) {
-        String template = """
-            [Pewter City]-----------------------[Cerulean City]-----------------|
-                   |                                    |                       |
-                   |                                    |                       |
-                   |                                    |                       |
-                   |                                    |                       |
-                   |            [Celadon City]----[Saffron City]-----[Lavender Town]
-                   |                   |                |                       |
-            [Viridian City]            |                |                       |
-                   |                   |                |                       |
-                   |                   |                |                       |
-                   |                   |        [Vermillion City]---------------|
-                   |                   |                                        |
-            [Pallet Town]              |                                        |
-                   |                   |                                        |
-                   |             [Fuchsia City]---------------------------------|
-                   |                   |
-                   |                   |
-            [Cinnabar Island]----------|""";
-
-        return template.replace("[" + currentCity + "]", "[**" + currentCity + "**]");
+        switch (player.findCurrentCity()) {
+            case "Pallet Town":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[**Pallet Town**]          |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Viridian City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[**Viridian City**]        |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Pewter City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[**Pewter City**]-------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Cerulean City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]---------------------[**Cerulean City**]---------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Saffron City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]--[**Saffron City**]---[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Celadon City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |          [**Celadon City**]--[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Lavender Town":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]---[**Lavender Town**]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Vermillion City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |      [**Vermillion City**]-------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Fuschia City":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |           [**Fuchsia City**]-------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[Cinnabar Island]----------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+            case "Cinnabar Island":
+                System.out.println("Map of Kanto:");
+                System.out.println("[Pewter City]-----------------------[Cerulean City]-----------------|");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |                                    |                       |");
+                System.out.println("       |            [Celadon City]----[Saffron City]-----[Lavender Town]");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("[Viridian City]            |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |                |                       |");
+                System.out.println("       |                   |        [Vermillion City]---------------|");
+                System.out.println("       |                   |                                        |");
+                System.out.println("[Pallet Town]              |                                        |");
+                System.out.println("       |                   |                                        |");
+                System.out.println("       |             [Fuchsia City]---------------------------------|");
+                System.out.println("       |                   |");
+                System.out.println("       |                   |");
+                System.out.println("[**Cinnabar Island**]------|");
+                System.out.printf("+%s+\n", "-".repeat(90));
+                break;
+        }
     }
 }
