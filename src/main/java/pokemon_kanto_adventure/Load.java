@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//A class used to create a connection to sqlite and create table if not exist the sql table
 public class Load {
+    //a query used to create badges table
     private static final String BADGES_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS badges (" +
             "slot_number INT," +
             "badge_name1 VARCHAR(255)," +
@@ -21,6 +23,7 @@ public class Load {
             "PRIMARY KEY (slot_number)" +
             ")";
 
+    //a query used to create item table
     private static final String ITEMS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS items (" +
             "slot_number INT," +
             "item_name VARCHAR(255)," +
@@ -28,6 +31,7 @@ public class Load {
             "PRIMARY KEY (slot_number, item_name)" +
             ")";
 
+    //a query used to create pc table
     private static final String PC_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS pc (" +
             "slot_number INT," +
             "pokemon_name VARCHAR(255)," +
@@ -35,6 +39,7 @@ public class Load {
             "PRIMARY KEY (slot_number, pokemon_name)" +
             ")";
 
+    //a query used to create saveslots table
     private static final String SAVE_SLOTS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS saveslots (" +
             "player_name VARCHAR(255)," +
             "slot_number INT," +
@@ -59,8 +64,10 @@ public class Load {
             "CONSTRAINT slot_number_check CHECK (slot_number BETWEEN 1 AND 3)" +
             ")";
 
+    //used to store connection object
     private Connection con;
 
+    //used to initialize the load class
     public Load() {
         try {
             createConnection();
@@ -70,10 +77,12 @@ public class Load {
         }
     }
 
+    //method used to reture the connection
     public Connection getConnection() {
         return con;
     }
 
+    //mehtod used to create the table
     private void createTables() throws SQLException {
         executeQuery(BADGES_TABLE_QUERY);
         executeQuery(ITEMS_TABLE_QUERY);
@@ -81,12 +90,14 @@ public class Load {
         executeQuery(SAVE_SLOTS_TABLE_QUERY);
     }
 
+    //mehotd used to execute the query
     private void executeQuery(String query) throws SQLException {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(query);
         }
     }
 
+    //method used to create the connection
     private void createConnection() {
         try {
             Class.forName("org.sqlite.JDBC"); // Ensure the SQLite driver is loaded
