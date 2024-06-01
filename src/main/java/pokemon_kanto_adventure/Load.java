@@ -9,8 +9,16 @@ import java.util.logging.Logger;
 
 //A class used to create a connection to sqlite and create table if not exist the sql table
 public class Load {
-    //a query used to create badges table
+    // a query used to create users table
+    private static final String USERS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS users (" +
+            "username VARCHAR(255) PRIMARY KEY," +
+            "password VARCHAR(255) NOT NULL," +
+            "email VARCHAR(255) UNIQUE NOT NULL" +
+            ")";
+
+    // a query used to create badges table
     private static final String BADGES_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS badges (" +
+            "username VARCHAR(255)," + // Add this line
             "slot_number INT," +
             "badge_name1 VARCHAR(255)," +
             "badge_name2 VARCHAR(255)," +
@@ -20,27 +28,33 @@ public class Load {
             "badge_name6 VARCHAR(255)," +
             "badge_name7 VARCHAR(255)," +
             "badge_name8 VARCHAR(255)," +
-            "PRIMARY KEY (slot_number)" +
+            "PRIMARY KEY (slot_number, username)," + // Modify primary key
+            "FOREIGN KEY (username) REFERENCES users(username)" + // Add foreign key
             ")";
 
-    //a query used to create item table
+    // a query used to create item table
     private static final String ITEMS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS items (" +
+            "username VARCHAR(255)," + // Add this line
             "slot_number INT," +
             "item_name VARCHAR(255)," +
             "item_count INT," +
-            "PRIMARY KEY (slot_number, item_name)" +
+            "PRIMARY KEY (slot_number, item_name, username)," + // Modify primary key
+            "FOREIGN KEY (username) REFERENCES users(username)" + // Add foreign key
             ")";
 
-    //a query used to create pc table
+    // a query used to create pc table
     private static final String PC_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS pc (" +
+            "username VARCHAR(255)," + // Add this line
             "slot_number INT," +
             "pokemon_name VARCHAR(255)," +
             "pokemon_level INT," +
-            "PRIMARY KEY (slot_number, pokemon_name)" +
+            "PRIMARY KEY (slot_number, pokemon_name, username)," + // Modify primary key
+            "FOREIGN KEY (username) REFERENCES users(username)" + // Add foreign key
             ")";
 
-    //a query used to create saveslots table
+    // a query used to create saveslots table
     private static final String SAVE_SLOTS_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS saveslots (" +
+            "username VARCHAR(255)," + // Add this line
             "player_name VARCHAR(255)," +
             "slot_number INT," +
             "numofbadge INT," +
@@ -60,14 +74,15 @@ public class Load {
             "rivalracewins INT," +
             "battlewon INT," +
             "currentCity VARCHAR(255)," +
-            "PRIMARY KEY (player_name, slot_number)," +
+            "PRIMARY KEY (player_name, slot_number, username)," + // Modify primary key
+            "FOREIGN KEY (username) REFERENCES users(username)," + // Add foreign key
             "CONSTRAINT slot_number_check CHECK (slot_number BETWEEN 1 AND 3)" +
             ")";
 
-    //used to store connection object
+    // used to store connection object
     private Connection con;
 
-    //used to initialize the load class
+    // used to initialize the load class
     public Load() {
         try {
             createConnection();
@@ -77,27 +92,28 @@ public class Load {
         }
     }
 
-    //method used to reture the connection
+    // method used to reture the connection
     public Connection getConnection() {
         return con;
     }
 
-    //mehtod used to create the table
+    // mehtod used to create the table
     private void createTables() throws SQLException {
         executeQuery(BADGES_TABLE_QUERY);
         executeQuery(ITEMS_TABLE_QUERY);
         executeQuery(PC_TABLE_QUERY);
         executeQuery(SAVE_SLOTS_TABLE_QUERY);
+        executeQuery(USERS_TABLE_QUERY); // Add this line
     }
 
-    //mehotd used to execute the query
+    // mehotd used to execute the query
     private void executeQuery(String query) throws SQLException {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(query);
         }
     }
 
-    //method used to create the connection
+    // method used to create the connection
     private void createConnection() {
         try {
             Class.forName("org.sqlite.JDBC"); // Ensure the SQLite driver is loaded
