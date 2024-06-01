@@ -19,8 +19,6 @@ public class Pokemon_Kanto_Adventure {
     private static int slotNumber;
     // used to declare a Logger object
     private static final Logger logger = Logger.getLogger(Pokemon_Kanto_Adventure.class.getName());
-    //used to store the current logged-in user name
-    private static String currentUsername;
 
     // main method
     public static void main(String[] args) {
@@ -28,13 +26,12 @@ public class Pokemon_Kanto_Adventure {
         library.readallfiles();// load every data in all files
         while (true) {
             title();// display the pokemon title
-            if (login(load.getConnection())) { // Perform login or registration
-                Player player = selectSave(load.getConnection()); // load player progress into player
-                if (player == null) {
-                    player = selectSave(load.getConnection()); // load player progress into player
-                } else {
-                    selectionPanel(player); // pass the player containing the loaded progress to selection panel
-                }
+            Player player = selectSave(load.getConnection());// load player progress into player
+            if (player == null) {
+                ;
+            } else {
+                selectionPanel(player);// if player is not null, means a valid choice is chosen, pass the player
+                // containing the loaded progress to selection panel
             }
         }
     }
@@ -57,147 +54,17 @@ public class Pokemon_Kanto_Adventure {
         }
     }
 
-    //used to display login menu
-    public static boolean login(Connection con) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("[1] Login");
-        System.out.println("[2] Register");
-        System.out.println("[3] Exit");
-        System.out.print("Your choice: ");
-        String choice = sc.nextLine().trim();
-
-        if ("1".equals(choice)) {
-            return performLogin(con);
-        } else if ("2".equals(choice)) {
-            return performRegistration(con);
-        } else if("3".equals(choice)){
-            System.exit(0);
-            return false;
-        }else{
-            System.out.println("Invalid choice");
-            return false;
-        }
-    }
-
-    //used for the user to login and change their password if needed
-    public static boolean performLogin(Connection con) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter username: ");
-        String username = sc.nextLine().trim();
-        System.out.print("Enter password: ");
-        String password = sc.nextLine().trim();
-    
-        String query = "SELECT * FROM users WHERE username = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                // User found, now check password
-                if (password.equals(rs.getString("password"))) {
-                    currentUsername = username;
-                    return true; // Successful login
-                } else {
-                    // Password is incorrect, ask for email verification
-                    System.out.println("Incorrect password. Enter your email to verify your account and change your password.");
-                    System.out.print("Enter your email: ");
-                    String email = sc.nextLine().trim();
-    
-                    if (email.equals(rs.getString("email"))) {
-                        System.out.print("Enter your new password: ");
-                        String newPassword = sc.nextLine().trim();
-    
-                        // Update the password
-                        String updateQuery = "UPDATE users SET password = ? WHERE username = ?";
-                        try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
-                            updateStmt.setString(1, newPassword);
-                            updateStmt.setString(2, username);
-                            updateStmt.executeUpdate();
-                            System.out.println("Password updated successfully!");
-                            currentUsername = username;
-                            return true; // Password updated successfully
-                        } catch (SQLException e) {
-                            logger.log(Level.SEVERE, "Failed to update password", e);
-                            return false; // Password update failed
-                        }
-                    } else {
-                        System.out.println("Email verification failed.");
-                        return false; // Email verification failed
-                    }
-                }
-            } else {
-                System.out.println("Invalid username or password.");
-                return false; // Invalid username
-            }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Login failed", e);
-            return false; // Login failed
-        }
-    }
-
-    //used for the user to register a new account
-    public static boolean performRegistration(Connection con) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter new username: ");
-        String username = sc.nextLine().trim();
-        System.out.print("Enter new password: ");
-        String password = sc.nextLine().trim();
-        System.out.print("Enter email: ");
-        String email = sc.nextLine().trim();
-
-        // Check if the username already exists
-        String checkUserQuery = "SELECT COUNT(*) FROM users WHERE username = ?";
-        try (PreparedStatement checkStmt = con.prepareStatement(checkUserQuery)) {
-            checkStmt.setString(1, username);
-            ResultSet rs = checkStmt.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                System.out.println("Username already exists. Please choose another username.");
-                return false;
-            }
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error checking username", e);
-            return false;
-        }
-
-        String query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, email);
-            int result = stmt.executeUpdate();
-            if (result > 0) {
-                currentUsername = username;
-                return true;
-            } else {
-                System.out.println("Registration failed");
-                return false;
-            }
-        } catch (SQLException e) {
-            if (e.getMessage().contains("UNIQUE constraint failed: users.username")) {
-                System.out.println("Username already exists. Please choose another username.");
-            } else {
-                logger.log(Level.SEVERE, "Registration failed", e);
-            }
-            return false;
-        }
-    }
-
-    //used to for the program to save the selection
+    //used to check for the player exist or not
     public static Player selectSave(Connection con) {
         Scanner sc = new Scanner(System.in);
-        boolean[] saveExists = new boolean[3]; // Tracks if save slots exist
+        boolean[] saveExists = new boolean[3];// Tracks if save slots exist
         boolean[] containsData = new boolean[3]; // Tracks if save slots contain data
 
         try {
             printSaveSlots(con, saveExists, containsData);
             System.out.print("Your choice: ");
-
-            // Check if there is a next line
-            if (sc.hasNextLine()) {
-                String choice = sc.nextLine().trim();
-                return processSaveChoice(con, choice, saveExists, containsData);
-            } else {
-                System.out.println("No input detected.");
-            }
+            String choice = sc.nextLine().trim();
+            return processSaveChoice(con, choice, saveExists, containsData);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error selecting save", e);
         }
@@ -230,13 +97,11 @@ public class Pokemon_Kanto_Adventure {
         System.out.printf("+%s+\n", "-".repeat(90));
     }
 
-
-    // Get player name based on slot number from SQLite table
+    // used to get the player name based on the slot number from sqlite table
     private static String getPlayerNameFromSlot(Connection con, int slot) throws SQLException {
-        String query = "SELECT player_name FROM saveslots WHERE slot_number = ? AND username = ?";
+        String query = "SELECT player_name FROM saveslots WHERE slot_number = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, slot); // Set the slot number parameter
-            stmt.setString(2, currentUsername); // Set the current username
+            stmt.setInt(1, slot);// Set the slot number parameter
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("player_name");
@@ -245,11 +110,11 @@ public class Pokemon_Kanto_Adventure {
         return null;
     }
 
-    // Display the start menu choices
+    // used to display the start menu choices
     private static Player processSaveChoice(Connection con, String choice, boolean[] saveExists, boolean[] containsData)
             throws SQLException {
         if (choice.length() == 2) {
-            char menuChoice = choice.charAt(0); // First character of the choice
+            char menuChoice = choice.charAt(0);// First character of the choice
             char slotChoice = choice.charAt(1); // Second character of the choice
             int slotIndex = slotChoice - 'a'; // Convert slot choice to index
 
@@ -276,7 +141,7 @@ public class Pokemon_Kanto_Adventure {
         return createNewPlayer(slotNumber);
     }
 
-    // Create a new player
+    // used to create a new player
     public static Player createNewPlayer(int slotNumber) {
         Scanner sc = new Scanner(System.in);
         System.out.printf("+%s+\n", "-".repeat(90));
@@ -291,41 +156,38 @@ public class Pokemon_Kanto_Adventure {
         String playerName = sc.nextLine();
         System.out.printf("+%s+\n", "-".repeat(90));
 
+        // Connect to the database and perform deletion and insertion
         try {
             Connection con = DriverManager.getConnection("jdbc:sqlite:pokemon.db");
             con.setAutoCommit(false);
 
             // Delete the existing slot
-            PreparedStatement deleteStmt = con.prepareStatement("DELETE FROM saveslots WHERE slot_number = ? AND username = ?");
+            PreparedStatement deleteStmt = con.prepareStatement("DELETE FROM saveslots WHERE slot_number = ?");
             deleteStmt.setInt(1, slotNumber);
-            deleteStmt.setString(2, currentUsername);
             deleteStmt.executeUpdate();
             deleteStmt.close();
 
-            deleteStmt = con.prepareStatement("DELETE FROM badges WHERE slot_number = ? AND username = ?");
+            // Delete the existing slot
+            deleteStmt = con.prepareStatement("DELETE FROM badges WHERE slot_number = ?");
             deleteStmt.setInt(1, slotNumber);
-            deleteStmt.setString(2, currentUsername);
             deleteStmt.executeUpdate();
             deleteStmt.close();
 
-            deleteStmt = con.prepareStatement("DELETE FROM items WHERE slot_number = ? AND username = ?");
+            deleteStmt = con.prepareStatement("DELETE FROM items WHERE slot_number = ?");
             deleteStmt.setInt(1, slotNumber);
-            deleteStmt.setString(2, currentUsername);
             deleteStmt.executeUpdate();
             deleteStmt.close();
 
-            deleteStmt = con.prepareStatement("DELETE FROM pc WHERE slot_number = ? AND username = ?");
+            deleteStmt = con.prepareStatement("DELETE FROM pc WHERE slot_number = ?");
             deleteStmt.setInt(1, slotNumber);
-            deleteStmt.setString(2, currentUsername);
             deleteStmt.executeUpdate();
             deleteStmt.close();
 
             // Insert the new data for the slot
             PreparedStatement insertStmt = con
-                    .prepareStatement("INSERT INTO saveslots (slot_number, username, player_name) VALUES (?, ?, ?)");
+                    .prepareStatement("INSERT INTO saveslots (slot_number, player_name) VALUES (?, ?)");
             insertStmt.setInt(1, slotNumber);
-            insertStmt.setString(2, currentUsername);
-            insertStmt.setString(3, playerName);
+            insertStmt.setString(2, playerName);
             insertStmt.executeUpdate();
             insertStmt.close();
 
@@ -375,16 +237,17 @@ public class Pokemon_Kanto_Adventure {
                     "OAK: Oh, and also take these 10 Poke Balls and $1000, Poke Balls can be used to catch wild pokemons and strengthen your team, and you can use money to buy items in Poke Marts!");
             player.obtainitems("Poke Ball", 10);
             player.addMoney(1000);
-            save(player, currentUsername);
+            save(player);
         } else {
             System.out.println("Invalid choice.");
         }
         return isValid ? player : null;
     }
 
-    // Load save after select
+    // load save after select
     public static Player loadSave(Connection con, int slotNumber) {
         try {
+            // Initialize variables to store player data
             String playerName = null;
             String[] badges = new String[8];
             int numofbadge = 0;
@@ -396,9 +259,9 @@ public class Pokemon_Kanto_Adventure {
             ArrayList<Pokemon> PC = new ArrayList<>();
             String currentCity = null;
 
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM saveslots WHERE slot_number = ? AND username = ?");
+            // Query saveslots table to retrieve player's basic info
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM saveslots WHERE slot_number = ?");
             stmt.setInt(1, slotNumber);
-            stmt.setString(2, currentUsername);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 playerName = rs.getString("player_name");
@@ -408,6 +271,7 @@ public class Pokemon_Kanto_Adventure {
                 battlewon = rs.getInt("battlewon");
                 currentCity = rs.getString("currentCity");
 
+                // Retrieve and set the pokemons from the result set
                 for (int i = 0; i < 6; i++) {
                     String pokemonName = rs.getString("pokemon" + (i + 1));
                     int pokemonLevel = rs.getInt("pokemon" + (i + 1) + "_level");
@@ -418,9 +282,9 @@ public class Pokemon_Kanto_Adventure {
             }
             stmt.close();
 
-            stmt = con.prepareStatement("SELECT * FROM badges WHERE slot_number = ? AND username = ?");
+            // Query badges table to retrieve player's badges
+            stmt = con.prepareStatement("SELECT * FROM badges WHERE slot_number = ?");
             stmt.setInt(1, slotNumber);
-            stmt.setString(2, currentUsername);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 for (int i = 0; i < 8; i++) {
@@ -429,9 +293,9 @@ public class Pokemon_Kanto_Adventure {
             }
             stmt.close();
 
-            stmt = con.prepareStatement("SELECT * FROM items WHERE slot_number = ? AND username = ?");
+            // Query items table to retrieve player's items
+            stmt = con.prepareStatement("SELECT * FROM items WHERE slot_number = ?");
             stmt.setInt(1, slotNumber);
-            stmt.setString(2, currentUsername);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String itemName = rs.getString("item_name");
@@ -440,9 +304,9 @@ public class Pokemon_Kanto_Adventure {
             }
             stmt.close();
 
-            stmt = con.prepareStatement("SELECT * FROM pc WHERE slot_number = ? AND username = ?");
+            // Query pc table to retrieve player's Pokémon in PC
+            stmt = con.prepareStatement("SELECT * FROM pc WHERE slot_number = ?");
             stmt.setInt(1, slotNumber);
-            stmt.setString(2, currentUsername);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String pokemonName = rs.getString("pokemon_name");
@@ -452,6 +316,7 @@ public class Pokemon_Kanto_Adventure {
             }
             stmt.close();
 
+            // Construct the Player object using the retrieved data
             Player player = new Player(playerName);
             player.setBadges(badges);
             player.setNumberofBadges(numofbadge);
@@ -475,99 +340,9 @@ public class Pokemon_Kanto_Adventure {
         return null;
     }
 
-    public static void save(Player player, String username) {
-        // SQL statements to insert or update player data, badges, items, and Pokémon in the database
-        String insertSaveSlot = "REPLACE INTO saveslots (username, player_name, slot_number, numofbadge, pokemon1, pokemon1_level, "
-    + "pokemon2, pokemon2_level, pokemon3, pokemon3_level, pokemon4, pokemon4_level, pokemon5, pokemon5_level, "
-    + "pokemon6, pokemon6_level, money, rivalracewins, battlewon, currentCity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    
-        String insertBadge = "REPLACE INTO badges (username, slot_number, badge_name1, badge_name2, badge_name3, badge_name4, " +
-                "badge_name5, badge_name6, badge_name7, badge_name8) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-        String insertItem = "REPLACE INTO items (username, slot_number, item_name, item_count) VALUES (?, ?, ?, ?)";
-        String insertPokemon = "REPLACE INTO pc (username, slot_number, pokemon_name, pokemon_level) VALUES (?, ?, ?, ?)";
-    
-        try (Connection con = DriverManager.getConnection("jdbc:sqlite:pokemon.db")) {
-            con.setAutoCommit(false); // Begin transaction
-    
-            try {
-                // Save player data in the saveslots table
-                try (PreparedStatement ps = con.prepareStatement(insertSaveSlot)) {
-                    ps.setString(1, username);
-                    ps.setString(2, player.getName());
-                    ps.setInt(3, slotNumber);
-                    ps.setInt(4, player.getNumberofBadges());
-    
-                    ps.setString(5, getPokemonName(player.findPoke1()));
-                    ps.setInt(6, getPokemonLevel(player.findPoke1()));
-                    ps.setString(7, getPokemonName(player.findPoke2()));
-                    ps.setInt(8, getPokemonLevel(player.findPoke2()));
-                    ps.setString(9, getPokemonName(player.findPoke3()));
-                    ps.setInt(10, getPokemonLevel(player.findPoke3()));
-                    ps.setString(11, getPokemonName(player.findPoke4()));
-                    ps.setInt(12, getPokemonLevel(player.findPoke4()));
-                    ps.setString(13, getPokemonName(player.findPoke5()));
-                    ps.setInt(14, getPokemonLevel(player.findPoke5()));
-                    ps.setString(15, getPokemonName(player.findPoke6()));
-                    ps.setInt(16, getPokemonLevel(player.findPoke6()));
-    
-                    ps.setInt(17, player.findMoney()); // Set player's money
-                    ps.setInt(18, player.getrivalwins()); // Set number of rival race wins
-                    ps.setInt(19, player.getvictories()); // Set number of battles won
-                    ps.setString(20, player.findCurrentCity()); // Set current city
-                    ps.executeUpdate(); // Execute the update
-                }
-    
-                // Save badges
-                try (PreparedStatement ps = con.prepareStatement(insertBadge)) {
-                    ps.setString(1, username); // Set username
-                    ps.setInt(2, slotNumber); // Set slot number
-                    for (int i = 0; i < 8; i++) {
-                        if (i < player.getbadges().length && player.getbadges()[i] != null && !player.getbadges()[i].isEmpty()) {
-                            ps.setString(i + 3, player.getbadges()[i]); // Store badge name directly
-                        } else {
-                            ps.setNull(i + 3, java.sql.Types.VARCHAR); // Set badge name as null if it's empty or null
-                        }
-                    }
-                    ps.executeUpdate();
-                }
-    
-                // Save items
-                try (PreparedStatement ps = con.prepareStatement(insertItem)) {
-                    for (String itemName : player.getItems().keySet()) {
-                        ps.setString(1, username); // Set username
-                        ps.setInt(2, slotNumber);
-                        ps.setString(3, itemName);
-                        ps.setInt(4, player.getItems().get(itemName));
-                        ps.executeUpdate();
-                    }
-                }
-    
-                // Save Pokémon in the PC
-                try (PreparedStatement ps = con.prepareStatement(insertPokemon)) {
-                    for (Pokemon pokemon : player.getPC()) {
-                        ps.setString(1, username); // Set username
-                        ps.setInt(2, slotNumber);
-                        ps.setString(3, pokemon.findname());
-                        ps.setInt(4, pokemon.findlvl());
-                        ps.executeUpdate();
-                    }
-                }
-    
-                con.commit(); // Commit transaction
-            } catch (SQLException e) {
-                con.rollback(); // Rollback transaction in case of an error
-                Logger.getLogger(Pokemon_Kanto_Adventure.class.getName()).log(Level.SEVERE, "Failed to save player data", e);
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(Pokemon_Kanto_Adventure.class.getName()).log(Level.SEVERE, "Database connection failed", e);
-        }
-    }
-
     public static void guides() { // a method that allows the player to check guides to know better about the game
         Scanner input = new Scanner(System.in);
-        loop: // loop will not end unless player choose to go back to last selection page
+        loop: // loop loop will not end unless player choose to go back to last selection page
         while (true) {
             System.out.println("+--------------------Guides--------------------+");// all choices that player can choose
             System.out.println("1. List of all pokemons");
@@ -713,6 +488,86 @@ public class Pokemon_Kanto_Adventure {
                 default:// if player enters an invalid choice,display message below
                     System.out.println("Invalid choice, please choose again.");
             }
+        }
+    }
+
+    public static void save(Player player) {
+        // SQL statements to insert or update player data, badges, items, and Pokémon in the database
+        String insertSaveSlot = "REPLACE INTO saveslots (player_name, slot_number, numofbadge, pokemon1, pokemon1_level, "
+                + "pokemon2, pokemon2_level, pokemon3, pokemon3_level, pokemon4, pokemon4_level, pokemon5, pokemon5_level, "
+                + "pokemon6, pokemon6_level, money, rivalracewins, battlewon, currentCity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String insertBadge = "REPLACE INTO badges (slot_number, badge_name1, badge_name2, badge_name3, badge_name4, " +
+                "badge_name5, badge_name6, badge_name7, badge_name8) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String insertItem = "REPLACE INTO items (slot_number, item_name, item_count) VALUES (?, ?, ?)";
+        String insertPokemon = "REPLACE INTO pc (slot_number, pokemon_name, pokemon_level) VALUES (?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection("jdbc:sqlite:pokemon.db")) {
+
+            // Save player data in the saveslots table
+            try (PreparedStatement ps = con.prepareStatement(insertSaveSlot)) {
+                ps.setString(1, player.getName());
+                ps.setInt(2, slotNumber);
+                ps.setInt(3, player.getNumberofBadges());
+
+                ps.setString(4, getPokemonName(player.findPoke1()));
+                ps.setInt(5, getPokemonLevel(player.findPoke1()));
+                ps.setString(6, getPokemonName(player.findPoke2()));
+                ps.setInt(7, getPokemonLevel(player.findPoke2()));
+                ps.setString(8, getPokemonName(player.findPoke3()));
+                ps.setInt(9, getPokemonLevel(player.findPoke3()));
+                ps.setString(10, getPokemonName(player.findPoke4()));
+                ps.setInt(11, getPokemonLevel(player.findPoke4()));
+                ps.setString(12, getPokemonName(player.findPoke5()));
+                ps.setInt(13, getPokemonLevel(player.findPoke5()));
+                ps.setString(14, getPokemonName(player.findPoke6()));
+                ps.setInt(15, getPokemonLevel(player.findPoke6()));
+
+                ps.setInt(16, player.findMoney());// Set player's money
+                ps.setInt(17, player.getrivalwins()); // Set number of rival race wins
+                ps.setInt(18, player.getvictories()); // Set number of battles won
+                ps.setString(19, player.findCurrentCity()); // Set current city
+                ps.executeUpdate(); // Execute the update
+            }
+
+            // Save badge
+            try (PreparedStatement ps = con.prepareStatement(insertBadge)) {
+                int count = 2;// Initialize the count to start from the second parameter
+                ps.setInt(1, slotNumber); // Set slot number
+                for (int i = 0; i < player.getbadges().length; i++) {
+                    if (player.getbadges()[i] != null && !player.getbadges()[i].isEmpty()) {
+                        ps.setString(count, player.getbadges()[i]); // Store badge name directly
+                    } else {
+                        ps.setNull(count, java.sql.Types.VARCHAR); // Set badge name as null if it's empty or null
+                    }
+                    count++;
+                }
+                ps.executeUpdate();
+            }
+
+            // Save items
+            try (PreparedStatement ps = con.prepareStatement(insertItem)) {
+                for (String itemName : player.getItems().keySet()) {
+                    ps.setInt(1, slotNumber);
+                    ps.setString(2, itemName);
+                    ps.setInt(3, player.getItems().get(itemName));
+                    ps.executeUpdate();
+                }
+            }
+
+            // Save Pokémon in the PC
+            try (PreparedStatement ps = con.prepareStatement(insertPokemon)) {
+                for (int i = 0; i < player.getPC().size(); i++) {
+                    Pokemon pokemon = player.getPC().get(i);
+                    ps.setInt(1, slotNumber);
+                    ps.setString(2, pokemon.findname());
+                    ps.setInt(3, pokemon.findlvl());
+                    ps.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Load.class.getName()).log(Level.SEVERE, "Failed to save player data", e);
         }
     }
 
@@ -872,7 +727,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':// player choose save and exit
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -993,7 +848,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1129,7 +984,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1256,7 +1111,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1388,7 +1243,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1522,7 +1377,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1646,7 +1501,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1776,7 +1631,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -1904,7 +1759,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
@@ -2032,7 +1887,7 @@ public class Pokemon_Kanto_Adventure {
                         player.alterPC(player);
                         break;
                     case 'h':
-                        save(player,currentUsername);
+                        save(player);
                         return false;
                     default:
                         System.out.println("Invalid choice! Please choose again.");
