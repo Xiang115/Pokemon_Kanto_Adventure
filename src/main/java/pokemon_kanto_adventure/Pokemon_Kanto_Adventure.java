@@ -31,7 +31,7 @@ public class Pokemon_Kanto_Adventure {
                 ;
             } else {
                 selectionPanel(player);// if player is not null, means a valid choice is chosen, pass the player
-                                       // containing the loaded progress to selection panel
+                // containing the loaded progress to selection panel
             }
         }
     }
@@ -57,8 +57,8 @@ public class Pokemon_Kanto_Adventure {
     //used to check for the player exist or not
     public static Player selectSave(Connection con) {
         Scanner sc = new Scanner(System.in);
-        boolean[] saveExists = new boolean[3];
-        boolean[] containsData = new boolean[3];
+        boolean[] saveExists = new boolean[3];// Tracks if save slots exist
+        boolean[] containsData = new boolean[3]; // Tracks if save slots contain data
 
         try {
             printSaveSlots(con, saveExists, containsData);
@@ -80,9 +80,9 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[1] Load Game:");
 
         for (int i = 0; i < 3; i++) {
-            String playerName = getPlayerNameFromSlot(con, i + 1);
-            saveExists[i] = playerName != null;
-            containsData[i] = saveExists[i];
+            String playerName = getPlayerNameFromSlot(con, i + 1);// Get player name for the slot
+            saveExists[i] = playerName != null; // Update save existence status
+            containsData[i] = saveExists[i];  // Update data existence status
             System.out.printf("%c. Save %d - %-15s", 'a' + i, i + 1, playerName != null ? playerName : "empty");
         }
         System.out.println();
@@ -101,7 +101,7 @@ public class Pokemon_Kanto_Adventure {
     private static String getPlayerNameFromSlot(Connection con, int slot) throws SQLException {
         String query = "SELECT player_name FROM saveslots WHERE slot_number = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, slot);
+            stmt.setInt(1, slot);// Set the slot number parameter
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("player_name");
@@ -114,9 +114,9 @@ public class Pokemon_Kanto_Adventure {
     private static Player processSaveChoice(Connection con, String choice, boolean[] saveExists, boolean[] containsData)
             throws SQLException {
         if (choice.length() == 2) {
-            char menuChoice = choice.charAt(0);
-            char slotChoice = choice.charAt(1);
-            int slotIndex = slotChoice - 'a';
+            char menuChoice = choice.charAt(0);// First character of the choice
+            char slotChoice = choice.charAt(1); // Second character of the choice
+            int slotIndex = slotChoice - 'a'; // Convert slot choice to index
 
             if (menuChoice == '1' && slotIndex >= 0 && slotIndex < 3 && saveExists[slotIndex]) {
                 slotNumber = slotIndex + 1;
@@ -442,7 +442,7 @@ public class Pokemon_Kanto_Adventure {
                             "However, if you switched because of your battling pokemon is fainted, it is after the round, so this switching is safe and your opponent pokemon will not make a move");
                     break;
                 case "4":// display the guide about how to catch wild pokemons and where to get those
-                         // catching items
+                    // catching items
                     System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println(
                             "You can use Poke Balls, Great Balls and Ultra Balls in your bag to catch wild pokemons during battles with them");
@@ -452,7 +452,7 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("Good Luck!");
                     break;
                 case "5":// display information about gym battles, trainer battles and wild pokemon
-                         // battles
+                    // battles
                     System.out.printf("+%s+\n", "-".repeat(90));
                     System.out.println("Gym battles:");
                     System.out.println(
@@ -492,6 +492,7 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static void save(Player player) {
+        // SQL statements to insert or update player data, badges, items, and Pokémon in the database
         String insertSaveSlot = "REPLACE INTO saveslots (player_name, slot_number, numofbadge, pokemon1, pokemon1_level, "
                 + "pokemon2, pokemon2_level, pokemon3, pokemon3_level, pokemon4, pokemon4_level, pokemon5, pokemon5_level, "
                 + "pokemon6, pokemon6_level, money, rivalracewins, battlewon, currentCity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -523,17 +524,17 @@ public class Pokemon_Kanto_Adventure {
                 ps.setString(14, getPokemonName(player.findPoke6()));
                 ps.setInt(15, getPokemonLevel(player.findPoke6()));
 
-                ps.setInt(16, player.findMoney());
-                ps.setInt(17, player.getrivalwins());
-                ps.setInt(18, player.getvictories());
-                ps.setString(19, player.findCurrentCity());
-                ps.executeUpdate();
+                ps.setInt(16, player.findMoney());// Set player's money
+                ps.setInt(17, player.getrivalwins()); // Set number of rival race wins
+                ps.setInt(18, player.getvictories()); // Set number of battles won
+                ps.setString(19, player.findCurrentCity()); // Set current city
+                ps.executeUpdate(); // Execute the update
             }
 
             // Save badge
             try (PreparedStatement ps = con.prepareStatement(insertBadge)) {
-                int count = 2;
-                ps.setInt(1, slotNumber);
+                int count = 2;// Initialize the count to start from the second parameter
+                ps.setInt(1, slotNumber); // Set slot number
                 for (int i = 0; i < player.getbadges().length; i++) {
                     if (player.getbadges()[i] != null && !player.getbadges()[i].isEmpty()) {
                         ps.setString(count, player.getbadges()[i]); // Store badge name directly
@@ -580,14 +581,14 @@ public class Pokemon_Kanto_Adventure {
 
     public static void selectionPanel(Player player) { // selection panel of the game
         boolean tf = true;// tf is to check whether player chooses to save and exit the selection panel
-                          // and go back to the save load panel
+        // and go back to the save load panel
         while (tf) {// this loop will not end unless player chooses to save and exit
             System.out.printf("+%s+\n", "-".repeat(90));
             String currentCity = player.findCurrentCity();// get player's current location
             System.out.println("You are currently in: " + currentCity);// display it
             System.out.printf("+%s+\n", "-".repeat(90));
             switch (currentCity) {// the selection panel will have different selection based on which location the
-                                  // player is at
+                // player is at
                 // every selection panel of each city will return a true if player does not save
                 // and exit, or return false if player chooses to save and exit
                 // updating tf to determine whether to end the selection panel loop and go back
@@ -633,25 +634,25 @@ public class Pokemon_Kanto_Adventure {
         ArrayList<String> neighboringCities = library.kantoMap.getNeighbours("Pallet Town");
         for (int i = 0; i < neighboringCities.size(); i++) {
             System.out.println((char) ('a' + i) + ". " + neighboringCities.get(i));// display all cities that player
-                                                                                   // could move to, the first choice of
-                                                                                   // every city's selection panel will
-                                                                                   // be this and the concept is same,
-                                                                                   // so I will only explain once here
+            // could move to, the first choice of
+            // every city's selection panel will
+            // be this and the concept is same,
+            // so I will only explain once here
         }
         System.out.println("[2] Talk to Mom(heal all pokemon to full status)");// talk to Mom to heal all pokemon to
-                                                                               // full status
+        // full status
         System.out.println("[3] Fight Wild Pokemon [Caterpie, Rattata, Mankey][max lvl 5]");// encounter with wild
-                                                                                            // pokemon to fight them and
-                                                                                            // catch them
+        // pokemon to fight them and
+        // catch them
         System.out.println("[4] Player Options");// Player options, the player options will remain the same for every
-                                                 // city so I am only explaining it for once in Pallet Town
+        // city so I am only explaining it for once in Pallet Town
 
         System.out.println(
                 "     a.Map     b.Pokemons     c.Bag     d.Badges     e.Profile     f.Guides     g.PC     h.Save and Exit");// all
-                                                                                                                            // options
-                                                                                                                            // related
-                                                                                                                            // to
-                                                                                                                            // player
+        // options
+        // related
+        // to
+        // player
         System.out.printf("+%s+\n", "-".repeat(90));
 
         // Get player's choice
@@ -661,14 +662,14 @@ public class Pokemon_Kanto_Adventure {
         // Handle player's choice
         if (choice.length() != 0) {// check choice format
             if (choice.charAt(0) == '1' && choice.length() == 2) {// if choice begins with 1 and have length of 2, that
-                                                                  // means player might want to move to another city
+                // means player might want to move to another city
                 if (choice.charAt(1) >= 'a' && choice.charAt(1) < 'a' + neighboringCities.size()) {// if the second
-                                                                                                   // character of
-                                                                                                   // choice is in
-                                                                                                   // wanted range
+                    // character of
+                    // choice is in
+                    // wanted range
                     int cityIndex = choice.charAt(1) - 'a';// get the index of the city among the neigboring city list
-                                                           // of the current location using the second character of
-                                                           // choice
+                    // of the current location using the second character of
+                    // choice
                     String nextCity = neighboringCities.get(cityIndex);// get the next city
                     player.movetoCity(nextCity);// move to next city
                 } else { // if the second character of choice is out of range, display message below
@@ -688,20 +689,20 @@ public class Pokemon_Kanto_Adventure {
                 Random r = new Random();
                 String[] wilds = { "Caterpie", "Rattata", "Mankey" };// the list of wild pokemon in this area
                 int wild_choice = r.nextInt(3);// randomly select a number from 0-2 to choose the wild pokemon using
-                                               // this number as index
+                // this number as index
                 int wild_lvl = r.nextInt(2, 6);// randomly select a level from 2-5
                 String wild_pokemon = wilds[wild_choice];// select the wild pokemon
                 System.out.println("A wild " + wild_pokemon + " appeared! [ " + wild_lvl + " ] ");// display the
-                                                                                                  // infromation of the
-                                                                                                  // wild pokemon
+                // infromation of the
+                // wild pokemon
                 Pokemon wild = new Pokemon(wild_pokemon, wild_lvl, true);// create a pokemon object using the data
-                                                                         // given, setting wild value of the pokemon to
-                                                                         // true, and this constructor will set battle
-                                                                         // status of the pokemon to true
+                // given, setting wild value of the pokemon to
+                // true, and this constructor will set battle
+                // status of the pokemon to true
                 Battle wildbattle = new Battle(player, wild); // start a battle between player and wild pokemon
             } else if (choice.charAt(0) == '4' && choice.length() == 2) {// if choice begins with 1 and have length of
-                                                                         // 2, that means player might choose a player
-                                                                         // option
+                // 2, that means player might choose a player
+                // option
                 char player_choice = choice.charAt(1);
                 switch (player_choice) {
                     case 'a': // player choose to display map and their current location on it
@@ -750,9 +751,9 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");// go to Pokemon Center to heal up all pokemons in the team
         System.out.println("[3] Poke Mart");// go to Poke Mart to buy or sell items
         System.out.println("[4] Fight Gym Leader [ Giovanni - Ground type ] [Recommended Pokemon Level: 50]");// fight
-                                                                                                              // Gym
-                                                                                                              // Leader
-                                                                                                              // Giovanni
+        // Gym
+        // Leader
+        // Giovanni
         System.out.println("[5] Player Options");// player options
 
         System.out.println(
@@ -794,26 +795,26 @@ public class Pokemon_Kanto_Adventure {
                             && player.getbadges()[4].equals("Soul Badge") && player.getbadges()[5].equals("Marsh Badge")
                             && player.getbadges()[6].equals("Volcano Badge")) {
                         System.out.println("You have all other gym badges! This is your final battle. Good luck!");// if
-                                                                                                                   // yes,
-                                                                                                                   // allow
-                                                                                                                   // player
-                                                                                                                   // to
-                                                                                                                   // challenge
-                                                                                                                   // the
-                                                                                                                   // last
-                                                                                                                   // gym
+                        // yes,
+                        // allow
+                        // player
+                        // to
+                        // challenge
+                        // the
+                        // last
+                        // gym
                         System.out.println("You are now challenging Gym Leader Giovanni!");// display battle information
                         Battle gymbattle = new Battle(player, "Giovanni");// start a battle between player and Giovanni
 
                         if (gymbattle.getwin()) {// when battle ends, if the player wins the battle, player earns the
-                                                 // Earth Badge, display the message below
+                            // Earth Badge, display the message below
                             System.out.println(
                                     "Giovanni: You are sure the strongest trainer in this region, here is the Earth Badge. It is evidence of your mastery as a Pokémon Trainer.");
                             player.obtainbadge("Earth Badge");
                         }
 
                     } else {// if player does not have all previous badges, player is still not worthy,
-                            // display message below
+                        // display message below
                         System.out.println(
                                 "You have not obtained all the other badges yet, Giovanni is the strongest leader in the region.");
                         System.out.println(
@@ -871,18 +872,18 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");// Pokemon Center to heal up all pokemons
         System.out.println("[3] Poke Mart");// Poke Mart to buy/sell items
         System.out.println("[4] Fight Gym Leader [ Brock - Rock type ] [Recommended Pokemon Level: 14]");// challenge
-                                                                                                         // Gym Leader
-                                                                                                         // Brock
+        // Gym Leader
+        // Brock
         System.out.println("[5] Fight Wild Pokemon [Caterpie, Metapod, Pikachu][max lvl 6]");// fight wild pokemon
         System.out.println("[6] Fight other trainers");// fight other trainers
         System.out.println(
                 "     a.Rick[Bug type][lvl 6]    b.Anthony[Bug type][lvl 9]     c.Charlie[Electric type][lvl 8]");// all
-                                                                                                                  // the
-                                                                                                                  // trainers
-                                                                                                                  // that
-                                                                                                                  // could
-                                                                                                                  // be
-                                                                                                                  // fought
+        // the
+        // trainers
+        // that
+        // could
+        // be
+        // fought
         System.out.println("[7] Player Options");// player options
 
         System.out.println(
@@ -929,7 +930,7 @@ public class Pokemon_Kanto_Adventure {
                 }
             } else if (choice.equals("5")) {// player choose to fight wild pokemon
                 Random r = new Random();// similar to Pallet Town, the wild pokemon is randomly picked from the wilds[]
-                                        // array, and level is randomly chosen between a range
+                // array, and level is randomly chosen between a range
                 String[] wilds = { "Caterpie", "Metapod", "Pikachu" };
                 int wild_choice = r.nextInt(3);
                 int wild_lvl = r.nextInt(3, 7);// level between 3-6
@@ -1007,8 +1008,8 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");// explained
         System.out.println("[3] Poke Mart");// explained
         System.out.println("[4] Fight Gym Leader [ Misty - Water type ] [Recommended Pokemon Level: 21]");// fight gym
-                                                                                                          // Leader
-                                                                                                          // Misty
+        // Leader
+        // Misty
         System.out.println("[5] Fight Wild Pokemon [Sandshrew, Geodude, Onix][max lvl 12]");// fight wild pokemon
         System.out.println("[6] Fight other trainers");// fight other trainers
         System.out.println(
@@ -1134,11 +1135,11 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");// explained
         System.out.println("[3] Poke Mart");// explained
         System.out.println("[4] Fight Gym Leader [ Sabrina - Psychic type ] [Recommended Pokemon Level: 43]");// challenge
-                                                                                                              // Gym
-                                                                                                              // Leader
-                                                                                                              // Sabrina
+        // Gym
+        // Leader
+        // Sabrina
         System.out.println("[5] Fight Wild Pokemon [Oddish, Bellsprout, Growlithe, Abra][max lvl 16]");// fight wild
-                                                                                                       // pokemon
+        // pokemon
         System.out.println("[6] Fight other trainers");// fight other trainers
         System.out.println(
                 "     a.Ricky[Water type][lvl 30]    b.Jeff[Normal type][lvl 29]     c.Elijah[Bug type][lvl 30]");
@@ -1266,11 +1267,11 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");// explained
         System.out.println("[3] Poke Mart");// explained
         System.out.println("[4] Fight Gym Leader [ Erika - Grass type ] [Recommended Pokemon Level: 29]");// challenge
-                                                                                                          // Gym Leader
-                                                                                                          // Erika
+        // Gym Leader
+        // Erika
         System.out.println("[5] Fight Wild Pokemon [Koffing, Grimer, Machop, Ponyta][max lvl 23]");// fight wild pokemon
         System.out.println("[6] Fight Snorlax [lvl 30]");// special encounter, wild Snorlax, a very stong and bulky
-                                                         // pokemon
+        // pokemon
         System.out.println("[7] Fight other trainers");// fight other trainers
         System.out.println(
                 "     a.Lao[Poison type][lvl 27]    b.Koji[Fighting type][lvl 27]     c.Lea[Fire type][lvl 27]");
@@ -1331,7 +1332,7 @@ public class Pokemon_Kanto_Adventure {
             } else if (choice.equals("6")) {// fight snorlax
                 System.out.println("A wild Snorlax is blocking the road!");// display Snorlax message
                 Pokemon wild = new Pokemon("Snorlax", 30, true);// create a Pokemon object for Snorlax with level 30 and
-                                                                // wild status
+                // wild status
                 Battle wildbattle = new Battle(player, wild);// start a battle between Snorlax and player
             } else if (choice.charAt(0) == '7' && choice.length() == 2) {// fight other trainers
                 char player_choice = choice.charAt(1);
@@ -1401,8 +1402,8 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[3] Poke Mart");
         System.out.println("[4] Pokemon Tower - Poke Maze");// play Poke Maze at Pokemon Tower
         System.out.println("[5] Fight Wild Pokemon [Magnemite, Voltorb, Nidoran-M, Nidoran-F, Venonat][max lvl 20]");// fight
-                                                                                                                     // wild
-                                                                                                                     // pokemon
+        // wild
+        // pokemon
         System.out.println("[6] Fight Snorlax [lvl 30]");// special encounter, Snorlax
         System.out.println("[7] Fight other trainers");// fight other trainers
         System.out.println(
@@ -1446,7 +1447,7 @@ public class Pokemon_Kanto_Adventure {
             } else if (choice.equals("5")) {// fight wild pokemon
                 Random r = new Random();
                 String[] wilds = { "Magnemite", "Voltorb", "Nidoran-M", "Nidoran-F", "Venonat" };// wild pokemon in the
-                                                                                                 // area
+                // area
                 int wild_choice = r.nextInt(5);
                 int wild_lvl = r.nextInt(14, 21);// level range
                 String wild_pokemon = wilds[wild_choice];
@@ -1524,10 +1525,10 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");
         System.out.println("[3] Poke Mart");
         System.out.println("[4] Fight Gym Leader [ Lt. Surge - Electric type ] [Recommended Pokemon Level: 24]");// challege
-                                                                                                                 // Gym
-                                                                                                                 // Leader
-                                                                                                                 // Lt.
-                                                                                                                 // Surge
+        // Gym
+        // Leader
+        // Lt.
+        // Surge
         System.out.println("[5] Fight Wild Pokemon [Diglett, Jigglypuff, Eevee][max lvl 22]");// fight wild pokemon
         System.out.println("[6] Fight other trainers");// fight other trainers
         System.out.println(
@@ -1654,7 +1655,7 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");
         System.out.println("[3] Poke Mart");
         System.out.println("[4] Fight Gym Leader [ Koga - Poison type ] [Recommended Pokemon Level: 43]");// fight Gym
-                                                                                                          // Leader Koga
+        // Leader Koga
         System.out.println("[5] Fight Wild Pokemon [Grimer, Rattata, Raticate][max lvl 29]");
         System.out.println("[6] Fight other trainers");
         System.out.println(
@@ -1782,8 +1783,8 @@ public class Pokemon_Kanto_Adventure {
         System.out.println("[2] Pokemon Center");
         System.out.println("[3] Poke Mart");
         System.out.println("[4] Fight Gym Leader [ Blaine - Fire type ] [Recommended Pokemon Level: 47]");// challenge
-                                                                                                          // Gym Leader
-                                                                                                          // Blaine
+        // Gym Leader
+        // Blaine
         System.out.println("[5] Fight Wild Pokemon [Staryu, Tangela][max lvl 28]");
         System.out.println("[6] Fight other trainers");
         System.out.println(
@@ -1917,11 +1918,11 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("+----------------------Buy-----------------------+");
                     System.out.println("You have: $" + player.findMoney());// show player money
                     System.out.println("1. Poke Ball    - $ " + library.pokemon_items.get("Poke Ball").get("price"));// show
-                                                                                                                     // all
-                                                                                                                     // items
-                                                                                                                     // and
-                                                                                                                     // their
-                                                                                                                     // prices
+                    // all
+                    // items
+                    // and
+                    // their
+                    // prices
                     System.out.println("2. Great Ball   - $ " + library.pokemon_items.get("Great Ball").get("price"));
                     System.out.println("3. Ultra Ball   - $ " + library.pokemon_items.get("Ultra Ball").get("price"));
                     System.out.println("4. Potion       - $ " + library.pokemon_items.get("Potion").get("price"));
@@ -1941,37 +1942,37 @@ public class Pokemon_Kanto_Adventure {
                             case 1:// Player chooses Poke Ball
                                 System.out.println("+-----Poke Ball-----+");// display item name
                                 System.out.println("You have: " + player.getItems().get("Poke Ball"));// display number
-                                                                                                      // of items in
-                                                                                                      // player's bag
+                                // of items in
+                                // player's bag
                                 System.out
                                         .println("Buy Price: $ " + library.pokemon_items.get("Poke Ball").get("price"));// display
-                                                                                                                        // the
-                                                                                                                        // price
+                                // the
+                                // price
                                 System.out.println("How many would you like to buy?");// ask player for the buying
-                                                                                      // number
+                                // number
                                 System.out.print("Enter a number: ");
                                 String number_st = input.nextLine();// receive buying number
                                 if (player.isNum(number_st)) {// check buying number format
                                     int number = Integer.parseInt(number_st);// turn buying number into integer
                                     int price = number * library.pokemon_items.get("Poke Ball").get("price");// calculate
-                                                                                                             // the
-                                                                                                             // total
-                                                                                                             // price
+                                    // the
+                                    // total
+                                    // price
                                     if (price > player.findMoney()) {// if player does not have enogh money
                                         System.out.println("You don't have enough money.");
                                     } else {// if player have enough or more money
                                         System.out.println("That will be $ " + price);// display the total price
                                         System.out.println(
                                                 "Would you like to buy the item(s) you selected?(yes-y/no-any other input)");// ask
-                                                                                                                             // player
-                                                                                                                             // to
-                                                                                                                             // confirm
-                                                                                                                             // purchase
+                                        // player
+                                        // to
+                                        // confirm
+                                        // purchase
                                         String ccc = input.nextLine();// receive choice
                                         if (ccc.equals("y")) {// if choice is y
                                             player.deductMoney(price);// deduct the total price from player money
                                             player.obtainitems("Poke Ball", number);// player obtains entered number of
-                                                                                    // items
+                                            // items
                                         }
                                     }
                                 } else {
@@ -1979,7 +1980,7 @@ public class Pokemon_Kanto_Adventure {
                                 }
                                 break;
                             case 2:// case 1 and case2-11 is similar only changing the item name according to what
-                                   // item the case number represents
+                                // item the case number represents
                                 System.out.println("+-----Great Ball-----+");
                                 System.out.println("You have: " + player.getItems().get("Great Ball"));
                                 System.out.println(
@@ -2273,38 +2274,38 @@ public class Pokemon_Kanto_Adventure {
                             case 1:// layer chooses Poke Ball
                                 System.out.println("+-----Poke Ball-----+");// display item name
                                 System.out.println("You have: " + player.getItems().get("Poke Ball"));// display number
-                                                                                                      // of item in
-                                                                                                      // player's bag
+                                // of item in
+                                // player's bag
                                 System.out.println(
                                         "Sell Price: $ "
                                                 + library.pokemon_items.get("Poke Ball").get("price") * 7 / 10);// display
-                                                                                                                // sell
-                                                                                                                // price
+                                // sell
+                                // price
                                 System.out.println("How many would you like to sell?");// ask player how many to sell
                                 System.out.print("Enter a number: ");// get sell number
                                 String number_st = input.nextLine();// check sell number format
                                 if (player.isNum(number_st)) {
                                     int number = Integer.parseInt(number_st);// turn sell number into integer
                                     int price = number * library.pokemon_items.get("Poke Ball").get("price") * 7 / 10;// calculate
-                                                                                                                      // total
-                                                                                                                      // sell
-                                                                                                                      // price
+                                    // total
+                                    // sell
+                                    // price
                                     if (number > player.getItems().get("Poke Ball")) {// if the sell number is more than
-                                                                                      // what player have
+                                        // what player have
                                         System.out.println("You don't have enough Poke Balls.");
                                     } else {// if player have more or same items than sell number
                                         System.out.println("That will be $ " + price); // display total price
                                         System.out.println(
                                                 "Would you like to sell the item(s) you selected?(yes-y/no-any other input)");// ask
-                                                                                                                              // player
-                                                                                                                              // to
-                                                                                                                              // confirm
-                                                                                                                              // sell
+                                        // player
+                                        // to
+                                        // confirm
+                                        // sell
                                         String ccc = input.nextLine();// get player's choice
                                         if (ccc.equals("y")) {// if player confirms sell
                                             player.addMoney(price);// player earns money equal to sell price
                                             player.deditems("Poke Ball", number);// player loses the number of items
-                                                                                 // sold
+                                            // sold
                                         }
                                     }
                                 } else {
@@ -2312,7 +2313,7 @@ public class Pokemon_Kanto_Adventure {
                                 }
                                 break;
                             case 2:// case 1 is similar to case2-11 only changing the item name according to what
-                                   // item the case number represents
+                                // item the case number represents
                                 System.out.println("+-----Great Ball-----+");
                                 System.out.println("You have: " + player.getItems().get("Great Ball"));
                                 System.out.println(
@@ -2608,7 +2609,7 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static void displayMap(Player player) {// display the Map of the region and also the player's curent location
-                                                  // on the map
+        // on the map
         // the location of the player will have ** surrounding the name of the
         // location(e.g: [**Pallet Town**])
         switch (player.findCurrentCity()) {
