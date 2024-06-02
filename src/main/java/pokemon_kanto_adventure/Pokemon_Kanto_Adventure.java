@@ -280,10 +280,10 @@ public class Pokemon_Kanto_Adventure {
     public static Player createNewPlayer(int slotNumber) {
         Scanner sc = new Scanner(System.in);
         System.out.printf("+%s+\n", "-".repeat(90));
-        System.out.println("OAK: Hello there! Welcome to the world of Pokémon! My name is Oak!\r\n" + //
-                "People call me the Pokémon Prof! This world is inhabited by creatures\r\n" + //
-                "called Pokémon! For some people, Pokémon are pets. Others use them for\r\n" + //
-                "fights. Myself... I study Pokémon as a profession.");
+        System.out.println("OAK: Hello there! Welcome to the world of Pokemon! My name is Oak!\r\n" + //
+                "People call me the Pokemon Prof! This world is inhabited by creatures\r\n" + //
+                "called Pokemon! For some people, Pokemon are pets. Others use them for\r\n" + //
+                "fights. Myself... I study Pokemon as a profession.");
         System.out.println();
         System.out.println("OAK: First, what is your name?");
         System.out.printf("+%s+\n", "-".repeat(90));
@@ -476,7 +476,7 @@ public class Pokemon_Kanto_Adventure {
     }
 
     public static void save(Player player, String username) {
-        // SQL statements to insert or update player data, badges, items, and Pokémon in the database
+        // SQL statements to insert or update player data, badges, items, and Pokemon in the database
         String insertSaveSlot = "REPLACE INTO saveslots (username, player_name, slot_number, numofbadge, pokemon1, pokemon1_level, "
     + "pokemon2, pokemon2_level, pokemon3, pokemon3_level, pokemon4, pokemon4_level, pokemon5, pokemon5_level, "
     + "pokemon6, pokemon6_level, money, rivalracewins, battlewon, currentCity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -544,7 +544,7 @@ public class Pokemon_Kanto_Adventure {
                     }
                 }
     
-                // Save Pokémon in the PC
+                // Save Pokemon in the PC
                 try (PreparedStatement ps = con.prepareStatement(insertPokemon)) {
                     for (Pokemon pokemon : player.getPC()) {
                         ps.setString(1, username); // Set username
@@ -828,7 +828,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome home. It sounds like you had quite an experience. Maybe you should take a quick rest.");
                 player.allhealup();// heal up all pokemons in player's team
                 System.out.println(
-                        "Mom: Oh, good! You and your Pokémon are looking great. I just heard from Prof. Oak. He said that Pokémon's energy is measured in HP. If your Pokémon lose their HP, you can restore them at any Pokémon Center. If you're going to travel far away, the smart Trainer stocks up on Potions at the Pokémon Mart. Make me proud, honey! Take care!");
+                        "Mom: Oh, good! You and your Pokemon are looking great. I just heard from Prof. Oak. He said that Pokemon's energy is measured in HP. If your Pokemon lose their HP, you can restore them at any Pokemon Center. If you're going to travel far away, the smart Trainer stocks up on Potions at the Pokemon Mart. Make me proud, honey! Take care!");
                 // Talk to Mom
             } else if (choice.equals("3")) { // if player choose to fight with wild pokemon
                 Random r = new Random();
@@ -927,7 +927,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();// heal all pokemon in the team
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Talk to Mom
             } else if (choice.equals("3")) {// if player choose to go to the Poke Mart
                 pokeMart(player);// call pokeMart() method, a method that simulates the Poke Mart
@@ -954,7 +954,7 @@ public class Pokemon_Kanto_Adventure {
                         if (gymbattle.getwin()) {// when battle ends, if the player wins the battle, player earns the
                             // Earth Badge, display the message below
                             System.out.println(
-                                    "Giovanni: You are sure the strongest trainer in this region, here is the Earth Badge. It is evidence of your mastery as a Pokémon Trainer.");
+                                    "Giovanni: You are sure the strongest trainer in this region, here is the Earth Badge. It is evidence of your mastery as a Pokemon Trainer.");
                             player.obtainbadge("Earth Badge");
                         }
 
@@ -1057,7 +1057,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {// player choose to enter Poke Mart
                 pokeMart(player);
@@ -1187,7 +1187,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1317,7 +1317,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1448,7 +1448,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1581,7 +1581,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1706,7 +1706,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1834,7 +1834,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
@@ -1962,7 +1962,7 @@ public class Pokemon_Kanto_Adventure {
                         + " ! Welcome to the Pokemon Center. This is a place where you can heal up all your pokemons to their best status, let me heal up your pokemons real quick!");
                 player.allhealup();
                 System.out.println(
-                        "Nurse: Oh, good! You and your Pokémon are looking great. Good luck on your journey and take care of your pokemons!");
+                        "Nurse: Oh, good! You and your Pokemon are looking great. Good luck on your journey and take care of your pokemons!");
                 // Poke Center
             } else if (choice.equals("3")) {
                 pokeMart(player);
