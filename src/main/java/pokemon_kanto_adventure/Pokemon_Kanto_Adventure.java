@@ -75,6 +75,7 @@ public class Pokemon_Kanto_Adventure {
             return false;
         }else{
             System.out.println("Invalid choice");
+            System.out.printf("+%s+\n","-".repeat(90));
             return false;
         }
     }
@@ -86,7 +87,7 @@ public class Pokemon_Kanto_Adventure {
         String username = sc.nextLine().trim();
         System.out.print("Enter password: ");
         String password = sc.nextLine().trim();
-    
+
         String query = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -101,11 +102,11 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("Incorrect password. Enter your email to verify your account and change your password.");
                     System.out.print("Enter your email: ");
                     String email = sc.nextLine().trim();
-    
+
                     if (email.equals(rs.getString("email"))) {
                         System.out.print("Enter your new password: ");
                         String newPassword = sc.nextLine().trim();
-    
+
                         // Update the password
                         String updateQuery = "UPDATE users SET password = ? WHERE username = ?";
                         try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
@@ -121,11 +122,13 @@ public class Pokemon_Kanto_Adventure {
                         }
                     } else {
                         System.out.println("Email verification failed.");
+                        System.out.printf("+%s+\n","-".repeat(90));
                         return false; // Email verification failed
                     }
                 }
             } else {
                 System.out.println("Invalid username or password.");
+                System.out.printf("+%s+\n","-".repeat(90));
                 return false; // Invalid username
             }
         } catch (SQLException e) {
@@ -151,6 +154,7 @@ public class Pokemon_Kanto_Adventure {
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 System.out.println("Username already exists. Please choose another username.");
+                System.out.printf("+%s+\n","-".repeat(90));
                 return false;
             }
         } catch (SQLException e) {
@@ -169,6 +173,7 @@ public class Pokemon_Kanto_Adventure {
                 return true;
             } else {
                 System.out.println("Registration failed");
+                System.out.printf("+%s+\n","-".repeat(90));
                 return false;
             }
         } catch (SQLException e) {
@@ -188,15 +193,20 @@ public class Pokemon_Kanto_Adventure {
         boolean[] containsData = new boolean[3]; // Tracks if save slots contain data
 
         try {
-            printSaveSlots(con, saveExists, containsData);
-            System.out.print("Your choice: ");
+            while (true) {
+                printSaveSlots(con, saveExists, containsData);
+                System.out.print("Your choice: ");
 
-            // Check if there is a next line
-            if (sc.hasNextLine()) {
-                String choice = sc.nextLine().trim();
-                return processSaveChoice(con, choice, saveExists, containsData);
-            } else {
-                System.out.println("No input detected.");
+                // Check if there is a next line
+                if (sc.hasNextLine()) {
+                    String choice = sc.nextLine().trim();
+                    Player player = processSaveChoice(con, choice, saveExists, containsData);
+                    if (player != null) {
+                        return player;
+                    }
+                } else {
+                    System.out.println("No input detected.");
+                }
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error selecting save", e);
@@ -554,7 +564,6 @@ public class Pokemon_Kanto_Adventure {
                         ps.executeUpdate();
                     }
                 }
-    
                 con.commit(); // Commit transaction
             } catch (SQLException e) {
                 con.rollback(); // Rollback transaction in case of an error
