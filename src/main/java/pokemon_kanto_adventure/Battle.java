@@ -17,6 +17,7 @@ public class Battle {
     private double foe_def; // defense stat of opponent's pokemon in battle
     private double foe_sp; // speed stat of opponent's pokemon in battle
     public Battle(Player p,String opp){ //constructor and method for trainer battles
+        library.readAllTrainers();//reset all trainer's pokemon
         Random r = new Random(); //declare and initialize Random object to be used later
         win = false; //declare and initialize boolean win for outside the class uses
         player = p; //take player object from outside the class so that when the player object's datas are altered here the changes could be passed back to the method that calls this method
@@ -262,7 +263,6 @@ public class Battle {
                     resetfoestatus(); //reset all the stats of opponent's pokemon status
                     win = true; //set win to true
                     player.wonbattle(); //wonbattle method increases the battleswon value in the Player object by 1
-                    library.readAllTrainers(); // reset all trainers' pokemon
                     break all; //end the whole loop
                 }
             }
