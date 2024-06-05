@@ -140,6 +140,15 @@ public class Player {
         numofbadge++;//increase number of badges by 1
         if (numofbadge == 8) {//if number of badges is 8, display win message
             System.out.println("Congrats!! you have finished the game and won against all the gym leaders, you are now the new Champion of the Kanto Region!!");
+            System.out.println("Thank you for playing our game and you can still continue to play if you want.");
+            System.out.println("Hope you have a fun experience with it.");
+            System.out.printf("+%S_\n", "-".repeat(90));
+            System.out.println("Creators of the game: ");
+            System.out.println("Tiew Yi Xu");
+            System.out.println("Goh Kian Xiang");
+            System.out.println("Soh Chang Zheng");
+            System.out.println("Ragavendran A/L Saravana Kumar");
+            System.out.printf("+%s+\n", "-".repeat(90));
         }
     }
 
