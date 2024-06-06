@@ -26,14 +26,17 @@ public class Pokemon_Kanto_Adventure {
     public static void main(String[] args) {
         Load load = new Load();
         library.readallfiles();// load every data in all files
+        title();// display the pokemon title
         while (true) {
-            title();// display the pokemon title
+            
             if (login(load.getConnection())) { // Perform login or registration
-                Player player = selectSave(load.getConnection()); // load player progress into player
-                if (player == null) {
-                    player = selectSave(load.getConnection()); // load player progress into player
-                } else {
-                    selectionPanel(player); // pass the player containing the loaded progress to selection panel
+                boolean tf = true;
+                while(tf){
+                    Player player = new Player("");
+                    tf = selectSave(load.getConnection(),player); // load player progress into player
+                    if(tf&&!player.getName().equals("")){
+                        selectionPanel(player); // pass the player containing the loaded progress to selection panel
+                    }
                 }
             }
         }
@@ -60,6 +63,7 @@ public class Pokemon_Kanto_Adventure {
     //used to display login menu
     public static boolean login(Connection con) {
         Scanner sc = new Scanner(System.in);
+        System.out.printf("+%s+\n", "-".repeat(90));
         System.out.println("[1] Login");
         System.out.println("[2] Register");
         System.out.println("[3] Exit");
@@ -75,7 +79,6 @@ public class Pokemon_Kanto_Adventure {
             return false;
         }else{
             System.out.println("Invalid choice");
-            System.out.printf("+%s+\n","-".repeat(90));
             return false;
         }
     }
@@ -87,7 +90,7 @@ public class Pokemon_Kanto_Adventure {
         String username = sc.nextLine().trim();
         System.out.print("Enter password: ");
         String password = sc.nextLine().trim();
-
+    
         String query = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -102,11 +105,11 @@ public class Pokemon_Kanto_Adventure {
                     System.out.println("Incorrect password. Enter your email to verify your account and change your password.");
                     System.out.print("Enter your email: ");
                     String email = sc.nextLine().trim();
-
+    
                     if (email.equals(rs.getString("email"))) {
                         System.out.print("Enter your new password: ");
                         String newPassword = sc.nextLine().trim();
-
+    
                         // Update the password
                         String updateQuery = "UPDATE users SET password = ? WHERE username = ?";
                         try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
@@ -122,13 +125,11 @@ public class Pokemon_Kanto_Adventure {
                         }
                     } else {
                         System.out.println("Email verification failed.");
-                        System.out.printf("+%s+\n","-".repeat(90));
                         return false; // Email verification failed
                     }
                 }
             } else {
                 System.out.println("Invalid username or password.");
-                System.out.printf("+%s+\n","-".repeat(90));
                 return false; // Invalid username
             }
         } catch (SQLException e) {
@@ -154,7 +155,6 @@ public class Pokemon_Kanto_Adventure {
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 System.out.println("Username already exists. Please choose another username.");
-                System.out.printf("+%s+\n","-".repeat(90));
                 return false;
             }
         } catch (SQLException e) {
@@ -173,7 +173,6 @@ public class Pokemon_Kanto_Adventure {
                 return true;
             } else {
                 System.out.println("Registration failed");
-                System.out.printf("+%s+\n","-".repeat(90));
                 return false;
             }
         } catch (SQLException e) {
@@ -187,31 +186,26 @@ public class Pokemon_Kanto_Adventure {
     }
 
     //used to for the program to save the selection
-    public static Player selectSave(Connection con) {
+    public static boolean selectSave(Connection con, Player player) {
         Scanner sc = new Scanner(System.in);
         boolean[] saveExists = new boolean[3]; // Tracks if save slots exist
         boolean[] containsData = new boolean[3]; // Tracks if save slots contain data
 
         try {
-            while (true) {
-                printSaveSlots(con, saveExists, containsData);
-                System.out.print("Your choice: ");
+            printSaveSlots(con, saveExists, containsData);
+            System.out.print("Your choice: ");
 
-                // Check if there is a next line
-                if (sc.hasNextLine()) {
-                    String choice = sc.nextLine().trim();
-                    Player player = processSaveChoice(con, choice, saveExists, containsData);
-                    if (player != null) {
-                        return player;
-                    }
-                } else {
-                    System.out.println("No input detected.");
-                }
+            // Check if there is a next line
+            if (sc.hasNextLine()) {
+                String choice = sc.nextLine().trim();
+                return processSaveChoice(con, choice, saveExists, containsData, player);
+            } else {
+                System.out.println("No input detected.");
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error selecting save", e);
         }
-        return null;
+        return false;
     }
 
     // used to print the saveslot menu based on the sqlite database
@@ -256,7 +250,7 @@ public class Pokemon_Kanto_Adventure {
     }
 
     // Display the start menu choices
-    private static Player processSaveChoice(Connection con, String choice, boolean[] saveExists, boolean[] containsData)
+    private static boolean processSaveChoice(Connection con, String choice, boolean[] saveExists, boolean[] containsData, Player player)
             throws SQLException {
         if (choice.length() == 2) {
             char menuChoice = choice.charAt(0); // First character of the choice
@@ -265,40 +259,46 @@ public class Pokemon_Kanto_Adventure {
 
             if (menuChoice == '1' && slotIndex >= 0 && slotIndex < 3 && saveExists[slotIndex]) {
                 slotNumber = slotIndex + 1;
-                return loadSave(con, slotIndex + 1);
+                return loadSave(con, slotIndex + 1, player);
             } else if (menuChoice == '2' && slotIndex >= 0 && slotIndex < 3) {
                 slotNumber = slotIndex + 1;
-                return containsData[slotIndex] ? Override(slotIndex + 1) : createNewPlayer(slotIndex + 1);
+                return containsData[slotIndex] ? Override(slotIndex + 1, player) : createNewPlayer(slotIndex + 1, player);
             } else {
-                System.out.println("Invalid choice");
+                System.out.println("Invalid choice! Please choose again.");
             }
         } else if ("3".equals(choice)) {
-            System.exit(0);
+            return false;
         } else {
             System.out.println("Invalid choice! Please choose again.");
         }
-        return null;
+        return true;
     }
 
     // Override after select
-    public static Player Override(int slotNumber) {
+    public static boolean Override(int slotNumber, Player player) {
         System.out.println("Overriding Save Slot " + slotNumber);
-        return createNewPlayer(slotNumber);
+        return createNewPlayer(slotNumber, player);
     }
 
     // Create a new player
-    public static Player createNewPlayer(int slotNumber) {
+    public static boolean createNewPlayer(int slotNumber, Player player) {
         Scanner sc = new Scanner(System.in);
+        Random r = new Random();
         System.out.printf("+%s+\n", "-".repeat(90));
         System.out.println("OAK: Hello there! Welcome to the world of Pokemon! My name is Oak!\r\n" + //
                 "People call me the Pokemon Prof! This world is inhabited by creatures\r\n" + //
                 "called Pokemon! For some people, Pokemon are pets. Others use them for\r\n" + //
                 "fights. Myself... I study Pokemon as a profession.");
         System.out.println();
-        System.out.println("OAK: First, what is your name?");
+        System.out.println("OAK: First, what is your name?(Enter nothing to get a Random name)");
         System.out.printf("+%s+\n", "-".repeat(90));
         System.out.print("Enter your name: ");
         String playerName = sc.nextLine();
+        String[]random_names = {"Faker","Wolfgang","S1mple","Mindfreak","Luminous","Himmel","Kita","Arona"}; 
+        if(playerName.length()==0){
+            int choosen = r.nextInt(random_names.length);
+            playerName = random_names[choosen];
+        }
         System.out.printf("+%s+\n", "-".repeat(90));
 
         try {
@@ -346,54 +346,58 @@ public class Pokemon_Kanto_Adventure {
             Logger.getLogger(Pokemon_Kanto_Adventure.class.getName()).log(Level.SEVERE, null, e);
         }
 
-        Player player = new Player(playerName);
-        System.out.printf("OAK: Right! So your name is %s! Welcome to the world of Pokemon.\r\n" + //
-                "It's time to choose your starting pokemon.\n", player.getName());
-        System.out.println("It's time to choose your starting pokemon.");
-        System.out.printf("+%s+\n", "-".repeat(90));
-        System.out.println("[1] Bulbasaur [Grass - Level 5]");
-        System.out.println("[2] Squirtle [Water - Level 5]");
-        System.out.println("[3] Charmander [Fire - Level 5]");
-        System.out.printf("+%s+\n", "-".repeat(90));
-        System.out.print("Your choice: ");
-        String choice = sc.nextLine();
-        System.out.printf("+%s+\n", "-".repeat(90));
-        boolean isValid = true;
-        if (choice.length() == 1) {
-            int num = Integer.parseInt(choice);
-            switch (num) {
-                case 1:
-                    Pokemon Bulbasaur = new Pokemon("Bulbasaur", 5, false, false);
-                    System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Bulbasaur.findname());
-                    player.addPokemon(Bulbasaur);
-                    break;
-                case 2:
-                    Pokemon Squirtle = new Pokemon("Squirtle", 5, false, false);
-                    System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Squirtle.findname());
-                    player.addPokemon(Squirtle);
-                    break;
-                case 3:
-                    Pokemon Charmander = new Pokemon("Charmander", 5, false, false);
-                    System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Charmander.findname());
-                    player.addPokemon(Charmander);
-                    break;
-                default:
-                    isValid = false;
-                    System.out.println("Invalid choice");
+        player.setName(playerName);
+        all:
+        while(true){
+            System.out.printf("OAK: Right! So your name is %s! Welcome to the world of Pokemon.\r\n" + //
+                    "It's time to choose your starting pokemon.\n", player.getName());
+            System.out.println("It's time to choose your starting pokemon.");
+            System.out.printf("+%s+\n", "-".repeat(90));
+            System.out.println("[1] Bulbasaur [Grass - Level 5]");
+            System.out.println("[2] Squirtle [Water - Level 5]");
+            System.out.println("[3] Charmander [Fire - Level 5]");
+            System.out.printf("+%s+\n", "-".repeat(90));
+            System.out.print("Your choice: ");
+            String choice = sc.nextLine();
+            System.out.printf("+%s+\n", "-".repeat(90));
+            
+            if (player.isNum(choice)) {
+                int num = Integer.parseInt(choice);
+                switch (num) {
+                    case 1:
+                        Pokemon Bulbasaur = new Pokemon("Bulbasaur", 5, false, false);
+                        System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Bulbasaur.findname());
+                        player.addPokemon(Bulbasaur);
+                        break all;
+                    case 2:
+                        Pokemon Squirtle = new Pokemon("Squirtle", 5, false, false);
+                        System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Squirtle.findname());
+                        player.addPokemon(Squirtle);
+                        break all;
+                    case 3:
+                        Pokemon Charmander = new Pokemon("Charmander", 5, false, false);
+                        System.out.printf("OAK: You chose %s, an amazing choice. Best of luck!\n", Charmander.findname());
+                        player.addPokemon(Charmander);
+                        break all;
+                    default:
+                        System.out.println("Invalid choice! Please choose again");
+                        System.out.printf("+%s+\n", "-".repeat(90));
+                }
+                System.out.println(
+                        "OAK: Oh, and also take these 10 Poke Balls and $1000, Poke Balls can be used to catch wild pokemons and strengthen your team, and you can use money to buy items in Poke Marts!");
+                player.obtainitems("Poke Ball", 10);
+                player.addMoney(1000);
+                save(player, currentUsername);
+            } else {
+                System.out.println("Invalid choice! Please choose again");
+                System.out.printf("+%s+\n", "-".repeat(90));
             }
-            System.out.println(
-                    "OAK: Oh, and also take these 10 Poke Balls and $1000, Poke Balls can be used to catch wild pokemons and strengthen your team, and you can use money to buy items in Poke Marts!");
-            player.obtainitems("Poke Ball", 10);
-            player.addMoney(1000);
-            save(player, currentUsername);
-        } else {
-            System.out.println("Invalid choice.");
         }
-        return isValid ? player : null;
+        return true;
     }
 
     // Load save after select
-    public static Player loadSave(Connection con, int slotNumber) {
+    public static boolean loadSave(Connection con, int slotNumber, Player player) {
         try {
             String playerName = null;
             String[] badges = new String[8];
@@ -462,7 +466,7 @@ public class Pokemon_Kanto_Adventure {
             }
             stmt.close();
 
-            Player player = new Player(playerName);
+            player.setName(playerName);
             player.setBadges(badges);
             player.setNumberofBadges(numofbadge);
             player.setPoke1(pokemons[0]);
@@ -477,12 +481,11 @@ public class Pokemon_Kanto_Adventure {
             player.setVictories(battlewon);
             player.setPC(PC);
             player.setCurrentCity(currentCity);
-
-            return player;
+            return true;
         } catch (SQLException e) {
             Logger.getLogger(Pokemon_Kanto_Adventure.class.getName()).log(Level.SEVERE, null, e);
         }
-        return null;
+        return false;
     }
 
     public static void save(Player player, String username) {
@@ -564,6 +567,7 @@ public class Pokemon_Kanto_Adventure {
                         ps.executeUpdate();
                     }
                 }
+    
                 con.commit(); // Commit transaction
             } catch (SQLException e) {
                 con.rollback(); // Rollback transaction in case of an error
@@ -720,7 +724,7 @@ public class Pokemon_Kanto_Adventure {
                 case "6":// player choose to go back to last selection panel, end loop
                     break loop;
                 default:// if player enters an invalid choice,display message below
-                    System.out.println("Invalid choice, please choose again.");
+                    System.out.println("Invalid choice! Please choose again.");
             }
         }
     }

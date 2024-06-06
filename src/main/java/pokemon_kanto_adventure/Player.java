@@ -68,7 +68,9 @@ public class Player {
             PC.add(a);
         }
     }
-
+    public void setName(String n){
+        name = n;
+    }
     public int findMoney() {//return money
         return money;
     }
